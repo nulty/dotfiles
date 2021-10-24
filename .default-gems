@@ -4,8 +4,8 @@ solargraph
 pry
 rubocop
 rubocop-rails
-reek
-flay
-flog
-fasterer
-rails_best_practices
+# reek
+# flay
+# flog
+# fasterer
+# rails_best_practices
