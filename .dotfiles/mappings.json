@@ -1,0 +1,12 @@
+{
+  ".default-gems": "~/.default-gems",
+  ".default_npm_packages": "~/.default_npm_packages",
+  ".git-prompt.sh": "~/.git-prompt.sh",
+  ".gitignore": "~/.gitignore",
+  ".gitconfig": "~/.gitconfig",
+  ".rubocop.yml": "~/.rubocop.yml",
+  ".rubocop_todo.yml": "~/.rubocop_todo.yml",
+  "alacritty.yml": "~/.config/alacritty/alacritty.yml",
+  ".bash_aliases": "~/.bash_aliases",
+  "nvim": "~/.config/nvim"
+}
