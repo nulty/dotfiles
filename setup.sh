@@ -23,7 +23,6 @@ curl -LJO https://github.com/rhysd/dotfiles/releases/download/v0.2.2/dotfiles_li
 sudo unzip dotfiles_linux_amd64.zip -d /usr/local/bin/
 dotfiles clone https://github.com/nulty/dotfiles .
 mv ~/.bashrc ~/.bashrcBAK
-dotfiles link dotfiles
 
 # Install vim-plug for nvim
 sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
@@ -31,6 +30,8 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 
 ## Run install of plugins
 nvim --headless +PlugInstall +qall
+
+dotfiles link dotfiles
 
 # curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
 # sudo sh -c 'echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com stable main" > /etc/apt/sources.list.d/brave.list'
@@ -41,7 +42,7 @@ git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
 # echo '. $HOME/.asdf/asdf.sh' >> ~/.bashrc
 # echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
 
-. ~/.bashrc
+. $HOME/.asdf/asdf.sh
 
 asdf plugin add ruby
 asdf install ruby 2.7.4
@@ -61,16 +62,16 @@ sudo apt-get install -y \
   libbz2-dev
 
 asdf install python 3.7.3
-# asdf global python 3.7.3
+asdf global python 3.7.3
 
 asdf plugin add nodejs
-# asdf install nodejs 14.17.3
-# asdf global nodejs 14.17.3
+asdf install nodejs 14.17.3
+asdf global nodejs 14.17.3
 
 
 # # FZF
-# git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-# ~/.fzf/install --no-bash --no-fish --all
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install --no-bash --no-fish --all
 
 
 # sudo apt-get install \
