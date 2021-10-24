@@ -166,7 +166,7 @@ if ! shopt -oq posix; then
 fi
 
 # Set EDITOR
-export EDITOR=neovim
+export EDITOR=nvim
 
 # asdf
 . $HOME/.asdf/asdf.sh
