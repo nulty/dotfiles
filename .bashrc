@@ -201,6 +201,6 @@ export VIMRC=~/.config/nvim/init.vim
 # [ -f /home/iain/.travis/travis.sh ] && source /home/iain/.travis/travis.sh
 
 
-export PATH=$PATH:/home/iain/.asdf/installs/rust/1.50.0/bin
+export PATH=$PATH:/home/iain/.asdf/installs/rust/1.56.0/bin
 export PATH=$PATH:/home/iain/.local/share/nvim/lspinstall/vim/node_modules/.bin
 # export PATH=/home/iain/.gem/ruby/2.6.0/bin:$PATH
