@@ -11,7 +11,7 @@ set nowritebackup
 set shiftwidth=2
 set tabstop=2
 set expandtab
-set re=1
+set regexpengine=1
 set inccommand=nosplit
 set showbreak=\\\\
 
