@@ -1,6 +1,6 @@
 {
   ".default-gems": "~/.default-gems",
-  ".default_npm_packages": "~/.default_npm_packages",
+  ".default-npm-packages": "~/.default-npm-packages",
   "git-prompt.sh": "~/git-prompt.sh",
   ".gitignore": "~/.gitignore",
   ".gitconfig": "~/.gitconfig",
