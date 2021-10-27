@@ -36,6 +36,7 @@ nmap <Leader>c :cclose<cr>
 
 vnoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
-vnoremap > >gv
-vnoremap < <gv
+" this doesn't work reliably
+" vnoremap > >gv
+" vnoremap < <gv
 
