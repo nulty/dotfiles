@@ -101,7 +101,7 @@ autocmd FileType nerdtree {Down-Mapping} :TmuxNavigateDown
 
 " Vim cheating
 nmap <C-c> :bw<cr>
-nmap <C-s> :w<cr>
+nmap <C-s> :up<cr>
 
 " Next tag
 nnoremap <C-y> :tag<cr>
