@@ -49,7 +49,7 @@ let g:ackprg = 'rg --vimgrep '
 " let g:airline_powerline_fonts = 1
 " let g:airline#extensions#syntastic#enabled = 1
 
-runtime syntasticrc.vim
+" runtime syntasticrc.vim
 
 let g:user_emmet_settings = {
       \  'eex' : {
