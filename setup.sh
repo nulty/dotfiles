@@ -28,7 +28,7 @@ if ! hash dotfiles &> /dev/null; then
 fi
 
 # Install asdf
-if hash asdf &> /dev/null; then
+if ! hash asdf &> /dev/null; then
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
   # echo '. $HOME/.asdf/asdf.sh' >> ~/.bashrc
   # echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
@@ -37,40 +37,49 @@ if hash asdf &> /dev/null; then
 fi
 
 # Install Ruby
-sudo apt-get install -y libssl-dev zlib1g-dev
+if ! hash ruby &> /dev/null; then
+  sudo apt-get install -y libssl-dev zlib1g-dev
 
-asdf plugin add ruby
-asdf install ruby 2.7.4
-asdf global ruby 2.7.4
+  asdf plugin add ruby
+  asdf install ruby 2.7.4
+  asdf global ruby 2.7.4
+fi
 
 # Install Python
-sudo apt-get install -y \
-  libssl-dev \
-  zlib1g-dev \
-  libffi-dev \
-  libreadline-gplv2-dev \
-  libncursesw5-dev \
-  libsqlite3-dev \
-  tk-dev \
-  libgdbm-dev \
-  libc6-dev \
-  libbz2-dev
+if ! hash ruby &> /dev/null; then
+  sudo apt-get install -y \
+    libssl-dev \
+    zlib1g-dev \
+    libffi-dev \
+    libreadline-gplv2-dev \
+    libncursesw5-dev \
+    libsqlite3-dev \
+    tk-dev \
+    libgdbm-dev \
+    libc6-dev \
+    libbz2-dev
 
-asdf plugin add python
-asdf install python 3.7.3
-asdf global python 3.7.3
+  asdf plugin add python
+  asdf install python 3.7.3
+  asdf global python 3.7.3
 
-asdf install python 2.7.18
-# asdf global python 2.7.18
+  asdf install python 2.7.18
+  # asdf global python 2.7.18
+fi
 
-asdf plugin add rust
-asdf install rust 1.56.0
-asdf global rust 1.56.0
+# Install Rust
+if ! hash rust &> /dev/null; then
+  asdf plugin add rust
+  asdf install rust 1.56.0
+  asdf global rust 1.56.0
+fi
 
 # Install Node
-asdf plugin add nodejs
-asdf install nodejs 14.18.1
-asdf global nodejs 14.18.1
+if ! hash rust &> /dev/null; then
+  asdf plugin add nodejs
+  asdf install nodejs 14.18.1
+  asdf global nodejs 14.18.1
+fi
 
 ### Install nvim ####
 if ! hash nvim &> /dev/null; then
