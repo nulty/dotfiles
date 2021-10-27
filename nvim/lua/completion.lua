@@ -17,6 +17,7 @@ require'compe'.setup {
     path = true;
     nvim_lua = true;
     nvim_lsp = true;
+    ultisnips = true;
   };
 }
 
