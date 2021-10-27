@@ -6,7 +6,7 @@
   ".gitconfig": "~/.gitconfig",
   ".rubocop.yml": "~/.rubocop.yml",
   ".rubocop_todo.yml": "~/.rubocop_todo.yml",
-  "alacritty.yml": "~/.config/alacritty/alacritty.yml",
+  "alacritty.yml": "~/alacritty/alacritty.yml",
   ".bash_aliases": "~/.bash_aliases",
   "nvim": "~/.config/nvim"
 }
