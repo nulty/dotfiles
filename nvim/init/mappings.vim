@@ -8,7 +8,7 @@ nnoremap k gk
 " space sets up a visual selection vip, viw, vit, etc
 nnoremap <space> vi
 " Highlight the current line
-
+nnoremap ; :
 
 " Source/Edit vimrc
 nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
