@@ -10,6 +10,8 @@ nnoremap <space> vi
 " Highlight the current line
 nnoremap ; :
 
+" Source current file
+nnoremap <silent> <Leader>s. :source %<cr>
 " Source/Edit vimrc
 nnoremap <Leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <Leader>sv :source $MYVIMRC<cr>
