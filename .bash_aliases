@@ -1,4 +1,4 @@
-alias vim="/usr/local/bin/neovim"
+alias vim="/usr/local/bin/nvim"
 
 # Generate Ctags for a project
 #alias genctags="ctags -R --exclude=node_modules --exclude=public"
