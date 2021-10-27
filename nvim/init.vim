@@ -156,8 +156,8 @@ set completeopt=noinsert,menuone,noselect
 "   \ coc#refresh()
 
 
- let g:python3_host_prog = '/home/iain/.asdf/shims/python'
- let g:python2_host_prog = '/home/iain/.asdf/shims/python2'
+let g:python3_host_prog = '$HOME/.asdf/shims/python'
+let g:python2_host_prog = '$HOME/.asdf/shims/python2'
 " inoremap <silent><expr> <TAB>
 "       \ pumvisible() ? "\<C-n>" :
 "       \ <SID>check_back_space() ? "\<TAB>" :
