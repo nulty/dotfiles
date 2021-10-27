@@ -53,9 +53,9 @@ let g:ackprg = 'rg --vimgrep '
 
 let g:user_emmet_settings = {
       \  'eex' : {
-      \  'extends' : 'html',
-      \ },
-      \}
+        \  'extends' : 'html',
+        \ },
+        \}
 
 "" Git gutter
 let g:gitgutter_enabled = 1
@@ -77,10 +77,10 @@ let g:NERDSpaceDelims = 1
 " Align comments to the left, not indent
 let g:NERDDefaultAlign = 'both'
 let g:NERDCustomDelimiters = {
-  \ 'mason': { 'left': '<!--', 'right': '-->','leftAlt': 'FOO', 'rightAlt': 'BAR' },
-  \ 'json': { 'left': '//' },
-  \ 'grondle': { 'left': '{{', 'right': '}}' }
-\ }
+      \ 'mason': { 'left': '<!--', 'right': '-->','leftAlt': 'FOO', 'rightAlt': 'BAR' },
+      \ 'json': { 'left': '//' },
+      \ 'grondle': { 'left': '{{', 'right': '}}' }
+      \ }
 
 "Vim Ruby
 "let g:rubycomplete_load_gemfile = 1
@@ -545,8 +545,8 @@ endif
 inoremap <F5> <C-R>=ListMonths()<CR>
 func! ListMonths()
   <silent> call complete(col('.'), ['January', 'February', 'March',
-                      \ 'April', 'May', 'June', 'July', 'August', 'September',
-                      \ 'October', 'November', 'December'])
+        \ 'April', 'May', 'June', 'July', 'August', 'September',
+        \ 'October', 'November', 'December'])
   return ''
 endfunc
 
