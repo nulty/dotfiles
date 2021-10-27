@@ -3,6 +3,7 @@ call plug#begin()
 " Plug 'ncm2/ncm2-ultisnips'
 " Plug 'ncm2/ncm2-path'
 " Plug 'roxma/nvim-yarp'
+Plug 'junegunn/vim-plug'
 Plug 'Shougo/deoppet.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
