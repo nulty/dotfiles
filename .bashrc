@@ -97,7 +97,7 @@ GIT_PS1_SHOWSTASHSTATE=1
 
 GIT_PS1_SHOWUPSTREAM="auto"
 
-source ~/bin/.git-prompt.sh
+source ~/git-prompt.sh
 
 update_ps1() {
   # PS1="${debian_chroot:+($debian_chroot)}$txtgrn\u$txtrst $bldblu\w$bldylw$(__git_ps1 " (%s)")\[\033[00m\] $bldred\$$txtrst "
@@ -176,7 +176,7 @@ export EDITOR=nvim
 . /usr/share/autojump/autojump.bash
 
 # alacritty
-source ~/.alacritty/alacritty.bash
+source ~/alacritty/alacritty.bash
 
 # Set the PGDATA variable to postgres 9.6 data directory
 # export PGDATA="/var/lib/postgresql/9.6/main"
