@@ -75,7 +75,7 @@ if ! hash rust &> /dev/null; then
 fi
 
 # Install Node
-if ! hash rust &> /dev/null; then
+if ! hash node &> /dev/null; then
   asdf plugin add nodejs
   asdf install nodejs 14.18.1
   asdf global nodejs 14.18.1
