@@ -103,9 +103,11 @@ fi
 # sudo sh -c 'echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com stable main" > /etc/apt/sources.list.d/brave.list'
 
 # # FZF
-git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-~/.fzf/install --no-bash --no-fish --all
-sudo cp -r .fzf/bin .fzf/man /usr/local/
+if ! hash fzf &> /dev/null; then
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --no-bash --no-fish --all
+  sudo cp -r .fzf/bin .fzf/man /usr/local/
+fi
 
 # Install alaccritty dependencies
 if ! hash alacritty &> /dev/null; then
