@@ -46,7 +46,7 @@ if ! hash ruby &> /dev/null; then
 fi
 
 # Install Python
-if ! hash ruby &> /dev/null; then
+if ! hash python &> /dev/null; then
   sudo apt-get install -y \
     libssl-dev \
     zlib1g-dev \
