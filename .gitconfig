@@ -24,7 +24,7 @@
 	gpgSign = true
 [core]
 	excludesfile = /home/iain/.gitignore_global
-	editor = neovim
+	editor = nvim
 	autocrlf = input
 [user]
 	email = iain@inulty.com
