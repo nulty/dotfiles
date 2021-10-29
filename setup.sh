@@ -120,6 +120,7 @@ if ! hash alacritty &> /dev/null; then
     libxkbcommon-dev
 
   # Fetch source
+  rm -rf alacritty/ # can't have alacritty directory before clone
   git clone https://github.com/alacritty/alacritty.git --branch v0.7.2
   cd alacritty
 
@@ -136,7 +137,7 @@ if ! hash alacritty &> /dev/null; then
   gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 
   # Use my config
-  mv alacritty/alacritty.yml alacritty/alacrittyOLD.yml
+  rm alacritty/alacritty.yml
   dotfiles link dotfiles alacritty.yml
 fi
 
