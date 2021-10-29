@@ -136,6 +136,9 @@ if ! hash alacritty &> /dev/null; then
   sudo mkdir -p /usr/local/share/man/man1
   gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 
+  # Completion
+  mv alacritty/extra/completions/alacritty.bash alacritty/
+
   # Use my config
   rm alacritty/alacritty.yml
   dotfiles link dotfiles alacritty.yml
