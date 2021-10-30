@@ -8,5 +8,7 @@
   ".rubocop_todo.yml": "~/.rubocop_todo.yml",
   "alacritty.yml": "~/alacritty/alacritty.yml",
   ".bash_aliases": "~/.bash_aliases",
+  ".eslintrc.yml": "~/.eslintrc.yml",
+  ".scss-lint.yml": "~/.scss-lint.yml",
   "nvim": "~/.config/nvim"
 }
