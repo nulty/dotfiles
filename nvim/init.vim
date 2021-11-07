@@ -35,6 +35,12 @@ fun! Filename()
 endfun
 command Filename call Filename()
 
+" type <leader>sf to run Ack with the word under the cursor as the arg
+function! AckWord()
+  exe 'normal! "syiw' | exe "Ack " . @s
+endfunction
+command! AckWord call AckWord()
+nnoremap <leader>sf :AckWord<CR>
 
 " let NERDTreeNaturalSort=1
 " let NERDTreeIgnore=['tags$', '\~$']
@@ -256,11 +262,6 @@ sunmap b
 sunmap e
 
 nnoremap gs :call "!./%"
-"function! SearchAndAck()
-"normal! g*
-"AckFromSearch
-"endfunction
-"nnoremap gs :call SearchAndAck()<CR>
 
 nmap <silent> <leader>rn :TestNearest<CR>
 nmap <silent> <leader>rf :TestFile<CR>
