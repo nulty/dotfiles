@@ -35,6 +35,21 @@ fun! Filename()
 endfun
 command Filename call Filename()
 
+command! -bang -nargs=* Find call fzf#vim#grep('
+      \ rg
+      \ --column
+      \ --line-number
+      \ --no-heading
+      \ --fixed-strings
+      \ --ignore-case
+      \ --no-ignore
+      \ --hidden
+      \ --follow
+      \ --glob "!.git/*"
+      \ --color "always" '.shellescape(<q-args>), 1, <bang>0
+      \ )
+nnoremap <leader>f :Find<Space>
+
 " type <leader>sf to run Ack with the word under the cursor as the arg
 function! AckWord()
   exe 'normal! "syiw' | exe "Ack " . @s
