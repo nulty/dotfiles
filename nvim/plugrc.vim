@@ -56,7 +56,7 @@ Plug 'Asheq/close-buffers.vim'
 Plug 'slim-template/vim-slim', { 'for': 'slim'}
 Plug 'tpope/vim-scriptease'
 Plug 'ngmy/vim-rubocop', { 'for': 'ruby'}
-Plug 'tpope/vim-rhubarb', { 'for': 'ruby'}
+Plug 'tpope/vim-rhubarb'
 Plug 'janko/vim-test'
 Plug 'gcorne/vim-sass-lint', { 'for': 'scss'}
 Plug 'ap/vim-css-color', { 'for': 'css \| scss'}
