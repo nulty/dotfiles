@@ -20,7 +20,7 @@ fun! Filename()
   echom "3) Directory"
   let l:input = input("What you want\n\n")
 
-  let l:opts = { 1: '%:p', 2: '%', 3: '%:p' }
+  let l:opts = { 1: '%:p', 2: '%:t', 3: '%:p:h' }
 
   let l:choice = get(l:opts, l:input, 1)
 
