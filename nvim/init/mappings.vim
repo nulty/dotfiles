@@ -27,11 +27,6 @@ nnoremap $ <nop>
 "inoremap jk <esc>
 imap Jk <esc>
 imap jk <esc>
-vmap jk <esc>
-"vnoremap jk <esc>
-" Noop the esc in insert mode
-"inoremap <esc> <nop>
-"
 
 nnoremap <Leader>o :only<cr>
 nmap <Leader>c :cclose<cr>
