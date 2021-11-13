@@ -54,12 +54,6 @@ endfunction
 command! AckWord call AckWord()
 nnoremap <leader>sf :AckWord<CR>
 
-" let NERDTreeNaturalSort=1
-" let NERDTreeIgnore=['tags$', '\~$']
-" let NERDTreeWinSize=20
-" Set built-in file system explorer to use layout similar to the NERDTree plugin
-let g:netrw_liststyle=3
-
 "" Ack (uses rg behind the scenes)
 let g:ackprg = 'rg --vimgrep '
 
@@ -115,7 +109,6 @@ let g:vimrubocop_rubocop_cmd = "bundle exec rubocop"
 " ysiW= will wrap the current word with <%= %>
 autocmd FileType eruby let g:surround_37 = "<% \r %>"
 autocmd FileType eruby let g:surround_61 = "<%= \r %>"
-autocmd FileType nerdtree {Down-Mapping} :TmuxNavigateDown
 
 " Vim cheating
 nmap <C-c> :bw<cr>
@@ -168,10 +161,8 @@ nmap <leader>b :Buffers<cr>
       "\ 'ctrl-v': 'vsplit' }
 
 " Searching the file system
-" map <leader>' :NERDTreeToggle<cr>
 map <leader>' :NvimTreeToggle<cr>
 map <leader>F :NvimTreeFindFile<cr>
-"let g:NERDTreeWinSize=25
 
 " Tabularize
 map <Leader>e :Tabularize /=<cr>
@@ -375,9 +366,6 @@ augroup END
 " LivedownPreview
 let g:livedown_browser = "chromium-browser"
 
-"autocmd VimEnter * call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-" autocmd FileType * <leader>F :NvimTreeFindFile<CR>
-
 " Show syntax Group for code under the cursor
 nmap <leader>sp :call <SID>SynStack()<CR>
 function! <SID>SynStack()
@@ -401,58 +389,6 @@ endfunc
 " let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols = {} " needed
 " let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*\.lock'] = ''
 " let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['\.gitignore'] = ''
-
-
-"" NERDTrees File highlighting
-" function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-"   exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
-"   exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-" endfunction
-
-" These are available to specify colour of the filenames
-"call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-"call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-"call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-"call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-"call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-"call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-"call NERDTreeHighlightFile('ruby', 'Red', 'none', 'red', '#151515')
-"call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-"call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-"call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
-"call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
-"call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
-"call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
-"call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
-
-
-"" NERDTrees File highlighting only the glyph/icon
-"" test highlight just the glyph (icons) in nerdtree:
-
-augroup NerdTreeIconColours
-  autocmd!
-  "autocmd filetype nerdtree highlight haskell_icon ctermbg=none ctermfg=Red guifg=#ffa500
-  autocmd FileType nerdtree highlight HTMLIcon ctermbg=none ctermfg=Red guifg=#ffa500
-  autocmd FileType nerdtree highlight RubyIcon ctermbg=none ctermfg=Red guifg=#ffa500
-  autocmd FileType nerdtree highlight JSIcon ctermbg=none ctermfg=Yellow guifg=yellow
-  autocmd FileType nerdtree highlight CSSIcon ctermbg=none ctermfg=Red guifg=#ffa500
-
-
-
-  " if you are using another syn highlight for a given line (e.g.
-  " NERDTreeHighlightFile) need to give that name in the 'containedin' for this
-  " other highlight to work with it
-  autocmd FileType nerdtree syn match HTMLIcon ## containedin=NERDTreeFile,html
-  autocmd FileType nerdtree syn match RubyIcon ## containedin=NERDTreeFile,ruby
-  autocmd FileType nerdtree syn match JSIcon ## containedin=NERDTreeFile,javascript
-  autocmd FileType nerdtree syn match CSSIcon ## containedin=NERDTreeFile,css
-augroup END
-
 
 if exists('g:loaded_webdevicons')
   call webdevicons#refresh()
