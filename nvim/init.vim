@@ -134,98 +134,13 @@ nmap <Leader>l :SplitjoinSplit<cr>
 
 " help with ultisnips and omni complete
 
-" ncm2 DISABLED FOR COC
 " autocmd BufEnter * call ncm2#enable_for_buffer()
 set completeopt=noinsert,menuone,noselect
 
-
-""" Use `[g` and `]g` to navigate diagnostics
-" nmap <silent> [g <Plug>(coc-diagnostic-prev)
-" nmap <silent> ]g <Plug>(coc-diagnostic-next)
-
-" """ GoTo code navigation.
-" nmap <silent> gd <Plug>(coc-definition)
-" nmap <silent> gy <Plug>(coc-type-definition)
-" nmap <silent> gi <Plug>(coc-implementation)
-" nmap <silent> gr <Plug>(coc-references)
-
-" vmap <leader>p  <Plug>(coc-format-selected)
-" nmap <leader>p  <Plug>(coc-format-selected)
-" nmap <leader>qf  <Plug>(coc-fix-current)
-" nmap <leader>ac  <Plug>(coc-codeaction)
-" Use K to show documentation in preview window.
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-
-
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? coc#_select_confirm() :
-"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-
-" function! s:check_back_space() abort
-"   let col = col('.') - 1
-"   return !col || getline('.')[col - 1]  =~ '\s'
-" endfunction
-
-" inoremap <silent><expr> <TAB>
-"   \ pumvisible() ? "\<C-n>" :
-"   \ <SID>check_back_space() ? "\<TAB>" :
-"   \ coc#refresh()
-
-
 let g:python3_host_prog = '$HOME/.asdf/shims/python'
 let g:python2_host_prog = '$HOME/.asdf/shims/python2'
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? "\<C-n>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-" let g:coc_snippet_next = '<tab>'
-
-
-" Use <c-space> to trigger completion.
-" inoremap <silent><expr> <c-space> coc#refresh()
 
 " runtime compe.vim
-
-""" coc-snippets start
-" TAB used for coc completion
-" inoremap <silent><expr> <TAB>
-"       \ pumvisible() ? coc#_select_confirm() :
-"       \ coc#expandableOrJumpable() ? "\<C-r>=coc#rpc#request('doKeymap', ['snippets-expand-jump',''])\<CR>" :
-"       \ <SID>check_back_space() ? "\<TAB>" :
-"       \ coc#refresh()
-
-function! s:check_back_space() abort
-  let col = col('.') - 1
-  return !col || getline('.')[col - 1]  =~# '\s'
-endfunction
-
-" let g:coc_snippet_next = '<tab>'
-
-" nnoremap <silent> <space>p  :<C-u>CocListResume<CR>
-" Use <C-l> for trigger snippet expand.
-" imap <C-l> <Plug>(coc-snippets-expand)
-
-" Use <C-j> for select text for visual placeholder of snippet.
-" vmap <C-j> <Plug>(coc-snippets-select)
-
-" Use <C-j> for jump to next placeholder, it's default of coc.nvim
-" let g:coc_snippet_next = '<c-j>'
-
-" Use <C-k> for jump to previous placeholder, it's default of coc.nvim
-" let g:coc_snippet_prev = '<c-k>'
-
-" Use <C-j> for both expand and jump (make expand higher priority.)
-" imap <C-j> <Plug>(coc-snippets-expand-jump)
-
-""" coc-snippets end
 
 " " Ultisnips
 let g:UltiSnipsExpandTrigger       = "<Plug>(ultisnips_expand)"
@@ -336,12 +251,6 @@ fun! JsonPretty()
 endfun
 command JsonFormat call JsonPretty()<CR>
 
-
-" command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
-" let g:LanguageClient_serverCommands = {
-"     \ 'vue': ['vls']
-"     \ }
-
 " javscript libraries vim
 let g:used_javascript_libs = 'vue,react'
 " Tmux Navigator mappings
@@ -375,8 +284,6 @@ nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
 
 " on<CR> with pairs, create new line
-
-" inoremap <silent><expr> <cr>pumvisible() ? coc#_select_confirm() : "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
 " Golden Ratio
 " let g:loaded_golden_ratio = 0
@@ -550,7 +457,6 @@ augroup END
 if exists('g:loaded_webdevicons')
   call webdevicons#refresh()
 endif
-
 
 inoremap <F5> <C-R>=ListMonths()<CR>
 func! ListMonths()

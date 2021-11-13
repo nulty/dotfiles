@@ -67,7 +67,6 @@ Plug 'AndrewRadev/tagalong.vim'
 Plug 'AndrewRadev/switch.vim'
 
 Plug 'sunaku/vim-ruby-minitest', { 'for': 'ruby'}
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'hrsh7th/nvim-compe'
 Plug 'neovim/nvim-lspconfig'
 Plug 'kabouzeid/nvim-lspinstall'
