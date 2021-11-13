@@ -324,9 +324,6 @@ let g:no_turbux_mappings = 1
 "" LaTeX
 "let g:tex_flavor='latex'
 
-" Clear search buffer
-" map <leader>/ :nohlsearch<cr>
-
 " Clear the register of the search
 map <silent><leader>/ :call ClearSearch()<cr>
 fu ClearSearch()
