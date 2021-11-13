@@ -218,6 +218,3 @@ require'lspinstall'.post_install_hook = function ()
 end
 require'completion'
 require'nvim_tree'
-
-
--- require'nvim-tree'
