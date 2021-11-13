@@ -375,21 +375,6 @@ function! <SID>SynStack()
   echo map(synstack(line('.'), col('.')), 'synIDattr(v:val, "name")')
 endfunc
 
-" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-" let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
-" let g:DevIconsEnableFoldersOpenClose = 1
-
-" Match the filename exactly
-" let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols = {} " needed
-" let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['rakefile'] = 'פּ'
-" let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['gemfile'] = ''
-" let g:WebDevIconsUnicodeDecorateFileNodesExactSymbols['config.ru'] = ''
-
-" Create custom symbols for filetypes
-" let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols = {} " needed
-" let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['.*\.lock'] = ''
-" let g:WebDevIconsUnicodeDecorateFileNodesPatternSymbols['\.gitignore'] = ''
-
 if exists('g:loaded_webdevicons')
   call webdevicons#refresh()
 endif

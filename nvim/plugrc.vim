@@ -60,7 +60,6 @@ Plug 'tpope/vim-rhubarb'
 Plug 'janko/vim-test'
 Plug 'gcorne/vim-sass-lint', { 'for': 'scss'}
 Plug 'ap/vim-css-color', { 'for': 'css \| scss'}
-" Plug 'ryanoasis/vim-devicons'
 
 Plug 'AndrewRadev/splitjoin.vim'
 Plug 'AndrewRadev/tagalong.vim'
