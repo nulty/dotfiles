@@ -18,7 +18,7 @@ fun! Filename()
   echom "1) Fullpath"
   echom "2) Filename"
   echom "3) Directory"
-  let l:input = input("What you want\n\n")
+  let l:input = input("What you want?\n\n")
 
   let l:opts = { 1: '%:p', 2: '%:t', 3: '%:p:h' }
 
@@ -26,12 +26,9 @@ fun! Filename()
 
   mode
   let l:text = expand(choice)
-  let @e = l:text
 
-  echom l:text
-  " let l:filename = expand("%:p")
-  " redir l:filename
-  return ''
+  " insert the result
+  exe "normal i" .. l:text
 endfun
 command Filename call Filename()
 
