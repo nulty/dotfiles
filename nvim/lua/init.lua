@@ -112,6 +112,10 @@ local lua_settings = {
 local function make_config()
   -- keymaps
   local custom_attach = function(client, bufnr)
+
+    -- print("LSP name:" .. vim.inspect(client.name))
+    -- print("Printing the client info:" .. vim.inspect(client))
+
     -- require('completion').on_attach()
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
@@ -188,8 +192,7 @@ local function setup_servers()
   -- get all installed servers
   local servers = require'lspinstall'.installed_servers()
   -- ... and add manually installed servers
-  table.insert(servers, "clangd")
-  table.insert(servers, "sourcekit")
+  table.insert(servers, "typescript")
 
   for _, server in pairs(servers) do
     local config = make_config()
@@ -197,12 +200,6 @@ local function setup_servers()
     -- language specific config
     if server == "lua" then
       config.settings = lua_settings
-    end
-    if server == "sourcekit" then
-      config.filetypes = {"swift", "objective-c", "objective-cpp"}; -- we don't want c and cpp!
-    end
-    if server == "clangd" then
-      config.filetypes = {"c", "cpp"}; -- we don't want objective-c and objective-cpp!
     end
 
     require'lspconfig'[server].setup(config)
