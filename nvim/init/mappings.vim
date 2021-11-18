@@ -38,3 +38,6 @@ nnoremap <leader>gg :G<CR>
 " vnoremap > >gv
 " vnoremap < <gv
 
+" Return to normal mode in terminal
+tnoremap <ESC> <C-\><C-n>
+
