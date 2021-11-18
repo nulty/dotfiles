@@ -41,3 +41,40 @@ nnoremap <leader>gg :G<CR>
 " Return to normal mode in terminal
 tnoremap <ESC> <C-\><C-n>
 
+" ========== Navigate windows, terminal, tmux ============
+" Tmux Navigator mappings
+" let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> {Left-Mapping} :TmuxNavigateLeft<cr>
+nnoremap <silent> {Down-Mapping} :TmuxNavigateDown<cr>
+nnoremap <silent> {Up-Mapping} :TmuxNavigateUp<cr>
+nnoremap <silent> {Right-Mapping} :TmuxNavigateRight<cr>
+nnoremap <silent> {Previous-Mapping} :TmuxNavigatePrevious<cr>
+
+
+" Typical Ctrl-{hjkl} movements in terminal buffer
+tnoremap <C-h> <C-\><C-N><C-w>h
+tnoremap <C-j> <C-\><C-N><C-w>j
+tnoremap <C-k> <C-\><C-N><C-w>k
+tnoremap <C-l> <C-\><C-N><C-w>l
+
+" resize window
+" nnoremap <c-a-l> :exe "vertical resize -5"<cr>
+" nnoremap <c-a-h> :exe "vertical resize +5"<cr>
+nnoremap <c-a-j> :exe "resize +5"<cr>
+nnoremap <c-a-k> :exe "resize -5"<cr>
+
+" use Alt-dir to move the current window in normal mode
+nnoremap <A-h> <C-w><S-h>
+nnoremap <A-j> <C-w><S-j>
+nnoremap <A-k> <C-w><S-k>
+nnoremap <A-l> <C-w><S-l>
+
+nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
+
+" on<CR> with pairs, create new line
+
+" Golden Ratio
+" let g:loaded_golden_ratio = 0
+
