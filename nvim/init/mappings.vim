@@ -33,6 +33,7 @@ nmap <Leader>c :cclose<cr>
 
 vnoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
+nnoremap <leader>gg :G<CR>
 " this doesn't work reliably
 " vnoremap > >gv
 " vnoremap < <gv
