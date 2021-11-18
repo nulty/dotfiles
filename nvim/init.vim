@@ -18,26 +18,6 @@ colorscheme hybrid
 
 runtime init/mappings.vim
 
-" Filename helpers
-fun! Filename()
-  " call fzf#run(fzf#wrap({'source': 'ls'}))
-  echom "1) Fullpath"
-  echom "2) Filename"
-  echom "3) Directory"
-  let l:input = input("What you want?\n\n")
-
-  let l:opts = { 1: '%:p', 2: '%:t', 3: '%:p:h' }
-
-  let l:choice = get(l:opts, l:input, 1)
-
-  mode
-  let l:text = expand(choice)
-
-  " insert the result
-  exe "normal i" .. l:text
-endfun
-command Filename call Filename()
-
 command! -bang -nargs=* Find call fzf#vim#grep('
       \ rg
       \ --column
