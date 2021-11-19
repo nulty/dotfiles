@@ -36,7 +36,8 @@ Plug 'junegunn/vim-emoji'
 "Plug 'wincent/command-t', {
     "\   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
     "\ }
-Plug 'roman/golden-ratio'
+" Plug 'roman/golden-ratio'
+Plug 'camspiers/lens.vim'
 Plug 'leafOfTree/vim-vue-plugin' ", {'for': 'vue'}
 " Plug 'othree/javascript-libraries-syntax.vim'
 " Plug 'vim-airline/vim-airline'
