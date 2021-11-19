@@ -40,7 +40,9 @@ nnoremap <leader>gg :G<CR>
 
 " Return to normal mode in terminal
 tnoremap <ESC> <C-\><C-n>
+tnoremap <C-c> <C-\><C-n>:q!<CR>
 
+nnoremap <leader>T :Terminal<CR>
 " ========== Navigate windows, terminal, tmux ============
 " Tmux Navigator mappings
 " let g:tmux_navigator_no_mappings = 1

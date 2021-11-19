@@ -228,6 +228,9 @@ fun! JsonPretty()
 endfun
 command JsonFormat call JsonPretty()<CR>
 
+" Open Terminal bottom full width
+command Terminal :bo split term://bash | resize 20 | exe "normal! a"
+
 " javscript libraries vim
 let g:used_javascript_libs = 'vue,react'
 " jump to last cursor
@@ -272,9 +275,15 @@ command Stylelint call Stylelint()
 
 " specify syntax highlighting for specific files
 augroup SetBufFileTypes
+  au!
   autocmd Bufread,BufNewFile *.html set filetype=html
   autocmd Bufread,BufNewFile *.spv set filetype=php
   autocmd Bufread,BufNewFile *.rbi set filetype=ruby
+  " Give the Terminal type buffer a filetype so it can be managed
+  autocmd BufWinEnter * if &l:buftype ==# 'terminal'
+                     \|   set filetype=terminal
+                     \| endif
+
   " autocmd BufWriteCmd *.scss call Stylelint()
   autocmd Bufread,BufNewFile _spec.rb set filetype=rspec
   autocmd Bufread,BufNewFile *.md set filetype=markdown " Vim interprets .md as 'modula2' otherwise, see :set filetype?
