@@ -24,7 +24,6 @@ nnoremap L $
 nnoremap $ <nop>
 
 " jk will escape from insert mode
-"inoremap jk <esc>
 imap Jk <esc>
 imap jk <esc>
 
@@ -34,9 +33,6 @@ nmap <Leader>c :cclose<cr>
 vnoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 nnoremap <leader>gg :G<CR>
-" this doesn't work reliably
-" vnoremap > >gv
-" vnoremap < <gv
 
 " Return to normal mode in terminal
 tnoremap <ESC> <C-\><C-n>
