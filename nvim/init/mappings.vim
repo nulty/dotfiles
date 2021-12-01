@@ -63,10 +63,17 @@ nnoremap <c-a-j> :exe "resize +5"<cr>
 nnoremap <c-a-k> :exe "resize -5"<cr>
 
 " use Alt-dir to move the current window in normal mode
-nnoremap <A-h> <C-w><S-h>
-nnoremap <A-j> <C-w><S-j>
-nnoremap <A-k> <C-w><S-k>
-nnoremap <A-l> <C-w><S-l>
+if has("mac")
+  nnoremap ˙ <C-w><S-h>
+  nnoremap ∆ <C-w><S-j>
+  nnoremap ˚ <C-w><S-k>
+  nnoremap ¬ <C-w><S-l>
+else
+  nnoremap <A-h> <C-w><S-h>
+  nnoremap <A-j> <C-w><S-j>
+  nnoremap <A-k> <C-w><S-k>
+  nnoremap <A-l> <C-w><S-l>
+endif
 
 nnoremap <silent> <Leader>+ :exe "resize " . (winheight(0) * 3/2)<CR>
 nnoremap <silent> <Leader>- :exe "resize " . (winheight(0) * 2/3)<CR>
