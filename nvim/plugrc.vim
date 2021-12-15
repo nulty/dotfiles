@@ -67,9 +67,20 @@ Plug 'AndrewRadev/tagalong.vim'
 Plug 'AndrewRadev/switch.vim'
 
 Plug 'sunaku/vim-ruby-minitest', { 'for': 'ruby'}
-Plug 'hrsh7th/nvim-compe'
+
+" LSP and completion
 Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
 Plug 'kabouzeid/nvim-lspinstall'
+
+Plug 'hrsh7th/nvim-cmp'
+Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+
 Plug 'neoclide/vim-jsx-improve'
 Plug 'editorconfig/editorconfig-vim'
 call plug#end()
