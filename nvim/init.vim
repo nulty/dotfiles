@@ -167,11 +167,11 @@ sunmap e
 
 nnoremap gs :call "!./%"
 
-nmap <silent> <leader>rn :TestNearest<CR>
-nmap <silent> <leader>rf :TestFile<CR>
-nmap <silent> <leader>rs :TestSuite<CR>
-nmap <silent> <leader>rl :TestLast<CR>
-nmap <silent> <leader>ro :TestVisit<CR>
+nmap <silent> tn :TestNearest<CR>
+nmap <silent> tf :TestFile<CR>
+nmap <silent> ts :TestSuite<CR>
+nmap <silent> tl :TestLast<CR>
+nmap <silent> to :TestVisit<CR>
 let test#strategy = "neovim"
 
 " Vimux mappings
