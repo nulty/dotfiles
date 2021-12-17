@@ -328,16 +328,6 @@ if exists('g:loaded_webdevicons')
   call webdevicons#refresh()
 endif
 
-inoremap <F5> <C-R>=ListMonths()<CR>
-func! ListMonths()
-  <silent> call complete(col('.'), ['January', 'February', 'March',
-        \ 'April', 'May', 'June', 'July', 'August', 'September',
-        \ 'October', 'November', 'December'])
-  return ''
-endfunc
-
-highlight link CompeDocumentation NormalFloat
-
 " nvim-tree config disables netrw so for :GBrowse, vim-fugitive needs
 " a :Browse command to define how to open a url
 command! -nargs=1 Browse silent exe '!xdg-open ' . "<args>"
