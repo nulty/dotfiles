@@ -196,17 +196,6 @@ function! RunCrystalFile()
   " call VimuxTogglePane()
 endfunction
 
-" convert Camle case to Snake case with a range selection
-function! Snakify()
-  execute a:firstline . "," . a:lastline . 's#\C\(\<\u[a-z0-9]\+\|[a-z0-9]\+\)\(\u\)#\l\1_\l\2#g'
-endfunction
-command! -range ToSnake call Snakify()
-vmap <leader>sn :call Snakify()<CR>
-
-
-" Regex to capitalize first characters after space or >
-" s/>\@<=\(\a\)\| \@<=\(\a\)/\u\1/g
-
 nmap <leader>cr :call RunCrystalFile()<CR>
 onoremap if :<c-u>normal! F/def<cr>jd/end<cr>
 nmap <leader>rp :call RunInPry()<CR>
