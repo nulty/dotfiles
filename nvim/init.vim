@@ -6,10 +6,6 @@
 "                                /____/
 runtime ./init/options.vim
 
-" vim-polyglot (set before plug loads)
-let g:polyglot_disabled = ['sensible']
-let g:polyglot_disabled = ['typescript']
-
 runtime plugrc.vim
 
 " Theme
@@ -103,9 +99,6 @@ nmap <C-s> :up<cr>
 " Next tag
 nnoremap <C-y> :tag<cr>
 
-"ncm2
-" inoremap <silent> <expr> <CR> ncm2_ultisnips#expand_or("\<CR>", 'n')
-
 " splitjoin
 "
 nmap <Leader>j :SplitjoinJoin<cr>
@@ -119,32 +112,11 @@ set completeopt=noinsert,menuone,noselect
 let g:python3_host_prog = '$HOME/.asdf/shims/python'
 let g:python2_host_prog = '$HOME/.asdf/shims/python2'
 
-" runtime compe.vim
-
-" " Ultisnips
-let g:UltiSnipsExpandTrigger       = "<Plug>(ultisnips_expand)"
-let g:UltiSnipsExpandTrigger       = "<Tab>"
-let g:UltiSnipsJumpForwardTrigger  = "<c-j>"
-let g:UltiSnipsJumpBackwardTrigger = "<c-k>"
-let g:UltiSnipsListSnippets        = "<c-l>" " *** Insert Mode
-
-" let g:UltiSnipsRemoveSelectModeMappings = 1
-" let g:UltiSnipsSnippetDirectories       = ['UltiSnips']
-" "let g:CommandTFileScanner              = 'watchman'
-
-
 " vim-emoji
-set completefunc=emoji#complete
+" set completefunc=emoji#complete
 
-"map <leader>t :call fzf#run({'source': 'ls'})<cr>
 map <leader>t :call fzf#run(fzf#wrap({'source': 'git ls-files --exclude-standard --others --cached'}))<cr>
 nmap <leader>b :Buffers<cr>
-"map <leader>t :FZF<cr>
-"let g:fzf_action = {
-      "\ 'ctrl-q': function('s:build_quickfix_list'),
-      "\ 'ctrl-t': 'tab split',
-      "\ 'ctrl-x': 'split',
-      "\ 'ctrl-v': 'vsplit' }
 
 " Searching the file system
 map <leader>' :NvimTreeToggle<cr>
