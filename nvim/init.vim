@@ -330,7 +330,11 @@ endif
 
 " nvim-tree config disables netrw so for :GBrowse, vim-fugitive needs
 " a :Browse command to define how to open a url
-command! -nargs=1 Browse silent exe '!xdg-open ' . "<args>"
+if has("mac")
+  command! -nargs=1 Browse silent exe '!xdg-open ' . "<args>"
+else
+  command! -nargs=1 Browse silent exe '!open ' . "<args>"
+endif
 
 luafile ~/.config/nvim/lua/init.lua
 command LspLog echo execute("lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>")
