@@ -45,7 +45,6 @@ Plug 'leafOfTree/vim-vue-plugin' ", {'for': 'vue'}
 Plug 'rhysd/vim-crystal', {'for': 'crystal'}
 Plug 'tpope/vim-fugitive'
 " Plug 'vim-syntastic/syntastic'
-Plug 'sheerun/vim-polyglot'
 " Plug 'kchmck/vim-coffee-script'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
