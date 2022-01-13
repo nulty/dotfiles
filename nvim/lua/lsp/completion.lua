@@ -146,16 +146,3 @@ cmp.setup.cmdline(':', {
         { name = 'cmdline' }
       })
   })
-
--- Setup lspconfig.
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
--- Installed servers
---require'lspinstall'.installed_servers()
--- { "html", "typescript", "json", "python", "tailwindcss", "lua", "css", "vim" }
---
-for _, server in pairs(require'lspinstall'.installed_servers()) do
-  require('lspconfig')[server].setup {
-    capabilities = capabilities
-  }
-end
