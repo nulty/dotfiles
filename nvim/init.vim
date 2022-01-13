@@ -6,6 +6,10 @@
 "                                /____/
 runtime ./init/options.vim
 
+if has("mac")
+  let mapleader='`'
+endif
+
 runtime plugrc.vim
 
 " Theme
