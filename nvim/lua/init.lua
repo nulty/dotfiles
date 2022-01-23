@@ -83,6 +83,10 @@ local function setup_servers()
       config.cmd = { "/home/iain/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin/Linux/lua-language-server" }
     end
 
+    if server == "rust" then
+      config.setting = require('lsp.rust_analyzer')
+    end
+
     require'lspconfig'[server].setup(config)
   end
 end
