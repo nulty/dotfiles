@@ -1,7 +1,5 @@
 " https://github.com/kyazdani42/nvim-tree.lua
-let g:nvim_tree_gitignore = 1 "0 by default
-let g:nvim_tree_ignore = [ '.git', 'node_modules', '.cache' ]
-let g:nvim_tree_highlight_opened_files = 1
+" updated settings https://github.com/kyazdani42/nvim-tree.lua/issues/674
 
 lua << EOF
 local tree_cb = require'nvim-tree.config'.nvim_tree_callback
@@ -20,8 +18,6 @@ require'nvim-tree'.setup {
   open_on_setup       = false,
   -- will not open on setup if the filetype is in this list
   ignore_ft_on_setup  = {},
-  -- closes neovim automatically when the tree is the last **WINDOW** in the view
-  auto_close          = false,
   -- opens the tree when changing/opening a new tab if the tree wasn't previously opened
   open_on_tab         = false,
   -- hijacks new directory buffers when they are opened.
@@ -36,6 +32,9 @@ require'nvim-tree'.setup {
   -- updates the root directory of the tree on `DirChanged` (when your run `:cd` usually)
   update_cwd          = true,
   -- show lsp diagnostics in the signcolumn
+  filters = {
+    custom = { ".git", "node_modules", ".cached" }
+  },
   diagnostics = {
   enable = false,
   icons = {
@@ -63,20 +62,25 @@ require'nvim-tree'.setup {
   -- the command arguments as a list
   args = {}
   },
-
+  git = {
+    ignore = true
+  },
+  renderer = {
+    highlight_opened_files = "all"
+  },
   view = {
     -- width of the window, can be either a number (columns) or a string in `%`, for left or right side placement
-    width = 30,
+    width = 40,
     -- height of the window, can be either a number (columns) or a string in `%`, for top or bottom side placement
     height = 30,
     -- side of the tree, can be one of 'left' | 'right' | 'top' | 'bottom'
     side = 'left',
     -- if true the tree will resize itself after opening a file
-    auto_resize = false,
+    auto_resize = true,
     mappings = {
       -- custom only false will merge the list with the default mappings
       -- if true, it will only use your list to set the mappings
-      custom_only = true,
+      -- custom_only = true,
 
       -- list of mappings to set on the tree manually
       list = {
