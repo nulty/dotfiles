@@ -80,7 +80,6 @@ local function setup_servers()
     -- language specific config
     if server == "sumneko_lua" then
       config.settings = require('lsp.sumneko_lua')
-      config.cmd = { "/home/iain/.local/share/nvim/lsp_servers/sumneko_lua/extension/server/bin/Linux/lua-language-server" }
     end
 
     if server == "rust" then
