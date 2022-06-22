@@ -313,4 +313,4 @@ else
 endif
 
 luafile ~/.config/nvim/lua/init.lua
-command LspLog echo execute("lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>")
+command LspBufClients echo execute("lua print(vim.inspect(vim.lsp.buf_get_clients()))<CR>")
