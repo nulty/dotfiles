@@ -82,6 +82,10 @@ local function setup_servers()
       config.settings = require('lsp.sumneko_lua')
     end
 
+    if server == "emmet_ls" then
+      config.filetypes = { 'html', 'typescriptreact', 'javascriptreact', 'css', 'sass', 'scss', 'less', 'eruby' }
+    end
+
     if server == "rust" then
       config.setting = require('lsp.rust_analyzer')
     end
