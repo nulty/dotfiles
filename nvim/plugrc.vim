@@ -66,8 +66,8 @@ Plug 'sunaku/vim-ruby-minitest', { 'for': 'ruby'}
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
 
-Plug 'hrsh7th/nvim-cmp'
 Plug 'neovim/nvim-lspconfig'
+Plug 'hrsh7th/nvim-cmp'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'hrsh7th/cmp-buffer'
