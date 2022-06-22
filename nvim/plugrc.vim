@@ -12,6 +12,7 @@ Plug 'mattn/emmet-vim'
 " FileSystem
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'scrooloose/nerdcommenter'
 Plug 'flazz/vim-colorschemes'

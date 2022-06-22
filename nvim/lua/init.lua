@@ -92,14 +92,6 @@ end
 
 setup_servers()
 
+require'treesitter'
 require'lsp/completion'
--- require'lspconfig'.stylelint_lsp.setup{
---   settings = {
---     stylelintplus = {
---       autoFixOnFormat = true,
---       autoFixOnSave = true,
---       configFile = ".stylelintrc.json"
---     }
---   }
--- }
 -- vim.lsp.set_log_level("debug")
