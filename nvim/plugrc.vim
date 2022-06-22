@@ -1,6 +1,5 @@
 call plug#begin()
 Plug 'junegunn/vim-plug'
-Plug 'Shougo/deoppet.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby'}
@@ -10,7 +9,6 @@ Plug 'mileszs/ack.vim'
 Plug 'chiedo/vim-case-convert'
 Plug 'bkad/CamelCaseMotion'
 Plug 'mattn/emmet-vim'
-" Plug 'scrooloose/nerdtree'
 " FileSystem
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
