@@ -14,7 +14,9 @@ Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
-Plug 'scrooloose/nerdcommenter'
+" Comment
+Plug 'numToStr/Comment.nvim'
+
 Plug 'flazz/vim-colorschemes'
 Plug 'elixir-editors/vim-elixir'
 Plug 'airblade/vim-gitgutter'
