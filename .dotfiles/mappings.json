@@ -2,6 +2,7 @@
   ".default-gems": "~/.default-gems",
   ".default-npm-packages": "~/.default-npm-packages",
   "git-prompt.sh": "~/git-prompt.sh",
+  "git-completion.bash": "~/git-completion.bash",
   ".gitignore": "~/.gitignore",
   ".gitconfig": "~/.gitconfig",
   ".rubocop.yml": "~/.rubocop.yml",
