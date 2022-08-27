@@ -12,6 +12,7 @@ sudo apt-get install -y \
   xclip \
   jq \
   pass \
+  desktop-file-utils \
   bleachbit
 
 
@@ -121,7 +122,6 @@ if ! hash alacritty &> /dev/null; then
     libxkbcommon-dev
 
   # Fetch source
-  rm -rf alacritty/ # can't have alacritty directory before clone
   git clone https://github.com/alacritty/alacritty.git --branch v0.7.2
   cd alacritty
 
@@ -130,7 +130,7 @@ if ! hash alacritty &> /dev/null; then
 
   sudo cp target/release/alacritty /usr/local/bin # or anywhere else in $PATH
   sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
-  sudo desktop-file-install extra/linux/Alacritty.desktop
+  sudo desktop-file-install alacritty/Alacritty.desktop
   sudo update-desktop-database
 
   # Manpage
@@ -142,7 +142,7 @@ if ! hash alacritty &> /dev/null; then
 
   # Use my config
   rm alacritty/alacritty.yml
-  dotfiles link dotfiles alacritty.yml
+  dotfiles link dotfiles alacritty/alacritty.yml
 fi
 
 # sudo apt-get install \
