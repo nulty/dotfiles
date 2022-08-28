@@ -1,3 +1,6 @@
+#!/bin/bash
+set -Eeuo pipefail
+
 # Setup
 #  1) Install debian packages
 #  2) Install dotfiles program
@@ -9,7 +12,8 @@
 #  8) Install fzf
 #  9) Install neovim and packages from GitHub
 # 10) Install alacritty
-set -e
+
+install_all=${1:-}
 
 alacritty_version=0.7.2
 asdf_version=0.10.2
@@ -21,11 +25,6 @@ python2_version=2.7.18
 ruby_version=3.1.2
 rust_version=1.63.0
 tmux_version=3.2
-
-if [ "$1" = '-y' ]
-then
-  INSTALL_ALL=1
-fi
 
 echo Running setup
 # Helper Functions
