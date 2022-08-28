@@ -134,7 +134,7 @@ if install? 'ruby';
 then
   sudo apt-get install -y libssl-dev zlib1g-dev
 
-  asdf plugin add ruby
+  [ -z $(asdf plugin list | grep ruby) ] && asdf plugin add ruby
   asdf install ruby ${ruby_version}
   asdf global ruby ${ruby_version}
 fi
@@ -146,7 +146,7 @@ if install? 'tmux';
 then
   sudo apt-get install -y bison automake pkg-config libncurses-dev
 
-  asdf plugin add tmux
+  [ -z $(asdf plugin list | grep tmux) ] && asdf plugin add tmux
   asdf install tmux ${tmux_version}
   asdf global tmux ${tmux_version}
 fi
@@ -167,7 +167,7 @@ then
     libc6-dev \
     libbz2-dev
 
-  asdf plugin add python
+  [ -z $(asdf plugin list | grep python) ] && asdf plugin add python
   asdf install python ${python3_version}
   asdf global python ${python3_version}
 fi
@@ -185,7 +185,7 @@ then
     libc6-dev \
     libbz2-dev
 
-  asdf plugin add python
+  [ -z $(asdf plugin list | grep python) ] && asdf plugin add python
   asdf install python ${python2_version}
   asdf global python ${python2_version}
 fi
@@ -194,7 +194,7 @@ clear
 # Install Rust
 if install? 'rust';
 then
-  asdf plugin add rust
+  [ -z $(asdf plugin list | grep rust) ] && asdf plugin add rust
   asdf install rust ${rust_version}
   asdf global rust ${rust_version}
 fi
@@ -203,7 +203,7 @@ clear
 # Install Node
 if install? 'node';
 then
-  asdf plugin add nodejs
+  [ -z $(asdf plugin list | grep nodejs) ] && asdf plugin add nodejs
   asdf install nodejs ${node_version}
   asdf global nodejs ${node_version}
 fi
