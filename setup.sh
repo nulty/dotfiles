@@ -1,6 +1,8 @@
 #!/bin/bash
 set -Eeuo pipefail
 
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+
 # Setup
 #  1) Install debian packages
 #  2) Install dotfiles program
@@ -252,27 +254,27 @@ then
     libxkbcommon-dev
 
   # Fetch source
-  git clone https://github.com/alacritty/alacritty.git --branch v${alacritty_version}
-  cd alacritty
+  git clone https://github.com/alacritty/alacritty.git ~/alacritty --branch v${alacritty_version}
+  cd ~/alacritty
 
   # Build
   cargo build --release
 
   sudo cp target/release/alacritty /usr/local/bin # or anywhere else in $PATH
   sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
-  sudo desktop-file-install alacritty/Alacritty.desktop
-  sudo update-desktop-database
-
   # Manpage
   sudo mkdir -p /usr/local/share/man/man1
   gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 
-  # Completion
-  mv alacritty/extra/completions/alacritty.bash alacritty/
-
   # Use my config
-  rm alacritty/alacritty.yml
-  dotfiles link dotfiles alacritty/alacritty.yml
+  mv alacritty.yml alacritty.yml.original
+  dotfiles link ~/dotfiles alacritty/alacritty.yml
+
+  cd $script_dir
+
+  # Desktop file
+  sudo desktop-file-install alacritty/Alacritty.desktop
+  sudo update-desktop-database
 fi
 
 # sudo apt-get install \
