@@ -6,8 +6,8 @@
 #  5) Install asdf-python
 #  6) Install asdf-rust
 #  7) Install asdf-node
-#  8) Install neovim and packages from GitHub
-#  9) Install fzf
+#  8) Install fzf
+#  9) Install neovim and packages from GitHub
 # 10) Install alacritty
 set -e
 
@@ -62,7 +62,6 @@ install?() {
   progs=([rust]=rustc)
 
   for i in ${!progs[*]}; do
-    echo checking if $program = $i
     if [[ $program == $i ]]; then
       command=${progs[$program]}
       break
@@ -209,6 +208,15 @@ then
 fi
 
 clear
+# FZF
+if install? 'fzf';
+then
+  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+  ~/.fzf/install --no-bash --no-fish --all
+  sudo cp -r ~/.fzf/bin /usr/local
+  sudo cp -r --copy-contents ~/.fzf/man/man1 /usr/local/man/
+fi
+
 ### Install nvim ####
 if install? 'nvim';
 then
@@ -231,16 +239,6 @@ fi
 # curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
 # sudo sh -c 'echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com stable main" > /etc/apt/sources.list.d/brave.list'
 # sudo apt-get update && sudo apt-get install brave-browser
-
-clear
-# # FZF
-if install? 'fzf';
-then
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install --no-bash --no-fish --all
-  sudo cp .fzf/bin /usr/local
-  sudo cp -r --copy-contents .fzf/man/man1 /usr/local/man/
-fi
 
 clear
 # Install alaccritty dependencies
