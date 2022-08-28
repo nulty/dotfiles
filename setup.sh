@@ -30,6 +30,24 @@ fi
 echo Running setup
 # Helper Functions
 # Decide whether to install a program
+already_installed?() {
+  command=$1
+  program=$2
+  installed=0
+  not_installed=1
+
+  if [ $command == "python3" ];then
+    if [ $(asdf list python | tr -d ' ' | grep "^3...") &> /dev/null ]; then
+      echo $program is already installed
+      return $installed
+    fi
+  elif ( hash $command ) &> /dev/null; then
+    echo $program is already installed
+    return $installed
+  fi
+  return $not_installed
+}
+
 install?() {
   # Source before checking if programme is installed
   . ~/.bashrc
@@ -50,10 +68,7 @@ install?() {
   done
 
   # Return if program is already installed
-  if ( hash $command ) &> /dev/null; then
-    echo $program is already installed
-    return 1
-  fi
+  already_installed? $command $program && return 1
 
   if [ -n "$INSTALL_ALL" ]; then
     echo "Installing $program"
