@@ -49,6 +49,10 @@ already_installed?() {
 }
 
 install?() {
+  program=$1
+  command=
+  install=
+
   # Source before checking if programme is installed
   . ~/.bashrc
 
@@ -56,7 +60,6 @@ install?() {
   declare -A progs
   # Only rust has a different exec than the package name, so far
   progs=([rust]=rustc)
-  program=$1
 
   for i in ${!progs[*]}; do
     echo checking if $program = $i
@@ -74,7 +77,7 @@ install?() {
     echo "Installing $program"
     return 0
   else
-    printf "Install %b? " $program
+    printf "Install %b (y/n)? " $program
     read install
 
     if [[ $install = 'y' ]]; then
