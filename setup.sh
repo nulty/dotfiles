@@ -33,24 +33,40 @@ echo Running setup
 install?() {
   # Source before checking if programme is installed
   . ~/.bashrc
+
+  # Setup dictionary to map program name to test command
+  declare -A progs
+  # Only rust has a different exec than the package name, so far
+  progs=([rust]=rustc)
+  program=$1
+
+  for i in ${!progs[*]}; do
+    echo checking if $program = $i
+    if [[ $program == $i ]]; then
+      command=${progs[$program]}
+      break
+    fi
+    command=$program
+  done
+
   # Return if program is already installed
-  if ( hash $1 ) &> /dev/null; then
-    echo $1 is already installed
+  if ( hash $command ) &> /dev/null; then
+    echo $program is already installed
     return 1
   fi
 
   if [ -n "$INSTALL_ALL" ]; then
-    echo "Installing $1"
+    echo "Installing $program"
     return 0
   else
-    printf "Install %b? " $1
+    printf "Install %b? " $program
     read install
 
     if [[ $install = 'y' ]]; then
-      echo "Installing $1"
+      echo "Installing $program"
       return 0
     else
-      echo Not installing $1
+      echo Not installing $program
       return 1
     fi
   fi
