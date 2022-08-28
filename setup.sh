@@ -73,7 +73,7 @@ install?() {
   # Return if program is already installed
   already_installed? $command $program && return 1
 
-  if [ -n "$INSTALL_ALL" ]; then
+  if [ -n "$install_all" ]; then
     echo "Installing $program"
     return 0
   else
