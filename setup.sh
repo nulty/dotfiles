@@ -107,9 +107,10 @@ fi
 
 clear
 # Install Tmux
+# https://github.com/tmux/tmux
 if install? 'tmux';
 then
-  sudo apt-get install -y bison
+  sudo apt-get install -y bison automake pkg-config libncurses-dev
 
   asdf plugin add tmux
   asdf install tmux ${tmux_version}
