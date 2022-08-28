@@ -5,7 +5,7 @@ Repository for setting up dotfiles on a new machine. It is orchestrated by the [
 ## Install
 
 ```
-$ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | bash
+wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | bash
 ```
 ## Packages
   - git
