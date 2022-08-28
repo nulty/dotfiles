@@ -20,12 +20,12 @@ $ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh 
   - bleachbit
 
 ## Programs
- - nvim '0.7.0'
+ - nvim '0.7.2'
  - tmux '3.2'
-   * ruby '2.7.4'
  - asdf '0.10.2'
-   * python '3.7.3'
-   * rust '1.56.0'
+   * ruby '2.3.1'
+   * python '3.10.6'
+   * rust '1.63.0'
  - alacritty '0.7.2'
      
 
