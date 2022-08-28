@@ -1,9 +1,52 @@
+# Setup
+#  1) Install debian packages
+#  2) Install dotfiles program
+#  3) Install asdf
+#  4) Install asdf-ruby
+#  5) Install asdf-python
+#  6) Install asdf-rust
+#  7) Install asdf-node
+#  8) Install neovim and packages from GitHub
+#  9) Install fzf
+# 10) Install alacritty
+set -e
+
+if [ "$1" = '-y' ]
+then
+  INSTALL_ALL=1
+fi
+
 echo Running setup
-sudo apt-get update
-sudo apt-get install -y \
+# Helper Functions
+# Decide whether to install a program
+install?() {
+  # Return if program is already installed
+  if ( hash $1 ) &> /dev/null; then
+    echo $1 is already installed
+    return 1
+  fi
+
+  if [ -n "$INSTALL_ALL" ]; then
+    echo "Installing $1"
+    return 0
+  else
+    printf "Install %b? " $1
+    read install
+
+    if [[ $install = 'y' ]]; then
+      echo "Installing $1"
+      return 0
+    else
+      echo Not installing $1
+      return 1
+    fi
+  fi
+}
+
+sudo apt-get update -q
+sudo apt-get install -q -y \
   git \
   curl \
-  tmux \
   autojump \
   build-essential \
   unzip \
@@ -15,12 +58,13 @@ sudo apt-get install -y \
   desktop-file-utils \
   bleachbit
 
-
+clear
 # KeepassXC
 # sudo add-apt-repository -y ppa:phoerious/keepassxc
 
 ### Install dotfiles for symlinking dotfiles repo ###
-if ! hash dotfiles &> /dev/null; then
+if install? 'dotfiles';
+then
   curl -LJO https://github.com/rhysd/dotfiles/releases/download/v0.2.2/dotfiles_linux_amd64.zip
   sudo unzip dotfiles_linux_amd64.zip -d /usr/local/bin/ && rm dotfiles_linux_amd64.zip
   dotfiles clone https://github.com/nulty/dotfiles .
@@ -28,8 +72,10 @@ if ! hash dotfiles &> /dev/null; then
   dotfiles link dotfiles
 fi
 
+clear
 # Install asdf
-if ! hash asdf &> /dev/null; then
+if install? 'asdf';
+then
   git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
   # echo '. $HOME/.asdf/asdf.sh' >> ~/.bashrc
   # echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
@@ -37,8 +83,10 @@ if ! hash asdf &> /dev/null; then
   . $HOME/.asdf/asdf.sh
 fi
 
+clear
 # Install Ruby
-if ! hash ruby &> /dev/null; then
+if install? 'ruby';
+then
   sudo apt-get install -y libssl-dev zlib1g-dev
 
   asdf plugin add ruby
@@ -46,8 +94,21 @@ if ! hash ruby &> /dev/null; then
   asdf global ruby 2.7.4
 fi
 
+clear
+# Install Tmux
+if install? 'tmux';
+then
+  sudo apt-get install -y bison
+
+  asdf plugin add tmux
+  asdf install tmux 3.2
+  asdf global tmux 3.2
+fi
+
+clear
 # Install Python
-if ! hash python &> /dev/null; then
+if install? 'python';
+then
   sudo apt-get install -y \
     libssl-dev \
     zlib1g-dev \
@@ -68,23 +129,29 @@ if ! hash python &> /dev/null; then
   # asdf global python 2.7.18
 fi
 
+clear
 # Install Rust
-if ! hash rust &> /dev/null; then
+if install? 'rust';
+then
   asdf plugin add rust
   asdf install rust 1.56.0
   asdf global rust 1.56.0
 fi
 
+clear
 # Install Node
-if ! hash node &> /dev/null; then
+if install? 'node';
+then
   asdf plugin add nodejs
   asdf install nodejs 14.18.1
   asdf global nodejs 14.18.1
 fi
 
+clear
 ### Install nvim ####
-if ! hash nvim &> /dev/null; then
-  sudo curl -LJO https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz && \
+if install? 'nvim';
+then
+  sudo curl -LJO https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.tar.gz && \
     sudo tar xf nvim-linux64.tar.gz && \
     sudo cp -rn nvim-linux64/* /usr/local/ && \
     sudo rm -rf nvim-linux64*
@@ -104,15 +171,19 @@ fi
 # sudo sh -c 'echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com stable main" > /etc/apt/sources.list.d/brave.list'
 # sudo apt-get update && sudo apt-get install brave-browser
 
+clear
 # # FZF
-if ! hash fzf &> /dev/null; then
+if install? 'fzf';
+then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --no-bash --no-fish --all
   sudo cp -r .fzf/bin .fzf/man /usr/local/
 fi
 
+clear
 # Install alaccritty dependencies
-if ! hash alacritty &> /dev/null; then
+if install? 'alacritty';
+then
   sudo apt-get install -y \
     cmake \
     pkg-config \
@@ -153,3 +224,4 @@ fi
 # #   peek \
 # #   pandoc \
 # #   slack-desktop \
+
