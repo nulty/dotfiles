@@ -1,14 +1,10 @@
 call plug#begin()
 Plug 'junegunn/vim-plug'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
 Plug 'vim-ruby/vim-ruby', { 'for': 'ruby'}
 Plug 'kana/vim-textobj-user'
 Plug 'rhysd/vim-textobj-ruby', { 'for': 'ruby'}
-Plug 'mileszs/ack.vim'
 Plug 'chiedo/vim-case-convert'
 Plug 'bkad/CamelCaseMotion'
-Plug 'mattn/emmet-vim'
 " FileSystem
 Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
@@ -26,14 +22,13 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-bundler', { 'for': 'ruby'}
 Plug 'tpope/vim-repeat'
 Plug 'dkarter/bullets.vim'
-" Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+" Search
+Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
+
 Plug 'junegunn/vim-emoji'
-"Plug 'wincent/command-t', {
-    "\   'do': 'cd ruby/command-t/ext/command-t && ruby extconf.rb && make'
-    "\ }
-" Plug 'roman/golden-ratio'
 Plug 'camspiers/lens.vim'
 Plug 'leafOfTree/vim-vue-plugin' ", {'for': 'vue'}
 " Plug 'othree/javascript-libraries-syntax.vim'
@@ -41,7 +36,6 @@ Plug 'leafOfTree/vim-vue-plugin' ", {'for': 'vue'}
 " Plug 'vim-airline/vim-airline-themes'
 Plug 'rhysd/vim-crystal', {'for': 'crystal'}
 Plug 'tpope/vim-fugitive'
-" Plug 'vim-syntastic/syntastic'
 " Plug 'kchmck/vim-coffee-script'
 Plug 'tpope/vim-surround'
 Plug 'godlygeek/tabular'
@@ -63,6 +57,11 @@ Plug 'AndrewRadev/tagalong.vim'
 Plug 'AndrewRadev/switch.vim'
 
 Plug 'sunaku/vim-ruby-minitest', { 'for': 'ruby'}
+
+" Snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'mattn/emmet-vim'
 
 " LSP and completion
 Plug 'neovim/nvim-lspconfig'
