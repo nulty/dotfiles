@@ -171,7 +171,7 @@ then
   asdf install python ${python3_version}
   asdf global python ${python3_version}
 fi
-if install? 'python3';
+if install? 'python2';
 then
   sudo apt-get install -y \
     libssl-dev \
@@ -185,6 +185,7 @@ then
     libc6-dev \
     libbz2-dev
 
+  asdf plugin add python
   asdf install python ${python2_version}
   asdf global python ${python2_version}
 fi
