@@ -11,6 +11,17 @@
 # 10) Install alacritty
 set -e
 
+alacritty_version=0.7.2
+asdf_version=0.10.2
+dotfiles_version=0.2.2
+node_version=14.18.1
+nvim_version=0.7.2
+python3_version=3.10.1
+python2_version=2.7.18
+ruby_version=3.1.2
+rust_version=1.63.0
+tmux_version=3.2
+
 if [ "$1" = '-y' ]
 then
   INSTALL_ALL=1
@@ -20,6 +31,8 @@ echo Running setup
 # Helper Functions
 # Decide whether to install a program
 install?() {
+  # Source before checking if programme is installed
+  . ~/.bashrc
   # Return if program is already installed
   if ( hash $1 ) &> /dev/null; then
     echo $1 is already installed
@@ -65,7 +78,7 @@ clear
 ### Install dotfiles for symlinking dotfiles repo ###
 if install? 'dotfiles';
 then
-  curl -LJO https://github.com/rhysd/dotfiles/releases/download/v0.2.2/dotfiles_linux_amd64.zip
+  curl -LJO https://github.com/rhysd/dotfiles/releases/download/v${dotfiles_version}/dotfiles_linux_amd64.zip
   sudo unzip dotfiles_linux_amd64.zip -d /usr/local/bin/ && rm dotfiles_linux_amd64.zip
   dotfiles clone https://github.com/nulty/dotfiles .
   mv ~/.bashrc ~/.bashrcBAK
@@ -76,9 +89,7 @@ clear
 # Install asdf
 if install? 'asdf';
 then
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.8.1
-  # echo '. $HOME/.asdf/asdf.sh' >> ~/.bashrc
-  # echo '. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
+  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v${asdf_version}
 
   . $HOME/.asdf/asdf.sh
 fi
@@ -90,8 +101,8 @@ then
   sudo apt-get install -y libssl-dev zlib1g-dev
 
   asdf plugin add ruby
-  asdf install ruby 2.7.4
-  asdf global ruby 2.7.4
+  asdf install ruby ${ruby_version}
+  asdf global ruby ${ruby_version}
 fi
 
 clear
@@ -101,13 +112,13 @@ then
   sudo apt-get install -y bison
 
   asdf plugin add tmux
-  asdf install tmux 3.2
-  asdf global tmux 3.2
+  asdf install tmux ${tmux_version}
+  asdf global tmux ${tmux_version}
 fi
 
 clear
 # Install Python
-if install? 'python';
+if install? 'python3';
 then
   sudo apt-get install -y \
     libssl-dev \
@@ -122,11 +133,25 @@ then
     libbz2-dev
 
   asdf plugin add python
-  asdf install python 3.7.3
-  asdf global python 3.7.3
+  asdf install python ${python3_version}
+  asdf global python ${python3_version}
+fi
+if install? 'python3';
+then
+  sudo apt-get install -y \
+    libssl-dev \
+    zlib1g-dev \
+    libffi-dev \
+    libreadline-gplv2-dev \
+    libncursesw5-dev \
+    libsqlite3-dev \
+    tk-dev \
+    libgdbm-dev \
+    libc6-dev \
+    libbz2-dev
 
-  asdf install python 2.7.18
-  # asdf global python 2.7.18
+  asdf install python ${python2_version}
+  asdf global python ${python2_version}
 fi
 
 clear
@@ -134,8 +159,8 @@ clear
 if install? 'rust';
 then
   asdf plugin add rust
-  asdf install rust 1.56.0
-  asdf global rust 1.56.0
+  asdf install rust ${rust_version}
+  asdf global rust ${rust_version}
 fi
 
 clear
@@ -143,15 +168,15 @@ clear
 if install? 'node';
 then
   asdf plugin add nodejs
-  asdf install nodejs 14.18.1
-  asdf global nodejs 14.18.1
+  asdf install nodejs ${node_version}
+  asdf global nodejs ${node_version}
 fi
 
 clear
 ### Install nvim ####
 if install? 'nvim';
 then
-  sudo curl -LJO https://github.com/neovim/neovim/releases/download/v0.7.2/nvim-linux64.tar.gz && \
+  sudo curl -LJO https://github.com/neovim/neovim/releases/download/v${nvim_version}/nvim-linux64.tar.gz && \
     sudo tar xf nvim-linux64.tar.gz && \
     sudo cp -rn nvim-linux64/* /usr/local/ && \
     sudo rm -rf nvim-linux64*
@@ -177,7 +202,8 @@ if install? 'fzf';
 then
   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
   ~/.fzf/install --no-bash --no-fish --all
-  sudo cp -r .fzf/bin .fzf/man /usr/local/
+  sudo cp .fzf/bin /usr/local
+  sudo cp -r --copy-contents .fzf/man/man1 /usr/local/man/
 fi
 
 clear
@@ -193,7 +219,7 @@ then
     libxkbcommon-dev
 
   # Fetch source
-  git clone https://github.com/alacritty/alacritty.git --branch v0.7.2
+  git clone https://github.com/alacritty/alacritty.git --branch v${alacritty_version}
   cd alacritty
 
   # Build

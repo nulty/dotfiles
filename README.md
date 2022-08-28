@@ -22,8 +22,8 @@ $ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh 
 ## Programs
  - nvim '0.7.0'
  - tmux '3.2'
- - asdf
    * ruby '2.7.4'
+ - asdf '0.10.2'
    * python '3.7.3'
    * rust '1.56.0'
  - alacritty '0.7.2'
