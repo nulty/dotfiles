@@ -1,7 +1,8 @@
 # Dotfiles
 
-## Install
+Repository for setting up dotfiles on a new machine. It is orchestrated by the [dotfiles](https://github.com/rhysd/dotfiles) program.
 
+## Install
 
 ```
 $ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | bash
@@ -19,13 +20,13 @@ $ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh 
   - bleachbit
 
 ## Programs
- - nvim
- - tmux
+ - nvim '0.7.0'
+ - tmux '3.2'
  - asdf
-   * ruby
-   * python
-   * rust
- - alacritty
+   * ruby '2.7.4'
+   * python '3.7.3'
+   * rust '1.56.0'
+ - alacritty '0.7.2'
      
 
 ## Vim plugins
@@ -83,3 +84,13 @@ $ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh 
  - Plug 'kabouzeid/nvim-lspinstall'
  - Plug 'neoclide/vim-jsx-improve'
  - Plug 'editorconfig/editorconfig-vim'
+ 
+ ## Testing 
+
+Build and tag the docker container.
+```shell
+$ ./docker-test.sh
+$ docker run -it dotfiles /bin/bash
+$ ./dotfiles/setup.sh
+
+```
