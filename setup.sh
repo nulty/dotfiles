@@ -237,12 +237,17 @@ then
   nvim --headless -u - --cmd "runtime plugrc.vim" +PlugInstall +qall
 fi
 
-# curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
-# sudo sh -c 'echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com stable main" > /etc/apt/sources.list.d/brave.list'
-# sudo apt-get update && sudo apt-get install brave-browser
+clear
+# Install Brave Browser
+if install? 'brave-browser';
+then
+curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt-key --keyring /etc/apt/trusted.gpg.d/brave-browser-release.gpg add -
+sudo sh -c 'echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com stable main" > /etc/apt/sources.list.d/brave.list'
+sudo apt-get update && sudo apt-get install -y brave-browser
+fi
 
 clear
-# Install alaccritty dependencies
+# Install alacritty
 if install? 'alacritty';
 then
   sudo apt-get install -y \
