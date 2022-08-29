@@ -169,21 +169,18 @@ fi
 export EDITOR=nvim
 
 # asdf
-. $HOME/.asdf/asdf.sh
-. $HOME/.asdf/completions/asdf.bash
-
+[ -f ~/.asdf/asdf.sh ] && source ~/.asdf/asdf.sh
+[ -f ~/.asdf/completions/asdf.bash ] && source  ~/.asdf/completions/asdf.bash
 # autojump
-. /usr/share/autojump/autojump.bash
-
+[ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
 # alacritty
-source ~/alacritty/alacritty.bash
+[ -f ~/alacritty/alacritty.bash ] && source ~/alacritty/extra/completion/alacritty.bash
 
 # Set the PGDATA variable to postgres 9.6 data directory
 # export PGDATA="/var/lib/postgresql/9.6/main"
 
 export PATH=$PATH:/usr/local/android-studio/bin
 export PATH=$PATH:~/bin
-
 
 # REactNative requirements for Android development
 export ANDROID_HOME=$HOME/Android/Sdk
@@ -200,7 +197,5 @@ export VIMRC=~/.config/nvim/init.vim
 # added by travis gem
 # [ -f /home/iain/.travis/travis.sh ] && source /home/iain/.travis/travis.sh
 
-
 export PATH=$PATH:/home/iain/.asdf/installs/rust/1.56.0/bin
 export PATH=$PATH:/home/iain/.local/share/nvim/lspinstall/vim/node_modules/.bin
-# export PATH=/home/iain/.gem/ruby/2.6.0/bin:$PATH
