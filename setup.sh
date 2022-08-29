@@ -42,7 +42,7 @@ already_installed?() {
   installed=0
   not_installed=1
 
-  if [ $command == "python3" ];then
+  if [ $command == "python3" ]; then
     if [ $(asdf list python | tr -d ' ' | grep "^3...") &> /dev/null ]; then
       echo $program is already installed
       return $installed
@@ -194,7 +194,7 @@ then
 
   [ -z $(asdf plugin list | grep python) ] && asdf plugin add python
   asdf install python ${python3_version}
-  asdf global python ${python3_version}
+  asdf global python $(asdf list python | tr  '\n' ' ')
 fi
 
 source .bashrc
@@ -215,7 +215,8 @@ then
 
   [ -z $(asdf plugin list | grep python) ] && asdf plugin add python
   asdf install python ${python2_version}
-  asdf global python ${python2_version}
+  # pass all installed python versions to global
+  asdf global python $(asdf list python | tr  '\n' ' ')
 fi
 
 source .bashrc
@@ -295,6 +296,7 @@ clear
 # Install alacritty
 if install? 'alacritty';
 then
+  asdf reshim python
   sudo apt-get install -y \
     cmake \
     pkg-config \
@@ -337,4 +339,3 @@ kill SIGUSR1 $PPID
 # #   peek \
 # #   pandoc \
 # #   slack-desktop \
-
