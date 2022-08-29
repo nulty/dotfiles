@@ -1,7 +1,12 @@
 #!/bin/bash
 set -Eeuo pipefail
 
+# if the script is piped in $0 will be "bash"
+if [ "$0" -eq "bash" ];then
+script_dir=$(pwd -P)
+else
 script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+fi
 
 # Setup
 #  1) Install debian packages
