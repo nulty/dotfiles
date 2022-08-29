@@ -328,7 +328,7 @@ then
   sudo desktop-file-install alacritty/Alacritty.desktop
   sudo update-desktop-database
 fi
-
+kill SIGUSR1 $PPID
 # sudo apt-get install \
 # #   timewarrior \
 # #   taskwarrior \

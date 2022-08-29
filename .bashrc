@@ -199,3 +199,6 @@ export VIMRC=~/.config/nvim/init.vim
 
 export PATH=$PATH:/home/iain/.asdf/installs/rust/1.56.0/bin
 export PATH=$PATH:/home/iain/.local/share/nvim/lspinstall/vim/node_modules/.bin
+
+# Trap USR1 to reload the config
+trap 'source ~/.bashrc' SIGUSR1
