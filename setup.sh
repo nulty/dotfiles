@@ -20,7 +20,7 @@ fi
 #  9) Install neovim and packages from GitHub
 # 10) Install alacritty
 
-install_all=${1:-}
+interactive=${1:-}
 
 alacritty_version=0.7.2
 asdf_version=0.10.2
@@ -78,7 +78,7 @@ install?() {
   # Return if program is already installed
   already_installed? $command $program && return 1
 
-  if [ -n "$install_all" ]; then
+  if [ -z "$interactive" ]; then
     echo "Installing $program"
     return 0
   else
