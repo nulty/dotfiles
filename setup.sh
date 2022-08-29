@@ -120,9 +120,17 @@ then
   curl -LJO https://github.com/rhysd/dotfiles/releases/download/v${dotfiles_version}/dotfiles_linux_amd64.zip
   sudo unzip dotfiles_linux_amd64.zip -d /usr/local/bin/ && rm dotfiles_linux_amd64.zip
   dotfiles clone https://github.com/nulty/dotfiles .
-  mv ~/.bashrc ~/.bashrcBAK
-  dotfiles link dotfiles
+  mv ~/.bashrc ~/.bashrc.original
+  dotfiles link dotfiles \
+    .bashrc \
+    .bash_aliases \
+    git-prompt.sh \
+    .git_completion.sh \
+    .gitignore \
+    .gitconfig
 fi
+
+source .bashrc
 
 clear
 # Install asdf
@@ -133,6 +141,8 @@ then
   . $HOME/.asdf/asdf.sh
 fi
 
+source .bashrc
+
 clear
 # Install Ruby
 if install? 'ruby';
@@ -140,9 +150,16 @@ then
   sudo apt-get install -y libssl-dev zlib1g-dev
 
   [ -z $(asdf plugin list | grep ruby) ] && asdf plugin add ruby
+
+  dotfiles link dotfiles \
+    .default-gems \
+    .rubocop.yml \
+    .rubocop_todo.yml
   asdf install ruby ${ruby_version}
   asdf global ruby ${ruby_version}
 fi
+
+source .bashrc
 
 clear
 # Install Tmux
@@ -152,9 +169,12 @@ then
   sudo apt-get install -y bison automake pkg-config libncurses-dev
 
   [ -z $(asdf plugin list | grep tmux) ] && asdf plugin add tmux
+  dotfiles link dotfiles .tmux.conf
   asdf install tmux ${tmux_version}
   asdf global tmux ${tmux_version}
 fi
+
+source .bashrc
 
 clear
 # Install Python
@@ -176,6 +196,9 @@ then
   asdf install python ${python3_version}
   asdf global python ${python3_version}
 fi
+
+source .bashrc
+
 if install? 'python2';
 then
   sudo apt-get install -y \
@@ -195,6 +218,8 @@ then
   asdf global python ${python2_version}
 fi
 
+source .bashrc
+
 clear
 # Install Rust
 if install? 'rust';
@@ -204,14 +229,22 @@ then
   asdf global rust ${rust_version}
 fi
 
+source .bashrc
+
 clear
 # Install Node
 if install? 'node';
 then
   [ -z $(asdf plugin list | grep nodejs) ] && asdf plugin add nodejs
+  dotfiles link dotfiles \
+    .eslintrc.yml \
+    .scss-lint.yml \
+    .default-npm-packages
   asdf install nodejs ${node_version}
   asdf global nodejs ${node_version}
 fi
+
+source .bashrc
 
 clear
 # FZF
@@ -222,6 +255,8 @@ then
   sudo cp -r ~/.fzf/bin /usr/local
   sudo cp -r --copy-contents ~/.fzf/man/man1 /usr/local/man/
 fi
+
+source .bashrc
 
 ### Install nvim ####
 if install? 'nvim';
@@ -235,12 +270,15 @@ then
   # curl https://raw.githubusercontent.com/nulty/dotfiles/testing-setup/setup.sh | bash
   # wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/testing-setup/setup.sh | bash
   # Install vim-plug for nvim
+  dotfiles link dotfiles nvim
   sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
          https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
   ## Run install of plugins
   nvim --headless -u - --cmd "runtime plugrc.vim" +PlugInstall +qall
 fi
+
+source .bashrc
 
 clear
 # Install Brave Browser
@@ -250,6 +288,8 @@ curl -s https://brave-browser-apt-release.s3.brave.com/brave-core.asc | sudo apt
 sudo sh -c 'echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.com stable main" > /etc/apt/sources.list.d/brave.list'
 sudo apt-get update && sudo apt-get install -y brave-browser
 fi
+
+source .bashrc
 
 clear
 # Install alacritty
@@ -278,7 +318,9 @@ then
 
   # Use my config
   mv alacritty.yml alacritty.yml.original
-  dotfiles link ~/dotfiles alacritty/alacritty.yml
+  dotfiles link ~/dotfiles \
+    alacritty/alacritty.yml \
+    alacritty/Alacritty.desktop
 
   cd $script_dir
 
