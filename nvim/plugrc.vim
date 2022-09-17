@@ -16,7 +16,7 @@ Plug 'numToStr/Comment.nvim'
 Plug 'flazz/vim-colorschemes'
 Plug 'elixir-editors/vim-elixir'
 Plug 'airblade/vim-gitgutter'
-Plug 'shime/vim-livedown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
 Plug 'tpope/vim-rails', { 'for': 'ruby'}
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-bundler', { 'for': 'ruby'}
