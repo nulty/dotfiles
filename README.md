@@ -26,7 +26,7 @@ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | 
   - bleachbit
 
 ## Programs
- - nvim '0.7.2'
+ - nvim '0.8.1'
  - tmux '3.2'
  - asdf '0.10.2'
    * ruby '2.3.1'

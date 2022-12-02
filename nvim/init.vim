@@ -10,11 +10,20 @@ if has("mac")
   let mapleader='`'
 endif
 
+" Plugins
 runtime plugrc.vim
 
 " Theme
-" colorscheme onedark
-colorscheme hybrid
+lua << EOF
+require('onedark').setup({
+    style = 'darker',
+    code_style = {
+      comments = 'italic'
+    },
+    transparent = true
+    })
+require('onedark').load()
+EOF
 
 runtime init/mappings.vim
 

@@ -10,10 +10,12 @@ Plug 'kyazdani42/nvim-web-devicons' " for file icons
 Plug 'kyazdani42/nvim-tree.lua'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
+"ColourScheme
+Plug 'navarasu/onedark.nvim'
+
 " Comment
 Plug 'numToStr/Comment.nvim'
 
-Plug 'flazz/vim-colorschemes'
 Plug 'elixir-editors/vim-elixir'
 Plug 'airblade/vim-gitgutter'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install' }
