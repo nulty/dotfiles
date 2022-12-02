@@ -97,5 +97,6 @@ end
 setup_servers()
 
 require'treesitter'
+require('comment')
 require'lsp/completion'
 -- vim.lsp.set_log_level("debug")
