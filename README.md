@@ -7,6 +7,12 @@ Repository for setting up dotfiles on a new machine. It is orchestrated by the [
 ```
 wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | bash
 ```
+
+# Post Install
+1. Install a patched font from https://www.nerdfonts.com/
+  a. Currently using DejaVuSansMono
+2. Ensure terminfo setup for alaritty
+
 ## Packages
   - git
   - curl

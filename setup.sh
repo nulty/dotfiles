@@ -318,6 +318,9 @@ then
   sudo mkdir -p /usr/local/share/man/man1
   gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
 
+  # Install alacritty terminfo https://github.com/alacritty/alacritty/blob/master/INSTALL.md#terminfo
+  sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
+
   # Use my config
   mv alacritty.yml alacritty.yml.original
   dotfiles link ~/dotfiles \

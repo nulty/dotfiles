@@ -10,7 +10,7 @@ env:
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  TERM: xterm-256color
+  TERM: alacritty # xterm-256color
 
 window:
   # Window dimensions (changes require restart)
@@ -99,15 +99,10 @@ font:
     #   - (Linux) monospace
     #   - (Windows) Consolas
     #family: monospace
-    #family: "Hack Nerd Font Mono"
-    # family: "Noto Color Emoji"
-    # family: "DejaVu Sans Mono"
-    # family: "Bitstream Vera Sans Mono"
-    # family: Ubuntu Mono
-    family: "RobotoMono Nerd Font"
+    family: "Deja Vu Sans Mono"
 
     # The `style` can be specified to pick a specific face.
-    #style: Regular
+    # style: Regular
 
   # Bold font face
   bold:
@@ -116,9 +111,7 @@ font:
     # If the bold family is not specified, it will fall back to the
     # value specified for the normal font.
     #family: monospace
-    #family: "Hack Nerd Font Mono"
-    family: "RobotoMono Nerd Font"
-    #family: Ubuntu Mono
+    family: "DejaVuSansMono"
 
     # The `style` can be specified to pick a specific face.
     #style: Bold
@@ -130,15 +123,13 @@ font:
     # If the italic family is not specified, it will fall back to the
     # value specified for the normal font.
     #family: monospace
-    #family: "Hack Nerd Font Mono"
-    family: "RobotoMono Nerd Font"
-    #family: Ubuntu Mono
+    family: "DejaVuSansMono"
 
     # The `style` can be specified to pick a specific face.
-    #style: Italic
+    # style: Italic
 
   # Point size
-  size: 11.0
+  size: 10.0
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -179,6 +170,44 @@ font:
 draw_bold_text_with_bright_colors: true
 
 schemes:
+  onedark: &onedark
+    # Colors (One Dark)
+    primary:
+      foreground: '0xabb2bf'
+      background: '0x282c34'
+
+    # Cursor colors
+    cursor:
+      text: '0x2c323c'
+      cursor: '0x5c6370'
+
+    # Selection colors
+    selection:
+      text: CellForeground
+      background: '0x3e4452'
+
+    # Normal colors
+    normal:
+      black:   '0x2c323c'
+      red:     '0xe06c75'
+      green:   '0x98c379'
+      yellow:  '0xe5c07b'
+      blue:    '0x61afef'
+      magenta: '0xc678dd'
+      cyan:    '0x56b6c2'
+      white:   '0x5c6370'
+
+    # Bright colors
+    bright:
+      black:   '0x3e4452'
+      red:     '0xe06c75'
+      green:   '0x98c379'
+      yellow:  '0xe5c07b'
+      blue:    '0x61afef'
+      magenta: '0xc678dd'
+      cyan:    '0x56b6c2'
+      white:   '0xabb2bf'
+
   hybrid: &hybrid
     # Default colors
     primary:

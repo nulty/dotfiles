@@ -35,3 +35,7 @@ set number
 
 set wildignore+=*.o,*.obj,.git,node_modules,tmp,tags,*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
 set signcolumn=yes
+
+if (has("termguicolors"))
+  set termguicolors
+endif
