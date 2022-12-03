@@ -51,13 +51,13 @@ local function make_config()
 
 
   -- Setup lspconfig.
-  local updated_capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-  updated_capabilities.textDocument.codeLens = {
+  local capabilities = require('cmp_nvim_lsp').default_capabilities()
+  capabilities.textDocument.codeLens = {
     dynamicRegistration = false,
   }
 
-  updated_capabilities.textDocument.completion.completionItem.snippetSupport = true
-  updated_capabilities.textDocument.completion.completionItem.resolveSupport = {
+  capabilities.textDocument.completion.completionItem.snippetSupport = true
+  capabilities.textDocument.completion.completionItem.resolveSupport = {
     properties = {
       "documentation",
       "detail",
@@ -66,7 +66,7 @@ local function make_config()
   }
 
   return {
-    capabilities = updated_capabilities,
+    capabilities = capabilities,
     on_attach = custom_attach,
   }
 end
