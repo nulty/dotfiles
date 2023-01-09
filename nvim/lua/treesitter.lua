@@ -12,6 +12,7 @@ require'nvim-treesitter.configs'.setup {
       "markdown",
       "ruby",
       "rust",
+      "typescript",
       "vim",
       "yaml",
   },
