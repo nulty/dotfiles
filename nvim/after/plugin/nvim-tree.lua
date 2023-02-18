@@ -25,7 +25,7 @@ require 'nvim-tree'.setup {
   update_cwd          = true,
   -- show lsp diagnostics in the signcolumn
   filters             = {
-    custom = { ".git", "node_modules", ".cached" }
+    custom = { ".git\\>", "node_modules", ".cached" }
   },
   diagnostics         = {
     enable = false,
