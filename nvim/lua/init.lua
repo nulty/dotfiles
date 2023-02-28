@@ -37,7 +37,7 @@ local function make_config()
     end
 
     -- Set autocommands conditional on server_capabilities
-    if client.resolved_capabilities.document_highlight then
+    if client.server_capabilities.document_highlight then
       vim.api.nvim_exec([[
       augroup lsp_document_highlight
       autocmd! * <buffer>
@@ -71,11 +71,11 @@ local function make_config()
 end
 
 local server_mapping = {
-    ["tailwindcss-language-server"] = "tailwindcss",
-    ["typescript-language-server"] = "tsserver",
-    ["lua-language-server"] = "lua_ls",
-    ["stylelint-lsp"] = "stylelint_lsp",
-    ["yamllint"] = "yamlls",
+  ["tailwindcss-language-server"] = "tailwindcss",
+  ["typescript-language-server"] = "tsserver",
+  ["lua-language-server"] = "lua_ls",
+  ["stylelint-lsp"] = "stylelint_lsp",
+  ["yamllint"] = "yamlls",
 }
 
 local function setup_servers()
@@ -98,7 +98,10 @@ local function setup_servers()
     end
 
     local server_name = server_mapping[server] or server
-    require'lspconfig'[server_name].setup(config)
+    if server == "prettier" then
+    else
+      require'lspconfig'[server_name].setup(config)
+    end
   end
 end
 
@@ -107,4 +110,5 @@ setup_servers()
 require'treesitter'
 require('comment')
 require'lsp/completion'
+require'null_ls'
 -- vim.lsp.set_log_level("debug")

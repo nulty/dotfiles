@@ -69,6 +69,8 @@ Plug 'mattn/emmet-vim'
 Plug 'neovim/nvim-lspconfig'
 " Plug 'williamboman/nvim-lsp-installer'
 Plug 'williamboman/mason.nvim'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'nvim-lua/plenary.nvim'
 
 Plug 'neovim/nvim-lspconfig'
 Plug 'hrsh7th/nvim-cmp'
