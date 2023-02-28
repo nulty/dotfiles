@@ -4,47 +4,41 @@ end
 
 -- Setup nvim-cmp.
 --
-require("cmp_nvim_ultisnips").setup {
-    -- Some reason treesitter config aint working
-    filetype_source = "ultisnips_default"
-    -- filetype_source = "treesitter"
+require("cmp_nvim_ultisnips").setup{
+    filetype_source = "treesitter"
 }
 
-local cmp = require 'cmp'
+local cmp = require'cmp'
 local cmp_ultisnips_mappings = require("cmp_nvim_ultisnips.mappings")
 
 function cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
-    cmp_ultisnips_mappings.compose { "expand", "jump_forwards", "select_next_item" } (fallback)
+    cmp_ultisnips_mappings.compose{ "expand", "jump_forwards", "select_next_item" } (fallback)
 end
 
 function cmp_ultisnips_mappings.jump_forwards(fallback)
-    cmp_ultisnips_mappings.compose { "expand", "jump_forwards", "select_next_item" } (fallback)
+    cmp_ultisnips_mappings.compose{ "expand", "jump_forwards", "select_next_item" } (fallback)
 end
 
 function cmp_ultisnips_mappings.jump_backwards(fallback)
-    cmp_ultisnips_mappings.compose { "jump_backwards", "select_prev_item" } (fallback)
+    cmp_ultisnips_mappings.compose{ "jump_backwards", "select_prev_item" } (fallback)
 end
 
 cmp.setup({
-    -- Same as preselect
-    -- completion = {
-    --   completeopt = 'menuone,insert',
-    -- },
     view = {
         entries = "custom" -- can be "custom", "wildmenu" or "native"
     },
     formatting = {
-        format = function(entry, vim_item)
+        format = function (entry, vim_item)
             -- Kind icons
             vim_item.kind = string.format('%s', vim_item.kind) -- This concatonates the icons with the name of the item kind
             -- Source
             vim_item.menu = ({
-                buffer = "[Buffer]",
-                nvim_lsp = "[LSP]",
-                ultisnips = "[USnip]",
-                nvim_lua = "[Lua]",
-                latex_symbols = "[LaTeX]",
-            })[entry.source.name]
+                  buffer = "[Buffer]",
+                  nvim_lsp = "[LSP]",
+                  ultisnips = "[USnip]",
+                  nvim_lua = "[Lua]",
+                  latex_symbols = "[LaTeX]",
+              })[entry.source.name]
             return vim_item
         end
     },
@@ -55,9 +49,9 @@ cmp.setup({
     },
     mapping = cmp.mapping.preset.insert({
         ["<Tab>"] = cmp.mapping(
-            -- Tab will select the current option in the list or the first
-            -- if the cursor is not in the list yet.
-            -- Otherwise it will fallback to normal tab
+        -- Tab will select the current option in the list or the first
+        -- if the cursor is not in the list yet.
+        -- Otherwise it will fallback to normal tab
             function (fallback)
                 local entry = cmp.get_active_entry() or cmp.get_entries()[1]
 
@@ -72,12 +66,12 @@ cmp.setup({
             { "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
         ),
         ["<S-Tab>"] = cmp.mapping(
-            function(fallback)
+            function (fallback)
                 cmp_ultisnips_mappings.jump_backwards(fallback)
             end,
             { "i", "s", --[[ "c" (to enable the mapping in command mode) ]] }
         ),
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-b>'] = cmp.mapping.scroll_docs( -4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
@@ -89,8 +83,13 @@ cmp.setup({
         { name = 'buffer' },
         { name = 'path' },
     }),
+    sorting = {
+        comparators = {
+            cmp.config.compare.kind
+        }
+    },
     experimental = {
-        ghost_text = true,
+        ghost_text = false,
         native_menu = false
     }
 }
