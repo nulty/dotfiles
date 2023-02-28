@@ -71,6 +71,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/mason.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'psf/black', { 'branch': 'stable' }
+Plug 'github/copilot.vim'
 Plug 'nvim-lua/plenary.nvim'
 
 Plug 'neovim/nvim-lspconfig'
