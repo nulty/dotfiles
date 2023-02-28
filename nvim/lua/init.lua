@@ -107,6 +107,7 @@ end
 
 setup_servers()
 
+vim.cmd[[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 require'treesitter'
 require('comment')
 require'lsp/completion'
