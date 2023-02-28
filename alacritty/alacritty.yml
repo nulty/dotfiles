@@ -240,7 +240,7 @@ schemes:
   tomorrow: &tomorrow
     # Default colors
     primary:
-      background: '#000000'
+      background: '#111111'
       foreground: '#eaeaea'
 
       # Bright and dim foreground colors
@@ -306,7 +306,8 @@ schemes:
 
 
 # Colors (Hybrid)
-colors: *hybrid
+colors: *tomorrow
+
 
   # Indexed Colors
   #
