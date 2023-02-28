@@ -8,6 +8,12 @@ case $- in
       *) return;;
 esac
 
+reset_path() {
+	. /etc/environment
+}
+
+reset_path
+
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
 HISTCONTROL=ignoreboth
@@ -191,14 +197,17 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 # export PGDATA2=/media/iain/Samsung_T5/
 export VIMRC=~/.config/nvim/init.vim
 
+clearlog() {
+  truncate -s 0 ~/.local/state/nvim/lsp.log
+  echo "LSP Log cleared"
+}
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # source ~/.bash_completion/alacritty
 
 # added by travis gem
 # [ -f /home/iain/.travis/travis.sh ] && source /home/iain/.travis/travis.sh
 
-export PATH=$PATH:/home/iain/.asdf/installs/rust/1.56.0/bin
-export PATH=$PATH:/home/iain/.local/share/nvim/lspinstall/vim/node_modules/.bin
+export PATH=$PATH:~/.local/share/nvim/mason/bin/
 
 # Trap USR1 to reload the config
 trap 'source ~/.bashrc' SIGUSR1
