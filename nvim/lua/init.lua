@@ -28,12 +28,12 @@ local function make_config()
     buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
     buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
     buf_set_keymap('n', '<leader>q', '<cmd>lua vim.diagnostic.set_loclist()<CR>', opts)
-
-    -- Set some keybinds conditional on server capabilities
-    if client.resolved_capabilities.document_formatting then
-      buf_set_keymap('n', '<leader>d', '<cmd>lua vim.lsp.buf.formatting()<CR>', opts)
-    elseif client.resolved_capabilities.document_range_formatting then
-      buf_set_keymap('n', '<leader>d', '<cmd>lua vim.lsp.buf.range_formatting()<CR>', opts)
+    if client.name == "pyright" then
+      buf_set_keymap('n', '<leader>d', '<cmd>:Black<CR>', opts)
+      -- elseif client.name == "tailwindcss-language-server" then
+      --     buf_set_keymap('n', '<leader>d', '<cmd>!prettier -w %<CR>', opts)
+    else
+      buf_set_keymap('n', '<leader>d', '<cmd>lua vim.lsp.buf.format({async = true})<CR>', opts)
     end
 
     -- Set autocommands conditional on server_capabilities

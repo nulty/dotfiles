@@ -70,6 +70,7 @@ Plug 'neovim/nvim-lspconfig'
 " Plug 'williamboman/nvim-lsp-installer'
 Plug 'williamboman/mason.nvim'
 Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'psf/black', { 'branch': 'stable' }
 Plug 'nvim-lua/plenary.nvim'
 
 Plug 'neovim/nvim-lspconfig'
