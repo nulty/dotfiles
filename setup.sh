@@ -16,15 +16,17 @@ fi
 #  5) Install asdf-python
 #  6) Install asdf-rust
 #  7) Install asdf-node
-#  8) Install fzf
-#  9) Install neovim and packages from GitHub
-# 10) Install alacritty
+#  8) Install asdf-lua
+#  9) Install fzf
+# 10) Install neovim and packages from GitHub
+# 11) Install alacritty
 
 interactive=${1:-}
 
 alacritty_version=0.7.2
 asdf_version=0.10.2
 dotfiles_version=0.2.2
+lua_version=5.1.5
 node_version=14.18.1
 nvim_version=0.7.2
 python3_version=3.10.1
@@ -248,6 +250,18 @@ fi
 source .bashrc
 
 clear
+
+if install? 'lua';
+then
+  [ -z $(asdf plugin list | grep lua) ] && asdf plugin add lua
+  asdf install lua ${lua_version}
+  asdf global lua ${lua_version}
+fi
+
+source .bashrc
+
+clear
+
 # FZF
 if install? 'fzf';
 then
