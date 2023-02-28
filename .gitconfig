@@ -29,7 +29,6 @@
 [user]
 	email = iain@inulty.com
 	name = Iain McNulty
-	; signingKey = 9EFB007E onpace gpg
 	signingKey = ECD99B46
   useConfigOnly = true
 [push]
