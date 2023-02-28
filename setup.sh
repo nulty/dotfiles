@@ -110,7 +110,8 @@ sudo apt-get install -q -y \
   jq \
   pass \
   desktop-file-utils \
-  bleachbit
+  bleachbit \
+  fd-files
 
 clear
 # KeepassXC
