@@ -16,5 +16,11 @@ return {
   },
   -- { 'AndrewRadev/tagalong.vim', event = "VeryLazy" },
   -- https://github.com/AndrewRadev/switch.vim
-  { 'AndrewRadev/switch.vim', event = "VeryLazy" }
+  { 'AndrewRadev/switch.vim', event = "VeryLazy" },
+  -- https://github.com/kylechui/nvim-surround
+  {
+    "kylechui/nvim-surround",
+    event = "VeryLazy",
+    config = true,
+  }
 }
