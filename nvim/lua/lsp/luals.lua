@@ -4,28 +4,27 @@ local lua_settings = {
             -- LuaJIT in the case of Neovim
             version = 'LuaJIT',
             path = {
-                '?.lua',
-                '?/init.lua',
-                vim.fn.expand '~/.luarocks/share/lua/5.3/?.lua',
-                vim.fn.expand '~/.luarocks/share/lua/5.3/?/init.lua',
-                '/usr/share/5.3/?.lua',
-                '/usr/share/lua/5.3/?/init.lua',
-                vim.split(package.path, ';'),
+                -- '?.lua',
+                -- '?/init.lua',
+                -- vim.fn.expand '~/.asdf/installs/lua/5.1.5/luarocks/share/lua/5.1/luarocks/?.lua',
+                -- vim.fn.expand '~/.asdf/installs/lua/5.1.5/luarocks/share/lua/5.1/luarocks/?/init.lua',
+                -- vim.split(package.path, ';'),
             },
-            -- format = {
-            --   enable = true,
-            --   -- Put format options here
-            --   -- NOTE: the value should be STRING!!
-            --   defaultConfig = {
-            --     indent_style = "space",
-            --     indent_size = "2",
-            --   }
-            -- },
+            -- ***Formatting is controlled by .editorconfig***
+            format = {
+                -- enable = true,
+                -- Put format options here
+                -- NOTE: the value should be STRING!!
+                defaultConfig = {
+                    indent_style = "space",
+                    indent_size = "4",
+                }
+            },
         },
         diagnostics = {
             -- Get the language server to recognize the `vim` global
             enable = true,
-            globals = { 'vim' },
+            globals = { 'vim', 'nvim_lsp' },
             -- neededFileStatus = {
             --   ["codestyle-check"] = "Any",
             -- },
@@ -40,4 +39,5 @@ local lua_settings = {
         },
     }
 }
+
 return lua_settings

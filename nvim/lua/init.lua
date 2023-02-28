@@ -1,8 +1,6 @@
 require('vim.lsp.log').set_level("trace")
 
--- TODO: Consider using this. I do kind of like it :)
--- local nnoremap = vim.keymap.nnoremap
-
+require('mason').setup({})
 -- config that activates keymaps and enables snippet support
 local function make_config()
   -- keymaps
@@ -71,15 +69,23 @@ local function make_config()
   }
 end
 
+local server_mapping = {
+    ["tailwindcss-language-server"] = "tailwindcss",
+    ["typescript-language-server"] = "tsserver",
+    ["lua-language-server"] = "lua_ls",
+    ["stylelint-lsp"] = "stylelint_lsp",
+    ["yamllint"] = "yamlls",
+}
+
 local function setup_servers()
-  local servers = require'nvim-lsp-installer.servers'.get_installed_server_names()
+  local servers = require'mason-registry'.get_installed_package_names()
 
   for _, server in pairs(servers) do
     local config = make_config()
 
     -- language specific config
-    if server == "sumneko_lua" then
-      config.settings = require('lsp.sumneko_lua')
+    if server == "lua-language-server" then
+      config.settings = require('lsp.luals')
     end
 
     if server == "emmet_ls" then
@@ -90,7 +96,8 @@ local function setup_servers()
       config.setting = require('lsp.rust_analyzer')
     end
 
-    require'lspconfig'[server].setup(config)
+    local server_name = server_mapping[server] or server
+    require'lspconfig'[server_name].setup(config)
   end
 end
 
