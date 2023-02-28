@@ -49,26 +49,21 @@ cmp.setup({
         end
     },
     snippet = {
-        expand = function(args)
-            -- p(args)
-            -- debug(args)
+        expand = function (args)
             vim.fn["UltiSnips#Anon"](args.body)
-            -- return args.body
         end,
     },
     mapping = cmp.mapping.preset.insert({
         ["<Tab>"] = cmp.mapping(
-            function(fallback)
+            -- Tab will select the current option in the list or the first
+            -- if the cursor is not in the list yet.
+            -- Otherwise it will fallback to normal tab
+            function (fallback)
                 local entry = cmp.get_active_entry() or cmp.get_entries()[1]
-                local is_lsp
 
                 if entry == nil and not can_execute("UltiSnips#CanJumpForwards") then return fallback() end
 
-                if entry then
-                    is_lsp = entry.cache.entries["get_view:0:3"].menu.text == "[LSP]"
-                end
-                if is_lsp and not can_execute("UltiSnips#CanJumpForwards") then
-                    print("is_lsp")
+                if entry and not can_execute("UltiSnips#CanJumpForwards") then
                     cmp.confirm({ select = true })
                 else
                     cmp_ultisnips_mappings.expand_or_jump_forwards(fallback)
@@ -93,7 +88,6 @@ cmp.setup({
         { name = 'nvim_lua' },
         { name = 'buffer' },
         { name = 'path' },
-        { name = 'cmdline' },
     }),
     experimental = {
         ghost_text = true,
