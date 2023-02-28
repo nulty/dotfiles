@@ -1,16 +1,16 @@
-require('vim.lsp.log').set_level("trace")
+require('vim.lsp.log').set_level("debug")
 
 require('mason').setup({})
 -- config that activates keymaps and enables snippet support
 local function make_config()
   -- keymaps
-  local custom_attach = function(client, bufnr)
+  local custom_attach = function (client, bufnr)
     local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
 
     vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
 
     -- Mappings.
-    local opts = { noremap=true, silent=false }
+    local opts = { noremap = true, silent = false }
     buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
     buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
 
@@ -97,6 +97,7 @@ local function setup_servers()
       config.setting = require('lsp.rust_analyzer')
     end
 
+    -- if server ~= "tsserver" and server ~= "eslint" then
     local server_name = server_mapping[server] or server
     if server == "prettier" then
     else
