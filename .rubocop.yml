@@ -228,13 +228,6 @@ Bundler/OrderedGems:
 
 #################### Gemspec ###############################
 
-Gemspec/DateAssignment:
-  Description: 'Checks that `date =` is not used in gemspec file, it is set automatically when the gem is packaged.'
-  Enabled: pending
-  VersionAdded: '1.10'
-  Include:
-    - '**/*.gemspec'
-
 Gemspec/DuplicatedAssignment:
   Description: 'An attribute assignment method calls should be listed only once in a gemspec.'
   Enabled: true
@@ -1703,7 +1696,8 @@ Lint/ErbNewArguments:
   VersionAdded: '0.56'
 
 Lint/FlipFlop:
-  Description: 'Checks for flip-flops.'  StyleGuide: '#no-flip-flops'
+  Description: 'Checks for flip-flops.'
+  StyleGuide: '#no-flip-flops'
   Enabled: true
   VersionAdded: '0.16'
 
@@ -2206,7 +2200,7 @@ Lint/UnreachableLoop:
   IgnoredPatterns:
     # RSpec uses `times` in its message expectations
     # eg. `exactly(2).times`
-    - !ruby/regexp /(exactly|at_least|at_most)\(\d+\)\.times/
+    - --- !ruby/regex /(exactly|at_least|at_most)\(\d+\)\.times/
 
 Lint/UnusedBlockArgument:
   Description: 'Checks for unused block arguments.'
@@ -2238,10 +2232,10 @@ Lint/UriEscapeUnescape:
   Enabled: true
   VersionAdded: '0.50'
 
-Lint/UriRegexp:
-  Description: 'Use `URI::DEFAULT_PARSER.make_regexp` instead of `URI.regexp`.'
-  Enabled: true
-  VersionAdded: '0.50'
+# Lint/UriRegexp:
+#   Description: 'Use `URI::DEFAULT_PARSER.make_regexp` instead of `URI.regexp`.'
+#   Enabled: true
+#   VersionAdded: '0.50'
 
 Lint/UselessAccessModifier:
   Description: 'Checks for useless access modifiers.'
@@ -2542,7 +2536,7 @@ Naming/HeredocDelimiterNaming:
   Enabled: true
   VersionAdded: '0.50'
   ForbiddenDelimiters:
-    - !ruby/regexp '/(^|\s)(EO[A-Z]{1}|END)(\s|$)/'
+    - --- !ruby/regexp '/(^|\s)(EO[A-Z]{1}|END)(\s|$)/'
 
 Naming/InclusiveLanguage:
   Description: 'Recommend the use of inclusive language instead of problematic terms.'
@@ -2557,12 +2551,12 @@ Naming/InclusiveLanguage:
   CheckFilepaths: true
   FlaggedTerms:
     whitelist:
-      Regex: !ruby/regexp '/white[-_\s]?list/'
+      Regex: --- !ruby/regexp '/white[-_\s]?list/'
       Suggestions:
         - allowlist
         - permit
     blacklist:
-      Regex: !ruby/regexp '/black[-_\s]?list/'
+      Regex: --- !ruby/regexp '/black[-_\s]?list/'
       Suggestions:
         - denylist
         - block
@@ -2882,7 +2876,7 @@ Style/BlockDelimiters:
     # unless AllowBracesOnProceduralOneLiners has a truthy value (see below).
     #
     # This looks at the usage
- of a block's method to determine its type (e.g. is
+    # of a block's method to determine its type (e.g. is
     # the result of a `map` assigned to a variable or passed to another
     # method) but exceptions are permitted in the `ProceduralMethods`,
     # `FunctionalMethods` and `IgnoredMethods` sections below.
@@ -4941,7 +4935,7 @@ Style/WordArray:
   # whose element count is greater than or equal to `MinSize`.
   MinSize: 2
   # The regular expression `WordRegex` decides what is considered a word.
-  WordRegex: !ruby/regexp '/\A(?:\p{Word}|\p{Word}-\p{Word}|\n|\t)+\z/'
+  WordRegex: --- !ruby/regexp '/\A(?:\p{Word}|\p{Word}-\p{Word}|\n|\t)+\z/'
 
 Style/YodaCondition:
   Description: 'Forbid or enforce yoda conditions.'
