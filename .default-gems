@@ -1,6 +1,7 @@
 bundler
 neovim
 solargraph
+solargraph-rails
 pry
 rubocop
 rubocop-rails
