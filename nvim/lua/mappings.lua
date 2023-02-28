@@ -30,3 +30,9 @@ vim.keymap.set("n", "L", "$", { noremap = true })
 vim.keymap.set("n", "<leader>o", ":only<cr>")
 vim.keymap.set("n", "<C-c>", ":bw<cr>") -- delete the buffer
 vim.keymap.set("n", "<leader>/", ":let @/ = ''<CR>") -- Clear the search register
+
+    -- nvim-tmux-navigation in the terminal -_
+vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", { noremap = true })
+vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", { noremap = true })
+vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", { noremap = true })
+vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", { noremap = true })
