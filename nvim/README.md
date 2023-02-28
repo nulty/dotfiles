@@ -1,6 +1,6 @@
 # NeoVim Config
 
-## Plugin Manger
+## Plugin Manager
 
 [lazy.nvim](https://github.com/folke/lazy.nvim)
 
@@ -12,6 +12,8 @@
 [OneDark](https://github.com/navarasu/onedark.nvim')
 
 ## Markdown
+
+[MarkdownPreview](https://github.com/iamcco/markdown-preview.nvim))
 
 ## LSP
 
@@ -32,6 +34,8 @@
 ## Git
 
 [Fugitive](https://github.com/tpope/vim-fugitive)
+[Gitsigns](https://github.com/lewis6991/gitsigns.nvim)
 
 ### LSP Installer
+
 [mason.nvim](https://github.com/williamboman/mason.nvim)
