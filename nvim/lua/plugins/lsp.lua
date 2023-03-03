@@ -1,3 +1,20 @@
+local function lsp_package_names(packages)
+  return vim.tbl_map(function(package)
+    local res
+    if vim.tbl_contains(package.spec.categories, "LSP") then
+      res = package.name
+    end
+    return res
+  end, packages)
+end
+
+local function load_server_config(server_name)
+  local path = "lsp_settings." .. server_name
+  if pcall(require, path) then
+    return require(path)
+  end
+end
+require('vim.lsp.log').set_format_func(vim.inspect)
 return {
   {
     "neovim/nvim-lspconfig",
@@ -6,8 +23,7 @@ return {
     },
     event = "BufEnter",
     config = function(plugin, _opts)
-      local config = require('lsp_setup').setup_event()
-      local servers = require 'mason-registry'.get_installed_package_names()
+      local names = lsp_package_names(require 'mason-registry'.get_installed_packages())
 
       -- lspconfig and mason use different names for some of the language servers
       -- So we need to map them here
@@ -17,20 +33,25 @@ return {
         ["typescript-language-server"] = "tsserver",
         ["lua-language-server"] = "lua_ls",
         ["stylelint-lsp"] = "stylelint_lsp",
+        ["emmet-ls"] = "emmet_ls",
         ["yamllint"] = "yamlls",
       }
-      --local capabilities = require('cmp_nvim_lsp').default_capabilities()
-      for _, server in pairs(servers) do
+
+      for _, server in pairs(names) do
+        local config
+        local base_config = require('lsp_config')
         local server_name = server_mapping[server] or server
-        local path = "lsp_settings." .. server_name
-        if pcall(require, path) then
-          local settings = require(path)
-          if settings then
-            config.settings = settings
-          end
+        local server_config = load_server_config(server_name)
+        if server_config then
+          config = vim.tbl_deep_extend("force", base_config, server_config)
+        else
+          config = base_config
         end
-        --config.capabilities = capabilities
-        require "lspconfig"[server_name].setup(config)
+
+        if server_name == "stylint_lsp" then
+        elseif server_name then
+          require "lspconfig"[server_name].setup(config)
+        end
       end
     end
   },
@@ -49,8 +70,20 @@ return {
     config = function()
       local null_ls = require 'null-ls'
       null_ls.setup {
-        source = {
-          null_ls.builtins.formatting.prettierd
+        debug = true,
+        sources = {
+          null_ls.builtins.diagnostics.eslint,
+          null_ls.builtins.formatting.prettier.with {
+            filetypes = {
+              "htmldjango",
+              "javascript",
+              "scss",
+              "css"
+            }
+          },
+          null_ls.builtins.formatting.stylelint,
+          -- null_ls.builtins.formatting.prettierd,
+          null_ls.builtins.formatting.black,
         }
       }
     end
