@@ -22,5 +22,15 @@ return {
     "kylechui/nvim-surround",
     event = "VeryLazy",
     config = true,
-  }
+  },
+  -- https://github.com/bkad/CamelCaseMotion
+  {
+    "bkad/CamelCaseMotion",
+    event = "VeryLazy",
+    keys = {
+      { "w", "<Plug>CamelCaseMotion_w", mode = { "v", "n" }, { silent = true } },
+      { "b", "<Plug>CamelCaseMotion_b", mode = { "v", "n" }, { silent = true } },
+      { "e", "<Plug>CamelCaseMotion_e", mode = { "v", "n" }, { silent = true } },
+    }
+  },
 }
