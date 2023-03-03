@@ -3,6 +3,7 @@ vim.g.leader = "\\"
 
 require"mappings"
 require"globals"
+require"logging"
 
 -- Lazy.nvim
 -- https://github.com/folke/lazy.nvim
