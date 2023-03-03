@@ -37,3 +37,6 @@ alias stop_containers="docker container stop "
 
 alias dsize="du --max-depth=1 -h"
 alias tailsp="tail -f ~/.cache/nvim/lsp.log"
+
+# Source Python virtualenv
+alias sp="source ./venv/bin/activate"
