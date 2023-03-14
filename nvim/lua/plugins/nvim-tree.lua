@@ -1,3 +1,9 @@
+local open_node_in_terminal  = function()
+  local api = require'nvim-tree.api'
+  local path = api.tree.get_node_under_cursor().absolute_path
+  vim.cmd("ToggleTerm size=15 dir="..path.." direction=horizontal")
+end
+
 return {
 	"nvim-tree/nvim-tree.lua",
 	dependencies =  {"nvim-tree/nvim-web-devicons"},
@@ -40,6 +46,7 @@ return {
 					{ key = "<Tab>", action = "preview" },
 					{ key = "K", action = "first_sibling" },
 					{ key = "J", action = "last_sibling" },
+					{ key = "<leader>T", action = "term_dir", action_cb=open_node_in_terminal },
 					{ key = "I", action = "toggle_git_ignored" },
 					{ key = "H", action = "toggle_dotfiles" },
 					{ key = "R", action = "refresh" },
