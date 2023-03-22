@@ -107,7 +107,7 @@ source ~/git-prompt.sh
 
 update_ps1() {
   # PS1="${debian_chroot:+($debian_chroot)}$txtgrn\u$txtrst $bldblu\w$bldylw$(__git_ps1 " (%s)")\[\033[00m\] $bldred\$$txtrst "
-  PS1="${debian_chroot:+($debian_chroot)}$txtgrn\u$txtrst $bldblu\w$bldylw$(__git_ps1 " (%s)") $bldred\$$txtrst "
+  PS1="$VIRTUAL_ENV_PROMPT${debian_chroot:+($debian_chroot)}$txtgrn\u$txtrst $bldblu\w$bldylw$(__git_ps1 " (%s)") $bldred\$$txtrst "
 }
 PROMPT_COMMAND=update_ps1
 
