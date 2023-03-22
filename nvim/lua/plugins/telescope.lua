@@ -9,7 +9,8 @@ return {
     keys = {
       { "<leader>t", ":Telescope find_files<cr>" },
       { "<leader>b", ":Telescope buffers<cr>" },
-      { "<leader>m", ":Telescope keymaps<cr>" }
+      { "<leader>m", ":Telescope keymaps<cr>" },
+      { "<leader>f", ":Telescope live_grep<cr>" },
     }
   }
 }
