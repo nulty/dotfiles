@@ -13,5 +13,9 @@ return {
     "iamcco/markdown-preview.nvim",
     build = 'cd app && yarn install',
     ft = { "markdown" },
-  }
+  },
+  {
+    "vim-crystal/vim-crystal",
+    event = "BufEnter"
+  },
 }
