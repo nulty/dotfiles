@@ -35,6 +35,7 @@ return {
         ["lua-language-server"] = "lua_ls",
         ["stylelint-lsp"] = "stylelint_lsp",
         ["emmet-ls"] = "emmet_ls",
+        ["css-lsp"] = "cssls",
         ["yamllint"] = "yamlls",
       }
 
