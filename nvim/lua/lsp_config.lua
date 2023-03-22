@@ -27,7 +27,7 @@ local on_attach = function(client, buf)
     vim.lsp.buf.format({
       async = true,
       filter = function(fn_client)
-        return fn_client.name == "null-ls" or fn_client.name == "lua_ls"
+        return fn_client.name == "null-ls" or fn_client.name == "lua_ls" or fn_client.name == "solargraph"
       end
     })
   end, lua_opts)
