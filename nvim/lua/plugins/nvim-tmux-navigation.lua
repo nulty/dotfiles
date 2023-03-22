@@ -1,0 +1,31 @@
+return {
+	{
+		"alexghergh/nvim-tmux-navigation",
+		keys = {
+			{
+				"<c-j>",
+				function()
+					require('nvim-tmux-navigation').NvimTmuxNavigateDown()
+				end,
+			},
+			{
+				"<c-k>",
+				function()
+					require('nvim-tmux-navigation').NvimTmuxNavigateUp()
+				end,
+			},
+			{
+				"<c-h>",
+				function()
+					require('nvim-tmux-navigation').NvimTmuxNavigateLeft()
+				end,
+			},
+			{
+				"<c-l>",
+				function()
+					require('nvim-tmux-navigation').NvimTmuxNavigateRight()
+				end,
+			},
+		}
+	}
+}
