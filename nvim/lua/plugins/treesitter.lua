@@ -2,6 +2,7 @@ return {
   {
     -- https://github.com/nvim-treesitter/nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
+    version = false,
     event = "BufEnter",
     build = ":TSUpdate",
     opts = {
@@ -25,7 +26,6 @@ return {
         "lua",
         "markdown",
         "markdown_inline",
-        "query",
         "regex",
         "ruby",
         "rust",
@@ -35,5 +35,9 @@ return {
         "yaml",
       },
     },
+    ---@param opts TSConfig
+    config = function(_, opts)
+      require("nvim-treesitter.configs").setup(opts)
+    end,
   }
 }
