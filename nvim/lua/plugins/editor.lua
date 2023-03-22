@@ -18,4 +18,12 @@ return {
     "vim-crystal/vim-crystal",
     event = "BufEnter"
   },
+  {
+    "tpope/vim-rhubarb",
+    event = "BufEnter"
+  },
+  {
+    "tpope/vim-rails",
+    event = "BufEnter"
+  },
 }
