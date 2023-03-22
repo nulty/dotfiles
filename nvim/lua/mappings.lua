@@ -36,3 +36,10 @@ vim.keymap.set("t", "<C-h>", "<C-\\><C-N><C-w>h", { noremap = true })
 vim.keymap.set("t", "<C-j>", "<C-\\><C-N><C-w>j", { noremap = true })
 vim.keymap.set("t", "<C-k>", "<C-\\><C-N><C-w>k", { noremap = true })
 vim.keymap.set("t", "<C-l>", "<C-\\><C-N><C-w>l", { noremap = true })
+
+-- Tabs
+vim.keymap.set("n", "Te", ":tabe<cr>")
+vim.keymap.set("n", "Tc", ":tabc<cr>")
+vim.keymap.set("n", "Tn", ":tabn<cr>")
+vim.keymap.set("n", "Tp", ":tabp<cr>")
+
