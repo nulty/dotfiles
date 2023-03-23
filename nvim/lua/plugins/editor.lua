@@ -26,4 +26,12 @@ return {
     "tpope/vim-rails",
     event = "BufEnter"
   },
+  {
+    -- https://github.com/junegunn/vim-easy-align
+    "junegunn/vim-easy-align",
+    event = "BufEnter",
+    keys = {
+      { 'ga', '<Plug>(EasyAlign)', mode = { 'o', 'x', 'v', 's', 'l' } }
+    }
+  }
 }
