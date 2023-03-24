@@ -1,7 +1,7 @@
 return {
   init_options = {
     userLanguages = {
-      htmldjango = "django-html"
+      htmldjango = "django-html",
       eruby = "django-html"
     }
   }
