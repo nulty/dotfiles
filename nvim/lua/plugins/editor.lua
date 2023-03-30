@@ -33,5 +33,10 @@ return {
     keys = {
       { 'ga', '<Plug>(EasyAlign)', mode = { 'o', 'x', 'v', 's', 'l' } }
     }
-  }
+  },
+  {
+    -- https://github.com/sindrets/winshift.nvim
+    "sindrets/winshift.nvim",
+    event = "VeryLazy",
+  },
 }

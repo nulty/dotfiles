@@ -44,6 +44,12 @@ vim.keymap.set("n", "Tc", ":tabc<cr>")
 vim.keymap.set("n", "Tn", ":tabn<cr>")
 vim.keymap.set("n", "Tp", ":tabp<cr>")
 
+-- Move windows
+vim.keymap.set("n", "<M-l>", ":WinShift right<cr>")
+vim.keymap.set("n", "<M-k>", ":WinShift up<cr>")
+vim.keymap.set("n", "<M-h>", ":WinShift left<cr>")
+vim.keymap.set("n", "<M-j>", ":WinShift down<cr>")
+
 -- Autocommands
 vim.api.nvim_create_autocmd({ "BufEnter" },
   {
