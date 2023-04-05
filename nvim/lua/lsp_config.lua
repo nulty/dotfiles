@@ -44,6 +44,11 @@ local on_attach = function(client, buf)
   end
 end
 
+vim.api.nvim_create_user_command("LspClearLog", function()
+  local log_path = vim.lsp.get_log_path()
+  io.popen("truncate -s 0 " .. log_path)
+end, {})
+
 return {
   on_attach = on_attach,
   capabilities = require("cmp_nvim_lsp").default_capabilities()
