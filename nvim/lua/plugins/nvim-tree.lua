@@ -2,6 +2,7 @@
 return {
   "nvim-tree/nvim-tree.lua",
   dependencies = { "nvim-tree/nvim-web-devicons" },
+  commit = "d1410cb", -- https://www.github.com/nvim-tree/nvim-tree.lua/compare/7cd722ff3abbad96b3e7d55713bed319043c3d1e..master
   init = function()
     -- nvim-tree suggests using a custom function to handle open on startup
     -- https://github.com/nvim-tree/nvim-tree.lua/wiki/Open-At-Startup
