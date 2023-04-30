@@ -50,8 +50,7 @@ return {
           config = base_config
         end
 
-        if server_name == "stylint_lsp" then
-        elseif server_name then
+        if server_name then
           require "lspconfig"[server_name].setup(config)
         end
       end
@@ -79,11 +78,14 @@ return {
             filetypes = {
               "htmldjango",
               "javascript",
+              "eruby",
               "scss",
               "css"
             }
           },
           null_ls.builtins.formatting.stylelint,
+          -- gem install erb_formatter
+          null_ls.builtins.formatting.erb_format,
           -- null_ls.builtins.formatting.prettierd,
           null_ls.builtins.formatting.black,
         }
