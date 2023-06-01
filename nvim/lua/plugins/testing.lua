@@ -8,6 +8,7 @@ return {
       "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/neotest-plenary",
       "olimorris/neotest-rspec", -- https://github.com/olimorris/neotest-rspec
+      "zidhuss/neotest-minitest", -- https://github.com/zidhuss/neotest-minitest
       {
         "stevearc/overseer.nvim", -- https://github.com/stevearc/overseer.nvim
         config = function()
@@ -15,6 +16,7 @@ return {
         end,
       },
     },
+    version = "2.6.1",
     lazy = false,
     -- stylua: ignore
     keys = {
@@ -59,14 +61,15 @@ return {
         adapters = {
           -- require("neotest-plenary"),
           require('neotest-rspec'),
+          require('neotest-minitest'),
         },
         consumers = {
           overseer = require("neotest.consumers.overseer"),
         },
-        -- overseer = {
-        --   enabled = true,
-        --   force_default = true,
-        -- },
+        overseer = {
+          enabled = true,
+          force_default = true,
+        },
       }
       require("neotest").setup(opts)
     end
