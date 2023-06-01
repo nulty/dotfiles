@@ -39,4 +39,10 @@ return {
     "sindrets/winshift.nvim",
     event = "VeryLazy",
   },
+  {
+    -- https://github.com/dkarter/bullets.vim
+    "dkarter/bullets.vim",
+    event = "BufEnter",
+    ft = { "markdown", "text", "gitcommit" },
+  },
 }
