@@ -100,7 +100,7 @@ return {
       vim.keymap.set('n', 'q', api.tree.close, opts('Close'))
       vim.keymap.set('n', 'r', api.fs.rename, opts('Rename'))
       vim.keymap.set('n', 'R', api.tree.reload, opts('Refresh'))
-      vim.keymap.set('n', 's', api.node.run.system, opts('Run System'))
+      vim.keymap.set('n', 'u', api.node.run.system, opts('Run System'))
       vim.keymap.set('n', 'S', api.tree.search_node, opts('Search'))
       vim.keymap.set('n', 'U', api.tree.toggle_custom_filter, opts('Toggle Hidden'))
       vim.keymap.set('n', 'W', api.tree.collapse_all, opts('Collapse'))
@@ -111,6 +111,7 @@ return {
       vim.keymap.set('n', '<2-RightMouse>', api.tree.change_root_to_node, opts('CD'))
 
       -- Custom keymaps
+      vim.keymap.set('n', 's', api.node.open.vertical, opts('Open: Vertical Split'))
       vim.keymap.set('n', 'l', api.node.open.edit, opts('Open'))
       vim.keymap.set('n', '<leader>T', open_node_in_terminal, opts('Open in Terminal'))
     end,
@@ -119,14 +120,14 @@ return {
     {
       "<leader>'",
       function()
-        require("nvim-tree").toggle()
+        require("nvim-tree.api").tree.toggle()
       end,
       desc = "Toggle open/close nvim-tree"
     },
     {
       "<leader>F",
       function()
-        require("nvim-tree").open({ find_file = true })
+        require("nvim-tree.api").tree.find_file({ open = true, focus = true })
       end,
       desc = "Find the current file in nvim-tree"
     }
