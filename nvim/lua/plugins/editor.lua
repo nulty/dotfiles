@@ -24,7 +24,10 @@ return {
   },
   {
     "tpope/vim-rails",
-    event = "BufEnter"
+    event = "BufEnter",
+    cond = function()
+      return vim.fn.filereadable("Gemfile") == 1
+    end
   },
   {
     -- https://github.com/junegunn/vim-easy-align
