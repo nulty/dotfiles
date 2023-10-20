@@ -33,3 +33,5 @@
   useConfigOnly = true
 [push]
   default = current
+[safe]
+	directory = /opt/.asdf
