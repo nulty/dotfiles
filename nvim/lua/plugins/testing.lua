@@ -16,7 +16,7 @@ return {
         end,
       },
     },
-    version = "2.6.1",
+    version = "4.4.1",
     lazy = false,
     -- stylua: ignore
     keys = {
