@@ -7,8 +7,22 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/neotest-plenary",
-      "olimorris/neotest-rspec", -- https://github.com/olimorris/neotest-rspec
-      "zidhuss/neotest-minitest", -- https://github.com/zidhuss/neotest-minitest
+      "olimorris/neotest-rspec",    -- https://github.com/olimorris/neotest-rspec
+      {
+        "zidhuss/neotest-minitest", -- https://github.com/zidhuss/neotest-minitest
+        confit = function(_config)
+          require('neotest-minitest').setup({
+            test_cmd = function()
+              return vim.tbl_flatten({
+                "bundle",
+                "exec",
+                "rails",
+                "test",
+              })
+            end
+          })
+        end
+      },
       {
         "stevearc/overseer.nvim", -- https://github.com/stevearc/overseer.nvim
         version = "1.3.0",
