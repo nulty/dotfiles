@@ -11,6 +11,7 @@ return {
       "zidhuss/neotest-minitest", -- https://github.com/zidhuss/neotest-minitest
       {
         "stevearc/overseer.nvim", -- https://github.com/stevearc/overseer.nvim
+        version = "1.3.0",
         config = function()
           require("overseer").setup()
         end,
