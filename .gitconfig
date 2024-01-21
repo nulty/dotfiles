@@ -3,20 +3,20 @@
 	c = checkout
 	co = commit
 	br = branch
-  d = diff
-  ds = diff --staged
-  pu = push
-  pf = pull --ff
-  st = stash --global -e
-  sts = stash show stash
-  stl = stash -l
-  cgl = config --global -l
-  cge = config --global -e
-  cll = config --local -l
-  cle = config --local -e
-  rh = reset --hard
-  rso = remote show origin
-  alias = config --get-regexp ^alias
+	d = diff
+	ds = diff --staged
+	pu = push
+	pf = pull --ff
+	st = stash --global -e
+	sts = stash show stash
+	stl = stash -l
+	cgl = config --global -l
+	cge = config --global -e
+	cll = config --local -l
+	cle = config --local -e
+	rh = reset --hard
+	rso = remote show origin
+	alias = config --get-regexp ^alias
 	unstage = reset HEAD --
 	l = log
 	lo = log --oneline --decorate
@@ -30,8 +30,12 @@
 	email = iain@inulty.com
 	name = Iain McNulty
 	signingKey = ECD99B46
-  useConfigOnly = true
+	useConfigOnly = true
 [push]
-  default = current
+	default = current
+[pull]
+	rebase = true
+[date]
+	date = iso
 [safe]
 	directory = /opt/.asdf
