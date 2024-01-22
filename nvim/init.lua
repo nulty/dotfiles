@@ -1,5 +1,9 @@
 -- Global
-vim.g.leader = "\\"
+if vim.loop.os_uname().sysname == "mac" then
+  vim.g.leader = "`"
+else
+  vim.g.leader = "\\"
+end
 
 require"mappings"
 require"globals"
@@ -43,3 +47,12 @@ require("lazy").setup("plugins", {
   },
 })
 
+-- nvim-tree config disables netrw so for :GBrowse, vim-fugitive needs
+-- a :Browse command to define how to open a url
+if vim.fn.has("mac") then
+  vim.api.nvim_create_user_command('Browse', "!xdg-open <f-args>", {})
+  -- command! -nargs=1 Browse silent exe "!xdg-open ' . "<args>"
+else
+  vim.api.nvim_create_user_command('Browse', "!open <args>", {})
+  -- command! -nargs=1 Browse silent exe "!open ' . "<args>"
+end
