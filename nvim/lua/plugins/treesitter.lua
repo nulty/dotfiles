@@ -5,6 +5,11 @@ return {
     version = false,
     event = "BufEnter",
     build = ":TSUpdate",
+    init = function()
+      -- if os.execute("npm ls -g tree-sitter-cli") ~= 0 then
+      --   os.execute("npm install -g tree-sitter-cli")
+      -- end
+    end,
     opts = {
       -- installation directory: ~/.local/share/nvim/lazy/nvim-treesitter/parser
       ensure_installed = {
