@@ -13,6 +13,7 @@ return {
     opts = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
+      local icons = require "icons"
 
       return {
         completion = {
@@ -68,8 +69,10 @@ return {
           }
         },
         formatting = {
+          fields = { "kind", "abbr", "menu" },
           format = function(entry, vim_item)
-            vim_item.kind = string.format('%s', vim_item.kind)
+            -- vim_item.kind = string.format('%s', vim_item.kind)
+            vim_item.kind = icons.kind[vim_item.kind]
 
             vim_item.menu = ({
                   buffer = "[Buffer]",
