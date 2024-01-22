@@ -44,5 +44,12 @@ return {
     config = function(_, opts)
       require("nvim-treesitter.configs").setup(opts)
     end,
+  },
+  {
+    "nvim-treesitter/playground",
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter"
+    },
   }
 }
