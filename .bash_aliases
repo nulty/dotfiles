@@ -30,7 +30,7 @@ alias pg_conf="sudo su -c'vim /etc/postgresql/9.6/main/postgresql.conf'"
 alias vimalias="vim ~/.bash_aliases"
 alias copyvimconfig="cp ~/.config/nvim/init.vim ."
 
-alias delete_merged="git co master && git br --merged | egrep -v '(master|staging)' | xargs -I% git br -d % && git co"
+alias delete_merged="git c main && git br --merged | egrep -v '(main|staging)' | xargs -I% git br -d % && git c"
 
 alias routes_filtered="bundle exec rails routes | grep '/api/' | awk '{if(\$1 ~ /[A-Z]/) { print \$1\"\t\"\$2 } else { print \$2 \"\t\" \$3 }}' | sort"
 alias stop_containers="docker container stop "
