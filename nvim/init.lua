@@ -19,10 +19,9 @@ if not vim.loop.fs_stat(lazypath) then
   })
 end
 vim.opt.rtp:prepend(lazypath)
-
 require("lazy").setup("plugins", {
 	defaults = {
-		lazy = true
+    version = "v10.14.6"
 	},
 	change_detection = {
 		notify = false -- Stops blocking message in the cmd line from appearing
