@@ -17,6 +17,7 @@ return {
 
       return {
         completion = {
+          border = "rounded",
           completeopt = "menu,menuone,noinsert",
         },
         snippet = {
@@ -68,6 +69,20 @@ return {
             cmp.config.compare.kind,
           }
         },
+        window = {
+          completion = {
+            border = "rounded",
+            winhighlight = "Normal:Pmenu,CursorLine:PmenuSel,FloatBorder:FloatBorder,Search:None",
+            col_offset = -3,
+            side_padding = 1,
+            scrollbar = false,
+            scrolloff = 8,
+          },
+          documentation = {
+            border = "rounded",
+            winhighlight = "Normal:Pmenu,FloatBorder:FloatBorder,Search:None",
+          },
+        },
         formatting = {
           fields = { "kind", "abbr", "menu" },
           format = function(entry, vim_item)
@@ -75,9 +90,9 @@ return {
             vim_item.kind = icons.kind[vim_item.kind]
 
             vim_item.menu = ({
-                  buffer = "[Buffer]",
+                  buffer = "[Buf]",
                   nvim_lsp = "[LSP]",
-                  luasnip = "[LuaSnip]",
+                  luasnip = "[Snip]",
                   nvim_lua = "[Lua]",
                   latex_symbols = "[LaTeX]",
                 })[entry.source.name]
