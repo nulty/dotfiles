@@ -11,6 +11,7 @@ return {
       { "<leader>m", ":Telescope keymaps<cr>" },
       { "<leader>f", ":Telescope live_grep<cr>" },
       { "<leader>g", ":Telescope dir live_grep<cr>" },
+      { "<leader>cb", ":Telescope git_branches<cr>" },
     },
     config = function()
       require('telescope').setup({
