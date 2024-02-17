@@ -107,12 +107,9 @@ return {
           null_ls.builtins.diagnostics.eslint,
           null_ls.builtins.formatting.erb_lint,
           null_ls.builtins.formatting.prettier.with {
-            filetypes = {
-              "htmldjango",
-              "javascript",
-              "eruby",
-              "scss",
-              "css"
+            -- extra_args = { "--html-whitespace-sensitivity", "ignore" },
+            disabled_filetypes = {
+              'eruby'
             }
           },
           null_ls.builtins.diagnostics.erb_lint,
