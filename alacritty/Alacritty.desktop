@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 TryExec=alacritty
-Exec=alacritty -e /home/iain/.asdf/shims/tmux
+Exec=alacritty -e /usr/local/.local/data/mise/installs/tmux/3.2/bin/tmux
 Icon=Alacritty
 Terminal=false
 Categories=System;TerminalEmulator;

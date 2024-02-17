@@ -174,9 +174,6 @@ fi
 # Set EDITOR
 export EDITOR=nvim
 
-# asdf
-[ -f ~/.asdf/asdf.sh ] && source ~/.asdf/asdf.sh
-[ -f ~/.asdf/completions/asdf.bash ] && source  ~/.asdf/completions/asdf.bash
 # autojump
 [ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
 # alacritty
@@ -195,7 +192,6 @@ export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 # export PGDATA2=/media/iain/Samsung_T5/
-export VIMRC=~/.config/nvim/init.vim
 
 clearlog() {
   truncate -s 0 ~/.local/state/nvim/lsp.log
@@ -226,3 +222,10 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
+
+## Mise config
+export MISE_CACHE_DIR=/usr/local/.cache/mise/
+export MISE_CONFIG_DIR=/usr/local/.config/mise/
+export MISE_DATA_DIR=/usr/local/.local/data/mise/
+export MISE_STATE_DIR=/usr/local/.local/state/mise/
+eval "$(/usr/local/bin/mise activate bash)"

@@ -10,14 +10,14 @@ return {
           '?.lua',
           '?/init.lua',
           -- All lua files from the Lua install on the system
-          vim.fn.expand '~/.asdf/installs/lua/5.1.5/luarocks/share/lua/5.1/luarocks/?.lua',
-          vim.fn.expand '~/.asdf/installs/lua/5.1.5/luarocks/share/lua/5.1/luarocks/?/init.lua',
+          vim.fn.expand '/usr/local/.local/data/mise/installs/lua/5.1.5/luarocks/share/lua/5.1/luarocks/?.lua',
+          vim.fn.expand '/usr/local/.local/data/mise/installs/lua/5.1.5/luarocks/share/lua/5.1/luarocks/?/init.lua',
 
           -- All lua files in core neovim
           vim.split(package.path, ';', { trimempty = true }),
           --vim.split(package.cpath, ';', { trimempty = true }),
           -- All lua files in installed packages
-          vim.fn.expand '~/.local/share/nvim/lazy/?/?.lua',
+          vim.fn.expand '/usr/local/share/nvim/lazy/?/?.lua',
         },
         -- ***Formatting is controlled by .editorconfig***
         -- format = {
@@ -43,7 +43,7 @@ return {
         -- Make the server aware of Neovim runtime files
         -- library = vim.api.nvim_get_runtime_file("", true),
         library = {
-          vim.api.nvim_get_runtime_file("", true),
+          vim.env.VIMRUNTIME,
           [vim.fn.expand('$VIMRUNTIME/**/*.lua')] = true,
           -- [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp/*')] = true,
         },

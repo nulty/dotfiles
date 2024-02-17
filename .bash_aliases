@@ -1,5 +1,4 @@
-alias vim="/usr/local/bin/nvim"
-
+alias vim="XDG_DATA_HOME=/usr/local/share XDG_CONFIG_HOME=/etc/xdg /usr/bin/nvim"
 # Generate Ctags for a project
 #alias genctags="ctags -R --exclude=node_modules --exclude=public"
 # alias genctags="ctags -R --exclude=public"
