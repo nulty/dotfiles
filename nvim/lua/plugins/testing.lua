@@ -87,6 +87,8 @@ return {
         },
       }
       require("neotest").setup(opts)
+
+      vim.cmd([[hi NeotestDir guifg=#ffffff]])
     end
   }
 }
