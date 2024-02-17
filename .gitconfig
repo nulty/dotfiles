@@ -35,7 +35,15 @@
 	default = current
 [pull]
 	rebase = true
+	ff = true
 [date]
 	date = iso
 [safe]
 	directory = /opt/.asdf
+[branch]
+	sort = -committerdate
+[rerere]
+	enabled = true
+	autoUpdate = true
+[init]
+	defaultBranch = main
