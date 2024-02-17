@@ -11,6 +11,9 @@ return {
       -- end
     end,
     opts = {
+      highlight = {
+        enable = true
+      },
       -- installation directory: ~/.local/share/nvim/lazy/nvim-treesitter/parser
       ensure_installed = {
         "bash",
