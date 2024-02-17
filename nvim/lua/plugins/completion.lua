@@ -28,7 +28,7 @@ return {
         },
         mapping = cmp.mapping.preset.insert({
           ["<Tab>"] = cmp.mapping(function(fallback)
-            if cmp.visible() and not luasnip.expand_or_locally_jumpable() then
+            if cmp.visible() then
               cmp.confirm({ select = true })
             elseif luasnip.expand_or_locally_jumpable() then
               luasnip.expand_or_jump()
