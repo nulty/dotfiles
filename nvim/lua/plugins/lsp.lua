@@ -29,6 +29,7 @@ return {
       -- So we need to map them here
       -- ["mason"] = "lspconfig",
       local server_mapping = {
+        ["html-lsp"] = "html",
         ["bash-language-server"] = "bashls",
         ["tailwindcss-language-server"] = "tailwindcss",
         ["typescript-language-server"] = "tsserver",
