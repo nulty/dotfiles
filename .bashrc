@@ -104,6 +104,7 @@ GIT_PS1_SHOWSTASHSTATE=1
 GIT_PS1_SHOWUPSTREAM="auto"
 
 source ~/git-prompt.sh
+source ~/git-completion.bash
 
 update_ps1() {
   # PS1="${debian_chroot:+($debian_chroot)}$txtgrn\u$txtrst $bldblu\w$bldylw$(__git_ps1 " (%s)")\[\033[00m\] $bldred\$$txtrst "
