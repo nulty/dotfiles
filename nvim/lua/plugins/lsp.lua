@@ -30,6 +30,7 @@ return {
       -- ["mason"] = "lspconfig",
       local server_mapping = {
         ["html-lsp"] = "html",
+        ["json-lsp"] = "jsonls",
         ["bash-language-server"] = "bashls",
         ["tailwindcss-language-server"] = "tailwindcss",
         ["typescript-language-server"] = "tsserver",
@@ -38,6 +39,7 @@ return {
         ["emmet-ls"] = "emmet_ls",
         ["css-lsp"] = "cssls",
         ["yamllint"] = "yamlls",
+        ["yaml-language-server"] = "yamlls",
       }
 
       for _, server in pairs(names) do
@@ -52,6 +54,33 @@ return {
         end
 
         if server_name == "cssls" then
+        elseif server_name == "yamlls" then
+          config = vim.tbl_deep_extend("force", base_config, {
+            settings = {
+              yaml = {
+                schemaStore = {
+                  enable = false,
+                  url = "",
+                },
+                schemas = require('schemastore').yaml.schemas(),
+              },
+            },
+          })
+
+          require 'lspconfig'.yamlls.setup(config)
+        elseif server_name == "jsonls" then
+          config = vim.tbl_deep_extend("force", base_config, {
+            capabilities = base_config.capabilities,
+            settings = {
+              json = {
+                schemas = require('schemastore').json.schemas(),
+                validate = { enable = true },
+              },
+            },
+            -- The rest of your jslonls settings
+          })
+
+          require 'lspconfig'.jsonls.setup(config)
         else
           require "lspconfig"[server_name].setup(config)
         end

@@ -48,4 +48,9 @@ return {
     event = "BufEnter",
     ft = { "markdown", "text", "gitcommit" },
   },
+  {
+    -- https://github.com/b0o/SchemaStore.nvim
+    "b0o/SchemaStore.nvim",
+    event = "BufEnter"
+  },
 }
