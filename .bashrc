@@ -204,7 +204,7 @@ clearlog() {
 # added by travis gem
 # [ -f /home/iain/.travis/travis.sh ] && source /home/iain/.travis/travis.sh
 
-export PATH=$PATH:~/.local/share/nvim/mason/bin/
+export PATH=$PATH:/usr/local/share/nvim/mason/bin/
 
 # Trap USR1 to reload the config
 trap 'source ~/.bashrc' SIGUSR1
