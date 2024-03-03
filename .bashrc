@@ -224,6 +224,10 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+ppath() {
+  echo $PATH | tr ':' '\n'
+}
+
 ## Mise config
 export MISE_CACHE_DIR=/usr/local/.cache/mise/
 export MISE_CONFIG_DIR=/usr/local/.config/mise/
