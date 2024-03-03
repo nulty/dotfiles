@@ -192,7 +192,6 @@ export PATH=$PATH:$ANDROID_HOME/emulator
 export PATH=$PATH:$ANDROID_HOME/tools
 export PATH=$PATH:$ANDROID_HOME/tools/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
-# export PGDATA2=/media/iain/Samsung_T5/
 
 clearlog() {
   truncate -s 0 ~/.local/state/nvim/lsp.log
@@ -201,17 +200,12 @@ clearlog() {
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # source ~/.bash_completion/alacritty
 
-# added by travis gem
-# [ -f /home/iain/.travis/travis.sh ] && source /home/iain/.travis/travis.sh
-
 export PATH=$PATH:/usr/local/share/nvim/mason/bin/
 
-# Trap USR1 to reload the config
-trap 'source ~/.bashrc' SIGUSR1
 
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('$HOME/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+__conda_setup="$("$HOME/anaconda3/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
 if [ $? -eq 0 ]; then
     eval "$__conda_setup"
 else
