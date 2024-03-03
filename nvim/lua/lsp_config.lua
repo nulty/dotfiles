@@ -35,13 +35,13 @@ local on_attach = function(client, buf)
 
   -- Set autocommands conditional on server_capabilities
   if client.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_exec([[
+    vim.api.nvim_exec2([[
 		augroup lsp_document_highlight
 		autocmd! * <buffer>
 		autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
 		autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 		augroup END
-		]], false)
+		]])
   end
 end
 
@@ -50,9 +50,14 @@ vim.api.nvim_create_user_command("LspClearLog", function()
   io.popen("truncate -s 0 " .. log_path)
 end, {})
 
+local capabilities = vim.tbl_deep_extend("force",
+  vim.lsp.protocol.make_client_capabilities(),
+  require('cmp_nvim_lsp').default_capabilities()
+)
+
 return {
   on_attach = on_attach,
-  capabilities = require("cmp_nvim_lsp").default_capabilities()
+  capabilities = capabilities
   --settings
   --filetypes
   --init_options
