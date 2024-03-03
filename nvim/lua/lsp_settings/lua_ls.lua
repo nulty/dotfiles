@@ -4,31 +4,6 @@ return {
       runtime = {
         -- LuaJIT in the case of Neovim
         version = 'LuaJIT',
-        path = {
-          -- '/usr/local/share/nvim/runtime/?/?.lua',
-          -- All lua files in the current directory
-          '?.lua',
-          '?/init.lua',
-          -- All lua files from the Lua install on the system
-          vim.fn.expand '/usr/local/.local/data/mise/installs/lua/5.1.5/luarocks/share/lua/5.1/luarocks/?.lua',
-          vim.fn.expand '/usr/local/.local/data/mise/installs/lua/5.1.5/luarocks/share/lua/5.1/luarocks/?/init.lua',
-
-          -- All lua files in core neovim
-          vim.split(package.path, ';', { trimempty = true }),
-          --vim.split(package.cpath, ';', { trimempty = true }),
-          -- All lua files in installed packages
-          vim.fn.expand '/usr/local/share/nvim/lazy/?/?.lua',
-        },
-        -- ***Formatting is controlled by .editorconfig***
-        -- format = {
-        --   enable = true,
-        --   -- Put format options here
-        --   -- NOTE: the value should be STRING!!
-        --   defaultConfig = {
-        --     indent_style = "space",
-        --     indent_size = "4",
-        --   }
-        -- },
       },
 
       diagnostics = {
@@ -42,11 +17,14 @@ return {
       workspace = {
         -- Make the server aware of Neovim runtime files
         -- library = vim.api.nvim_get_runtime_file("", true),
-        library = {
-          vim.env.VIMRUNTIME,
-          [vim.fn.expand('$VIMRUNTIME/**/*.lua')] = true,
-          -- [vim.fn.expand('$VIMRUNTIME/lua/vim/lsp/*')] = true,
-        },
+        checkThirdParty = true,
+        -- libarary = {
+        --   unpack(vim.api.nvim_get_runtime_file('', true)),
+        --   -- "${3rd}/luv/library",
+        --   -- "${3rd}/busted/library",
+        --   vim.env.VIMRUNTIME,
+        -- },
+        library = vim.api.nvim_get_runtime_file('', true),
       },
     }
   }
