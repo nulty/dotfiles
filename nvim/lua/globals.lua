@@ -1,4 +1,3 @@
 P = function(inp)
-	print(vim.inspect(inp))
+  vim.print(inp)
 end
-
