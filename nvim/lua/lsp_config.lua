@@ -46,8 +46,10 @@ local on_attach = function(client, buf)
 end
 
 vim.api.nvim_create_user_command("LspClearLog", function()
-  local log_path = vim.lsp.get_log_path()
-  io.popen("truncate -s 0 " .. log_path)
+  local lsp_log_path = vim.lsp.get_log_path()
+  local null_ls_log_path = require'null-ls.logger'.get_path()
+  io.popen("truncate -s 0 " .. lsp_log_path)
+  io.popen("truncate -s 0 " .. null_ls_log_path)
 end, {})
 
 local capabilities = vim.tbl_deep_extend("force",
