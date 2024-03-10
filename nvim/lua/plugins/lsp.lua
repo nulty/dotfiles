@@ -28,6 +28,7 @@ return {
       --   'crystalline',
       --   'cssls',
       --   'emmet_ls',
+      --   'eslint-ls',
       --   'erb_lint',
       --   'html',
       --   'htmlhint',
@@ -57,6 +58,7 @@ return {
     end
   },
   {
+    -- https://github.com/nvimtools/none-ls.nvim
     "nvimtools/none-ls.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim"
@@ -70,9 +72,8 @@ return {
           null_ls.builtins.formatting.erb_lint,
           null_ls.builtins.formatting.prettier.with {
             -- extra_args = { "--html-whitespace-sensitivity", "ignore" },
-            disabled_filetypes = {
-              'eruby'
-            }
+            extra_filetypes = { "astro" },
+            disabled_filetypes = { 'eruby' }
           },
           null_ls.builtins.diagnostics.erb_lint,
           null_ls.builtins.formatting.stylelint,
