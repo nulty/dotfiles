@@ -67,19 +67,12 @@ return {
       null_ls.setup {
         debug = true,
         sources = {
-          null_ls.builtins.diagnostics.eslint.with {
-            disabled_filetypes = { 'typescriptreact' }
-
-          },
           null_ls.builtins.formatting.erb_lint,
           null_ls.builtins.formatting.prettier.with {
             -- extra_args = { "--html-whitespace-sensitivity", "ignore" },
             disabled_filetypes = {
               'eruby'
             }
-          },
-          null_ls.builtins.formatting.eslint.with {
-            disabled_filetypes = { 'typescriptreact' }
           },
           null_ls.builtins.diagnostics.erb_lint,
           null_ls.builtins.formatting.stylelint,
