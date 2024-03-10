@@ -1,3 +1,4 @@
 nvim/plugged/*
 .solargraph.yml
 node_modules/
+.privaterc
