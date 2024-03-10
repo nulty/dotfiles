@@ -11,5 +11,6 @@
   ".bash_aliases": "~/.bash_aliases",
   ".eslintrc.yml": "~/.eslintrc.yml",
   ".scss-lint.yml": "~/.scss-lint.yml",
-  "nvim": "~/.config/nvim"
+  "nvim": "/usr/local/.config/nvim",
+  "tmux.conf": "~/.config/tmux/tmux.conf"
 }

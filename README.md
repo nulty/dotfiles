@@ -15,38 +15,54 @@ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | 
 3. Set up tmux
   a. Set up tmux tpm
   b. Prefix + I (Prefix and then capital I to install the plugins
+4. Install neovim LSPs
+
 
 
 ## Packages
   - git
   - curl
   - pass
+  - acl
   - autojump
+  - fontmanager
   - gnupg
   - unzip
   - xclip
   - ripgrep
-  - jp
+  - jq
   - bleachbit
   - fd-files
 
 ## Programs
- - nvim '0.8.1'
- - tmux '3.2'
- - asdf '0.10.2'
+ - nvim '0.9.5'
+ - tmux '3.2a'
+ - mise '0.10.2'
    * lua '5.1'
-   * ruby '3.1.2'
-   * node '18.12.1'
+   * ruby '3.2.3'
+   * node '20.10.0'
    * python '3.10.6'
-   * rust '1.63.0'
- - alacritty '0.7.2'
+   * rust '1.75.0'
+ - alacritty '0.12.3'
      
 
 ## NeoVim plugins
 
 See nvim [README.md](nvim/README.md)
 
+# Autoinstall
+
+ 1. Create a group devs and add your user to it
+     a. `sudo groupadd devs && addgroup $USER devs`
+ 2. You need to restart to be added to the group
+
 ## Testing 
+
+
+### Virtual Box
+sudo apt-get install virtualbox virtualbox-guest-additions-iso
+
+### Docker
 
 Build and tag the docker container.
 ```shell

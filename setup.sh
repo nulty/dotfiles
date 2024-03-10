@@ -1,41 +1,53 @@
 #!/bin/bash
 set -Eeuo pipefail
 
+# Variables
+dotfile_dir=dotfiles
+dotfile_branch=master
+
 # if the script is piped in $0 will be "bash"
-if [ "$0" -eq "bash" ];then
+if [ "$0" == "bash" ];then
 script_dir=$(pwd -P)
 else
-script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}")" &>/dev/null && pwd -P)
+script_dir=$(cd "$(dirname "${BASH_SOURCE[0]}" )" &>/dev/null && pwd -P)
 fi
 
 # Setup
 #  1) Install debian packages
 #  2) Install dotfiles program
-#  3) Install asdf
-#  4) Install asdf-ruby
-#  5) Install asdf-python
-#  6) Install asdf-rust
-#  7) Install asdf-node
-#  8) Install asdf-lua
-#  9) Install fzf
-# 10) Install neovim and packages from GitHub
-# 11) Install alacritty
+#  3) Install mise
+#  4) Install mise-ruby
+#  5) Install mise-python
+#  6) Install mise-rust
+#  7) Install mise-node
+#  8) Install mise-lua
+#  9) Install neovim and packages from GitHub
+# 10) Install alacritty
+# 11) Install fdfiles
 
 interactive=${1:-}
 
-alacritty_version=0.7.2
-asdf_version=0.10.2
+alacritty_version=0.12.3
 dotfiles_version=0.2.2
 lua_version=5.1.5
-node_version=18.12.1
-nvim_version=0.8.1
+node_version=20.10.0
+nvim_version=0.9.5
 python3_version=3.10.1
 python2_version=2.7.18
-ruby_version=3.1.2
-rust_version=1.63.0
+ruby_version=3.2.3
+rust_version=1.75.0
 tmux_version=3.2
+fd_version=9.0
 
 echo Running setup
+export MISE_CACHE_DIR=/usr/local/.cache/mise/
+export MISE_CONFIG_DIR=/usr/local/.config/mise/
+export MISE_DATA_DIR=/usr/local/.local/data/mise/
+export MISE_STATE_DIR=/usr/local/.local/state/mise/
+# mise needs shims to work in non-interactive setups
+PATH=/usr/local/.local/data/mise/shims:$PATH
+
+
 # Helper Functions
 # Decide whether to install a program
 already_installed?() {
@@ -45,7 +57,7 @@ already_installed?() {
   not_installed=1
 
   if [ $command == "python3" ]; then
-    if [ $(asdf list python | tr -d ' ' | grep "^3...") &> /dev/null ]; then
+    if [ $(mise list python | tr -d ' ' | grep "^3...") &> /dev/null ]; then
       echo $program is already installed
       return $installed
     fi
@@ -101,83 +113,102 @@ sudo apt-get update -q
 sudo apt-get install -q -y \
   git \
   curl \
-  autojump \
   build-essential \
   unzip \
-  gnupg \
-  ripgrep \
-  xclip \
-  jq \
-  pass \
+  fzf \
+  acl \
+  font-manager \
   desktop-file-utils \
-  bleachbit \
-  fd-files
+  ripgrep \
+  sqlformat \
+  autojump \
+  jq \
+  gnupg \
+  xclip \
+  pass \
+  bleachbit
+  # nvidia-driver-530
 
 clear
-# KeepassXC
-# sudo add-apt-repository -y ppa:phoerious/keepassxc
+
+git clone --progress -b $dotfile_branch https://github.com/nulty/dotfiles.git ~/dotfiles
 
 ### Install dotfiles for symlinking dotfiles repo ###
 if install? 'dotfiles';
 then
-  curl -LJO https://github.com/rhysd/dotfiles/releases/download/v${dotfiles_version}/dotfiles_linux_amd64.zip
+  curl -LJO https://github.com/rhysd/dotfiles/releases/download/v0.2.2/dotfiles_linux_amd64.zip
   sudo unzip dotfiles_linux_amd64.zip -d /usr/local/bin/ && rm dotfiles_linux_amd64.zip
-  dotfiles clone https://github.com/nulty/dotfiles .
+  [ ! -d ~/dotfiles ] && dotfiles clone -b $dotfile_branch https://github.com/nulty/dotfiles .
   mv ~/.bashrc ~/.bashrc.original
-  dotfiles link dotfiles \
+  dotfiles link $dotfile_dir \
     .bashrc \
     .bash_aliases \
     git-prompt.sh \
-    .git_completion.sh \
+    git-completion.bash \
     .gitignore \
     .gitconfig
 fi
 
-source .bashrc
-
 clear
-# Install asdf
-if install? 'asdf';
+# Install mise
+if install? 'mise';
 then
-  git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v${asdf_version}
 
-  . $HOME/.asdf/asdf.sh
+  echo Creating /usr/local directories
+
+  sudo mkdir -p \
+    /usr/local/.cache/mise/ \
+    /usr/local/.config/mise/ \
+    /usr/local/.local/data/mise/ \
+    /usr/local/.local/state/mise/ \
+
+  dirs="/usr/local/.cache/ /usr/local/.config/ /usr/local/.local"
+  sudo chown :devs -R $dirs
+  # set SGID
+  sudo chmod -R g+ws $dirs
+  # set acl
+  sudo setfacl -R -d -m g:devs:rwx $dirs
+  sudo setfacl -R -d -m g::rwx $dirs
+
+  sudo curl https://mise.jdx.dev/install.sh | sh
+  sudo mv ~/.local/bin/mise /usr/local/bin/
 fi
-
-source .bashrc
 
 clear
 # Install Ruby
 if install? 'ruby';
 then
   sudo apt-get install -y libssl-dev zlib1g-dev
+  sudo apt-get install -y libffi-dev libreadline-gplv2-dev libedit-dev libyaml-dev # ruby 3.2
 
-  [ -z $(asdf plugin list | grep ruby) ] && asdf plugin add ruby
-
-  dotfiles link dotfiles \
+  dotfiles link $dotfile_dir \
     .default-gems \
     .rubocop.yml \
     .rubocop_todo.yml
-  asdf install ruby ${ruby_version}
-  asdf global ruby ${ruby_version}
+
+  mise u -gy ruby@$ruby_version
 fi
 
-source .bashrc
-
-clear
 # Install Tmux
 # https://github.com/tmux/tmux
 if install? 'tmux';
 then
   sudo apt-get install -y bison automake pkg-config libncurses-dev
 
-  [ -z $(asdf plugin list | grep tmux) ] && asdf plugin add tmux
-  dotfiles link dotfiles .tmux.conf
-  asdf install tmux ${tmux_version}
-  asdf global tmux ${tmux_version}
+  sudo dotfiles link $dotfile_dir tmux.conf
+
+  mise use -gy tmux@${tmux_version}
+
+  # Install tmux-package-manager
+  sudo git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 fi
 
-source .bashrc
+clear
+# Install Tmux
+if install? 'fd';
+then
+  mise use -gy fd@${fd_version}
+fi
 
 clear
 # Install Python
@@ -195,12 +226,8 @@ then
     libc6-dev \
     libbz2-dev
 
-  [ -z $(asdf plugin list | grep python) ] && asdf plugin add python
-  asdf install python ${python3_version}
-  asdf global python $(asdf list python | tr  '\n' ' ')
+  mise u -gy python@${python3_version}
 fi
-
-source .bashrc
 
 if install? 'python2';
 then
@@ -216,63 +243,49 @@ then
     libc6-dev \
     libbz2-dev
 
-  [ -z $(asdf plugin list | grep python) ] && asdf plugin add python
-  asdf install python ${python2_version}
-  # pass all installed python versions to global
-  asdf global python $(asdf list python | tr  '\n' ' ')
+  mise u -gy python@${python2_version}
 fi
-
-source .bashrc
 
 clear
 # Install Rust
 if install? 'rust';
 then
-  [ -z $(asdf plugin list | grep rust) ] && asdf plugin add rust
-  asdf install rust ${rust_version}
-  asdf global rust ${rust_version}
+  mise u -gy rust@${rust_version}
 fi
 
-source .bashrc
-
 clear
+
 # Install Node
 if install? 'node';
 then
-  [ -z $(asdf plugin list | grep nodejs) ] && asdf plugin add nodejs
-  dotfiles link dotfiles \
+  dotfiles link $dotfile_dir \
     .eslintrc.yml \
-    .scss-lint.yml \
-    .default-npm-packages
-  asdf install nodejs ${node_version}
-  asdf global nodejs ${node_version}
+    .scss-lint.yml #\
+    # .default-npm-packages
+  mise u -gy node@${node_version}
 fi
-
-source .bashrc
 
 clear
 
-if install? 'lua';
-then
-  [ -z $(asdf plugin list | grep lua) ] && asdf plugin add lua
-  asdf install lua ${lua_version}
-  asdf global lua ${lua_version}
-fi
-
-source .bashrc
-
+# if install? 'lua';
+# then
+#   mise u -gy lua@${lua_version}
+# fi
+#
 clear
 
-# FZF
-if install? 'fzf';
-then
-  git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
-  ~/.fzf/install --no-bash --no-fish --all
-  sudo cp -r ~/.fzf/bin /usr/local
-  sudo cp -r --copy-contents ~/.fzf/man/man1 /usr/local/man/
-fi
+# # FZF
+# if install? 'fzf';
+# then
+#   git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+#   ~/.fzf/install --no-bash --no-fish --all
+#   sudo cp -r ~/.fzf/bin /usr/local
+#   sudo cp -r --copy-contents ~/.fzf/man/man1 /usr/local/man/
+# fi
 
-source .bashrc
+### Install fonts ####
+mkdir p ~/fonts
+font-manager -ui ~/$dotfiles_dir/fonts/*
 
 ### Install nvim ####
 if install? 'nvim';
@@ -285,16 +298,16 @@ then
   # curl https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | bash
   # curl https://raw.githubusercontent.com/nulty/dotfiles/testing-setup/setup.sh | bash
   # wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/testing-setup/setup.sh | bash
+
   # Install vim-plug for nvim
-  dotfiles link dotfiles nvim
-  sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-         https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  # dotfiles link dotfiles nvim
 
-  ## Run install of plugins
-  nvim --headless -u - --cmd "runtime plugrc.vim" +PlugInstall +qall
+  # Create symlink from XDG_CONFIG_HOME
+  sudo ln -s $HOME/$dotfile_dir/nvim/ /usr/local/.config
+
+  # Set permissions
+  sudo chown :devs -R /usr/local/share/nvim
 fi
-
-source .bashrc
 
 clear
 # Install Brave Browser
@@ -305,55 +318,74 @@ sudo sh -c 'echo "deb [arch=amd64] https://brave-browser-apt-release.s3.brave.co
 sudo apt-get update && sudo apt-get install -y brave-browser
 fi
 
-source .bashrc
-
 clear
 # Install alacritty
 if install? 'alacritty';
 then
-  asdf reshim python
+   # reshim python
   sudo apt-get install -y \
     cmake \
     pkg-config \
     libfreetype6-dev \
     libfontconfig1-dev \
     libxcb-xfixes0-dev \
-    libxkbcommon-dev
+    libxkbcommon-dev \
+    scdoc
+
+  sudo mkdir -p /usr/local/alacritty/
+
+  # Set user and group ownership
+  sudo chown -R $USER:devs /usr/local/alacritty/
+  sudo chmod -R g+ws /usr/local/alacritty/
+  sudo setfacl -R -d -m g:devs:rwx /usr/local/alacritty/
+  sudo setfacl -R -d -m g::rwx /usr/local/alacritty/
 
   # Fetch source
   git clone https://github.com/alacritty/alacritty.git ~/alacritty --branch v${alacritty_version}
-  cd ~/alacritty
+
+  pushd ~/alacritty
 
   # Build
   cargo build --release
 
-  sudo cp target/release/alacritty /usr/local/bin # or anywhere else in $PATH
   sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
+
   # Manpage
-  sudo mkdir -p /usr/local/share/man/man1
+  sudo mkdir -p /usr/local/share/man/man{1..9} # only needed for minimal docker install
   gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+
+  sudo cp target/release/alacritty /usr/local/bin
+
+  # NEWER VERSIONS NEED BELOW
+  # sudo mkdir -p /usr/local/share/man/man5
+  # scdoc < extra/man/alacritty.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+  # scdoc < extra/man/alacritty-msg.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+  # scdoc < extra/man/alacritty.5.scd | gzip -c | sudo tee /usr/local/share/man/man5/alacritty.5.gz > /dev/null
 
   # Install alacritty terminfo https://github.com/alacritty/alacritty/blob/master/INSTALL.md#terminfo
   sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
 
-  # Use my config
-  mv alacritty.yml alacritty.yml.original
-  dotfiles link ~/dotfiles \
-    alacritty/alacritty.yml \
-    alacritty/Alacritty.desktop
+  # Create symlink from XDG_CONFIG_HOME
+  sudo ln -s  $HOME/$dotfile_dir/alacritty/alacritty.yml  /usr/local/alacritty/alacritty.yml
 
-  cd $script_dir
+  # This is old, used when alacritty lived in the $HOME directory
+  # mv alacritty.yml alacritty.yml.original
+  # dotfiles link ~/dotfiles \
+  #   alacritty/alacritty.yml \
+  #   alacritty/Alacritty.desktop
+
+  popd
 
   # Desktop file
-  sudo desktop-file-install alacritty/Alacritty.desktop
+  sudo desktop-file-install $dotfile_dir/alacritty/Alacritty.desktop
   sudo update-desktop-database
 fi
-kill SIGUSR1 $PPID
+
 # sudo apt-get install \
-# #   timewarrior \
-# #   taskwarrior \
-# #   sqlformat \
-# #   redis \
-# #   peek \
-# #   pandoc \
-# #   slack-desktop \
+#   timewarrior \
+#   taskwarrior \
+#   sqlformat \
+#   redis \
+#   peek \
+#   pandoc \
+#   slack-desktop \

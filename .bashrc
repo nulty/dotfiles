@@ -98,8 +98,7 @@ txtrst='\[\e[0m\]'    # Text Reset
 
 ### Git PS1 prompt options ###
 
-# $ indicates there is a stash
-GIT_PS1_SHOWSTASHSTATE=1
+# See git-prompt.sh line 38 
 
 GIT_PS1_SHOWUPSTREAM="auto"
 
@@ -108,7 +107,7 @@ source ~/git-completion.bash
 
 update_ps1() {
   # PS1="${debian_chroot:+($debian_chroot)}$txtgrn\u$txtrst $bldblu\w$bldylw$(__git_ps1 " (%s)")\[\033[00m\] $bldred\$$txtrst "
-  PS1="$VIRTUAL_ENV_PROMPT${debian_chroot:+($debian_chroot)}$txtgrn\u$txtrst $bldblu\w$bldylw$(__git_ps1 " (%s)") $bldred\$$txtrst "
+  PS1="$CONDA_PROMPT_MODIFIER$VIRTUAL_ENV_PROMPT${debian_chroot:+($debian_chroot)}$txtgrn\u$txtrst $bldblu\w$bldylw$(__git_ps1 " ( %s)") $bldred\$$txtrst "
 }
 PROMPT_COMMAND=update_ps1
 
@@ -200,7 +199,7 @@ clearlog() {
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 # source ~/.bash_completion/alacritty
 
-export PATH=$PATH:/usr/local/share/nvim/mason/bin/
+export PATH=$PATH:/usr/local/.local/data/nvim/mason/bin/
 
 
 # >>> conda initialize >>>
@@ -227,4 +226,5 @@ export MISE_CACHE_DIR=/usr/local/.cache/mise/
 export MISE_CONFIG_DIR=/usr/local/.config/mise/
 export MISE_DATA_DIR=/usr/local/.local/data/mise/
 export MISE_STATE_DIR=/usr/local/.local/state/mise/
+export MISE_GLOBAL_CONFIG_FILE=/usr/local/.config/mise/config.toml
 eval "$(/usr/local/bin/mise activate bash)"
