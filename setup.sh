@@ -36,7 +36,7 @@ python3_version=3.10.1
 python2_version=2.7.18
 ruby_version=3.2.3
 rust_version=1.75.0
-tmux_version=3.2
+tmux_version=3.4
 fd_version=9.0
 
 echo Running setup
@@ -197,10 +197,11 @@ then
 
   sudo dotfiles link $dotfile_dir tmux.conf
 
+  mkdir -p ~/.config/tmux/
   mise use -gy tmux@${tmux_version}
 
   # Install tmux-package-manager
-  sudo git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
+  git clone https://github.com/tmux-plugins/tpm ~/.config/tmux/plugins/tpm
 fi
 
 clear
