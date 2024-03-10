@@ -39,3 +39,8 @@ alias sp="source ./venv/bin/activate"
 # Docker
 alias docker_rm='docker rm $(docker ps -aq)'
 alias d='docker '
+
+# ls
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'

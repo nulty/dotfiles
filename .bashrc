@@ -97,7 +97,6 @@ bakwht='\[\e[47m\]'   # White
 txtrst='\[\e[0m\]'    # Text Reset
 
 ### Git PS1 prompt options ###
-
 # See git-prompt.sh line 38 
 
 GIT_PS1_SHOWUPSTREAM="auto"
@@ -111,11 +110,6 @@ update_ps1() {
 }
 PROMPT_COMMAND=update_ps1
 
-# if [ "$color_prompt" = yes ]; then
-#     PS1="${debian_chroot:+($debian_chroot)}$txtgrn\u$txtrst $bldblu\w$bldylw$(__git_ps1 " (%s)")\[\033[00m\] $bldred\$$txtrst "
-# else
-#   PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
-# fi
 unset color_prompt force_color_prompt
 
 # If this is an xterm set the title to user@host:dir
@@ -138,14 +132,6 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
-
-# colored GCC warnings and errors
-#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
-
-# some more ls aliases
-alias ll='ls -alF'
-alias la='ls -A'
-alias l='ls -CF'
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -171,37 +157,25 @@ if ! shopt -oq posix; then
   fi
 fi
 
+
+#### Custom rc starts here ###
+
 # Set EDITOR
 export EDITOR=nvim
 
-# autojump
+### autojump ###
 [ -f /usr/share/autojump/autojump.bash ] && source /usr/share/autojump/autojump.bash
-# alacritty
+
+### alacritty ###
 [ -f ~/alacritty/alacritty.bash ] && source ~/alacritty/extra/completion/alacritty.bash
 
-# Set the PGDATA variable to postgres 9.6 data directory
-# export PGDATA="/var/lib/postgresql/9.6/main"
-
-export PATH=$PATH:/usr/local/android-studio/bin
-export PATH=$PATH:~/bin
-
-# REactNative requirements for Android development
-export ANDROID_HOME=$HOME/Android/Sdk
-export PATH=$PATH:$ANDROID_HOME/emulator
-export PATH=$PATH:$ANDROID_HOME/tools
-export PATH=$PATH:$ANDROID_HOME/tools/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-
-clearlog() {
-  truncate -s 0 ~/.local/state/nvim/lsp.log
-  echo "LSP Log cleared"
-}
+### Fzf ###
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
-# source ~/.bash_completion/alacritty
+[ -f ~/fzf-git.sh ] && source ~/fzf-git.sh
+[ -f ~/.privaterc ] && source ~/.privaterc
 
-export PATH=$PATH:/usr/local/.local/data/nvim/mason/bin/
 
-
+### conda ###
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$("$HOME/anaconda3/bin/conda" 'shell.bash' 'hook' 2> /dev/null)"
@@ -217,9 +191,32 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+### kubectl ###
+if command -v kubectl &> /dev/null; then
+  source <(kubectl completion bash)
+  alias k=kubectl
+  complete -o default -F __start_kubectl k
+fi
+
+### PATH ###
+
 ppath() {
   echo $PATH | tr ':' '\n'
 }
+
+export PATH=$PATH:/usr/local/android-studio/bin
+export PATH=$PATH:~/bin
+
+### RuactNative requirements for Android development ###
+export ANDROID_HOME=$HOME/Android/Sdk
+export PATH=$PATH:$ANDROID_HOME/emulator
+export PATH=$PATH:$ANDROID_HOME/tools
+export PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+### Mason ###
+export PATH=$PATH:/usr/local/.local/data/nvim/mason/bin/
 
 ## Mise config
 export MISE_CACHE_DIR=/usr/local/.cache/mise/
