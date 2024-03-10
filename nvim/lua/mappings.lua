@@ -17,6 +17,7 @@ o.autoread = true      -- reread the file when buffer focused
 o.diffopt = "vertical" -- make diffs vertical
 o.cmdheight = 2
 o.scrolloff = 3
+o.pumheight = 10
 
 if vim.fn.has("termguicolors") then
   vim.o.termguicolors = true
