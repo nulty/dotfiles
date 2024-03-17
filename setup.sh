@@ -285,7 +285,7 @@ clear
 # fi
 
 ### Install fonts ####
-mkdir p ~/fonts
+mkdir -p ~/fonts
 font-manager -ui ~/$dotfile_dir/fonts/*
 
 ### Install nvim ####
