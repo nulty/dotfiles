@@ -195,7 +195,7 @@ if install? 'tmux';
 then
   sudo apt-get install -y bison automake pkg-config libncurses-dev
 
-  sudo dotfiles link $dotfile_dir tmux.conf
+  dotfiles link $dotfile_dir tmux.conf
 
   mkdir -p ~/.config/tmux/
   mise use -gy tmux@${tmux_version}
