@@ -47,3 +47,9 @@
 	autoUpdate = true
 [init]
 	defaultBranch = main
+; [include] 
+;   path = ~/.private-git-config
+; [includeIf "gitdir:~/Code/personal/"]
+;   path = .gitconfig-personal
+; [includeIf "gitdir:~/Code/professional/"]
+;   path = .gitconfig-professional
