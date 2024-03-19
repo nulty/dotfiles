@@ -2,6 +2,8 @@
 
 Repository for setting up dotfiles on a new machine. It is orchestrated by the [dotfiles](https://github.com/rhysd/dotfiles) program.
 
+The packages installed by the setup script target Ubuntu v22.04
+
 ## Install
 
 ```
