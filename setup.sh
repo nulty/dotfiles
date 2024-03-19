@@ -126,6 +126,7 @@ sudo apt-get install -q -y \
   gnupg \
   xclip \
   pass \
+  flameshot \
   bleachbit
   # nvidia-driver-530
 
