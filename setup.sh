@@ -179,7 +179,7 @@ clear
 if install? 'ruby';
 then
   sudo apt-get install -y libssl-dev zlib1g-dev
-  sudo apt-get install -y libffi-dev libreadline-gplv2-dev libedit-dev libyaml-dev # ruby 3.2
+  sudo apt-get install -y libffi-dev libreadline-dev libedit-dev libyaml-dev # ruby 3.2
 
   dotfiles link $dotfile_dir \
     .default-gems \
@@ -219,7 +219,7 @@ then
     libssl-dev \
     zlib1g-dev \
     libffi-dev \
-    libreadline-gplv2-dev \
+    libreadline-dev \
     libncursesw5-dev \
     libsqlite3-dev \
     tk-dev \
@@ -236,7 +236,7 @@ then
     libssl-dev \
     zlib1g-dev \
     libffi-dev \
-    libreadline-gplv2-dev \
+    libreadline-dev \
     libncursesw5-dev \
     libsqlite3-dev \
     tk-dev \
