@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 TryExec=alacritty
-Exec=alacritty --config-file /usr/local/alacritty/alacritty.yml -e /usr/local/.local/data/mise/installs/tmux/3.2a/bin/tmux
+Exec=alacritty --config-file /usr/local/alacritty/alacritty.yml -e /usr/local/.local/data/mise/installs/tmux/3.4/bin/tmux
 Icon=Alacritty
 Terminal=false
 Categories=System;TerminalEmulator;
