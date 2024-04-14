@@ -5,7 +5,6 @@ local function load_server_config(server_name)
   end
 end
 
-require('vim.lsp.log').set_format_func(vim.inspect)
 
 return {
   {
