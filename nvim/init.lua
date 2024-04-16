@@ -5,9 +5,10 @@ else
   vim.g.leader = "\\"
 end
 
-require"mappings"
-require"globals"
-require"logging"
+require "user_functions"
+require "mappings"
+require "globals"
+require "logging"
 
 -- Lazy.nvim
 -- https://github.com/folke/lazy.nvim
