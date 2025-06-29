@@ -2,7 +2,9 @@ return {
   {
     -- https://github.com/nvim-treesitter/nvim-treesitter
     "nvim-treesitter/nvim-treesitter",
-    version = false,
+    version = "v0.9.3",
+    branch = "main",
+    commit = "4423f3053964461656c7432fd33f205ef88a6168",
     event = "BufEnter",
     build = ":TSUpdate",
     init = function()
