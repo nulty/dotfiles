@@ -23,6 +23,10 @@ return {
     event = "BufEnter"
   },
   {
+    "tpope/vim-unimpaired",
+    event = "BufEnter"
+  },
+  {
     "tpope/vim-rails",
     event = "BufEnter",
     cond = function()
