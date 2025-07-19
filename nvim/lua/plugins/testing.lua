@@ -7,6 +7,7 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/neotest-plenary",
+      "nvim-neotest/nvim-nio",
       "olimorris/neotest-rspec",    -- https://github.com/olimorris/neotest-rspec
       {
         "zidhuss/neotest-minitest", -- https://github.com/zidhuss/neotest-minitest
