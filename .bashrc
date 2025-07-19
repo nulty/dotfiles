@@ -217,6 +217,15 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 ### Mason ###
 export PATH=$PATH:/usr/local/.local/data/nvim/mason/bin/
 
+
+### fzf ###
+# export FZF_DEFAULT_COMMAND=$PATH:/usr/local/.local/data/nvim/mason/bin/
+# export FZF_DEFAULT_COMMAND=$PATH:/usr/local/.local/data/nvim/mason/bin/
+# export FZF_CTRL_T_COMMAND=JK
+# export FZF_CTRL_T_COMMAND=JK
+# export FZF_DEFAULT_OPTS="--no-mouse --height=50% --multi --preview='[[ \$(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --olor=always {} || cat {}) 2> /dev/null | head -300' --preview-window='right:hidden:wrap'"
+export FZF_DEFAULT_OPTS="--no-mouse --height=50% --preview='head {}' --preview-window='right:hidden:wrap'"
+
 ## Mise config
 export MISE_CACHE_DIR=/usr/local/.cache/mise/
 export MISE_CONFIG_DIR=/usr/local/.config/mise/
@@ -224,3 +233,4 @@ export MISE_DATA_DIR=/usr/local/.local/data/mise/
 export MISE_STATE_DIR=/usr/local/.local/state/mise/
 export MISE_GLOBAL_CONFIG_FILE=/usr/local/.config/mise/config.toml
 eval "$(/usr/local/bin/mise activate bash)"
+eval "$(mise env)"
