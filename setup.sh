@@ -27,7 +27,7 @@ fi
 
 interactive=${1:-}
 
-alacritty_version=0.12.3
+alacritty_version=0.15.1
 dotfiles_version=0.2.2
 lua_version=5.1.5
 node_version=20.10.0
@@ -287,7 +287,9 @@ clear
 
 ### Install fonts ####
 mkdir -p ~/fonts
-font-manager -ui ~/$dotfile_dir/fonts/*
+mkdir -p ~/.local/share/fonts
+cp ~/$dotfile_dir/fonts/* ~/.local/share/fonts/
+fc-cache -f -v
 
 ### Install nvim ####
 if install? 'nvim';
