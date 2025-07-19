@@ -5,7 +5,6 @@ local function load_server_config(server_name)
   end
 end
 
-
 return {
   {
     "neovim/nvim-lspconfig",
@@ -75,6 +74,7 @@ return {
     config = function()
       local null_ls = require 'null-ls'
       null_ls.setup {
+        on_attach = require('lsp_config').on_attach,
         debug = true,
         sources = {
           require("none-ls.formatting.jq"),
