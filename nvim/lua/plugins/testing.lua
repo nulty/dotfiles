@@ -35,10 +35,13 @@ return {
     lazy = false,
     -- stylua: ignore
     keys = {
+      { "]t", function() require('neotest').jump.next() end,                 desc = "Next test" },
+      { "[t", function() require('neotest').jump.prev() end,                 desc = "Prev test" },
       { "ta", function() require('neotest').run.attach() end,                desc = "Attach" },
       { "tn", function() require('neotest').run.run() end,                   desc = "Run Nearest" },
       { "tl", function() require('neotest').run.run_last() end,              desc = "Run Last" },
       { "tf", function() require('neotest').run.run(vim.fn.expand('%')) end, desc = "Run File" },
+      { "tp", function() require('neotest').output_panel.toggle() end,       desc = "Output panel" },
       { "to", function() require('neotest').output.open() end,               desc = "Output" },
       { "tq", function() require('neotest').run.stop() end,                  desc = "Stop" },
       { "tu", function() require('neotest').summary.toggle() end,            desc = "Summary" },
