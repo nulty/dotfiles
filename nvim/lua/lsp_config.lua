@@ -28,7 +28,7 @@ local on_attach = function(client, buf)
     vim.lsp.buf.format({
       async = true,
       filter = function(fn_client)
-        return fn_client.name == "null-ls" or fn_client.name == "lua_ls" or fn_client.name == "solargraph"
+        return fn_client.name == "null-ls" or fn_client.name == "lua_ls"
       end
     })
   end, lua_opts)
@@ -41,7 +41,7 @@ local on_attach = function(client, buf)
 		autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
 		autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
 		augroup END
-		]])
+		]], {})
   end
 end
 
