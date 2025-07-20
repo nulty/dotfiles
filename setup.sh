@@ -356,17 +356,13 @@ then
 
   sudo cp extra/logo/alacritty-term.svg /usr/share/pixmaps/Alacritty.svg
 
-  # Manpage
-  sudo mkdir -p /usr/local/share/man/man{1..9} # only needed for minimal docker install
-  gzip -c extra/alacritty.man | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
-
   sudo cp target/release/alacritty /usr/local/bin
 
-  # NEWER VERSIONS NEED BELOW
-  # sudo mkdir -p /usr/local/share/man/man5
-  # scdoc < extra/man/alacritty.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
-  # scdoc < extra/man/alacritty-msg.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
-  # scdoc < extra/man/alacritty.5.scd | gzip -c | sudo tee /usr/local/share/man/man5/alacritty.5.gz > /dev/null
+  # Manpage
+  sudo mkdir -p /usr/local/share/man/man5
+  scdoc < extra/man/alacritty.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty.1.gz > /dev/null
+  scdoc < extra/man/alacritty-msg.1.scd | gzip -c | sudo tee /usr/local/share/man/man1/alacritty-msg.1.gz > /dev/null
+  scdoc < extra/man/alacritty.5.scd | gzip -c | sudo tee /usr/local/share/man/man5/alacritty.5.gz > /dev/null
 
   # Install alacritty terminfo https://github.com/alacritty/alacritty/blob/master/INSTALL.md#terminfo
   sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
