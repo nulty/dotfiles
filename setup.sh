@@ -113,7 +113,7 @@ sudo apt-get update -q
 sudo apt-get install -q -y \
   git \
   curl \
-  libpg \
+  libpq-dev \
   build-essential \
   unzip \
   fzf \
