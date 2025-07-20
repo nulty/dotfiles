@@ -368,7 +368,7 @@ then
   sudo tic -xe alacritty,alacritty-direct extra/alacritty.info
 
   # Create symlink from XDG_CONFIG_HOME
-  sudo ln -s  $HOME/$dotfile_dir/alacritty/alacritty.yml  /usr/local/alacritty/alacritty.yml
+  sudo ln -s  $HOME/$dotfile_dir/alacritty/alacritty.toml  /usr/local/alacritty/alacritty.toml
 
   # This is old, used when alacritty lived in the $HOME directory
   # mv alacritty.yml alacritty.yml.original
