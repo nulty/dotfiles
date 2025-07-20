@@ -128,6 +128,7 @@ sudo apt-get install -q -y \
   xclip \
   pass \
   flameshot \
+  kazam \
   bleachbit
   # nvidia-driver-530
 
