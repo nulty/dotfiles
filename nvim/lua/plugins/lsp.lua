@@ -1,9 +1,3 @@
-local function load_server_config(server_name)
-  local path = "lsp_settings." .. server_name
-  if pcall(require, path) then
-    return require(path)
-  end
-end
 
 return {
   {
@@ -16,34 +10,8 @@ return {
     },
     event = "BufEnter",
     config = function(plugin, _opts)
-      local base_config = require('lsp_config')
+      local servers = require('lsp.servers')
       require 'mason'.setup()
-
-      local enabled_servers = {
-        -- bashls,
-        -- black,
-        -- crystalline,
-        'cssls',
-        'emmet_language_server',
-        'eslint-lsp',
-        'erb-lint',
-        'html',
-        -- htmlhint,
-        -- jsonlint,
-        -- jsonls,
-        'lua_ls',
-        -- 'prettier',
-        -- pyright,
-        'rubocop',
-        'ruby_lsp',
-        -- 'htmlbeautifier',
-        -- rubyfmt,
-        -- 'solargraph',
-        'stylelint_lsp',
-        -- 'tailwindcss',
-        'tsserver',
-        'yamlls'
-      }
 
       require 'mason-lspconfig'.setup(
         {
@@ -51,10 +19,8 @@ return {
           ensure_installed = { 'rubocop' },
           handlers = {
             function(server_name)
-              local server_config = load_server_config(server_name) or {}
-              local config = vim.tbl_deep_extend("force", base_config, server_config)
-
-              if vim.tbl_contains(enabled_servers, server_name) then
+              local config = servers.get_server_config(server_name)
+              if config then
                 require "lspconfig"[server_name].setup(config)
               end
             end
