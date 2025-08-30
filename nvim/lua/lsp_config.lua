@@ -31,15 +31,21 @@ local on_attach = function(client, buf)
     })
   end, opts)
 
-  -- Set autocommands conditional on server_capabilities
+  -- Document highlighting: highlights all occurrences of symbol under cursor after CursorHold,
+  -- clears highlighting on cursor movement. Only enabled if LSP server supports it.
+  -- CursorHold is run when the cursor doesn't move for a short time
   if client.server_capabilities.documentHighlightProvider then
-    vim.api.nvim_exec2([[
-		augroup lsp_document_highlight
-		autocmd! * <buffer>
-		autocmd CursorHold <buffer> lua vim.lsp.buf.document_highlight()
-		autocmd CursorMoved <buffer> lua vim.lsp.buf.clear_references()
-		augroup END
-		]], {})
+    local group = vim.api.nvim_create_augroup('lsp_document_highlight_' .. buf, { clear = true })
+    vim.api.nvim_create_autocmd({ 'CursorHold', 'CursorHoldI' }, {
+      buffer = buf,
+      group = group,
+      callback = vim.lsp.buf.document_highlight,
+    })
+    vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+      buffer = buf,
+      group = group,
+      callback = vim.lsp.buf.clear_references,
+    })
   end
 end
 
