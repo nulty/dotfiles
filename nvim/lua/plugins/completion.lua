@@ -63,12 +63,16 @@ return {
           { name = "path" },
         }),
         sorting = {
-          -- Table with a list of functions by which the competion
-          -- results are sorting in the suggestions.
-          -- kind puts the test ones towards the bottomg, at least
-          -- https://github.com/hrsh7th/nvim-cmp/issues/381
           comparators = {
-            cmp.config.compare.kind,
+            cmp.config.compare.offset,       -- Match position in word
+            cmp.config.compare.exact,        -- Exact matches first
+            cmp.config.compare.score,        -- LSP relevance
+            cmp.config.compare.recently_used, -- Recently used
+            cmp.config.compare.locality,     -- Nearby definitions
+            cmp.config.compare.kind,         -- Group by type
+            cmp.config.compare.sort_text,    -- Server suggestions
+            cmp.config.compare.length,       -- Shorter names first
+            cmp.config.compare.order,        -- Source order fallback
           }
         },
         window = {
