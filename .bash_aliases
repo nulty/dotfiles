@@ -1,4 +1,4 @@
-alias vim="XDG_DATA_HOME=/usr/local/.local/data XDG_CONFIG_HOME=/usr/local/.config /usr/local/bin/nvim"
+alias vim="/usr/local/bin/nvim"
 
 # Config files
 alias ac="vim ~/.config/alacritty/alacritty.yml"

@@ -308,8 +308,14 @@ then
   # Install vim-plug for nvim
   # dotfiles link dotfiles nvim
 
-  # Create symlink from XDG_CONFIG_HOME
-  sudo ln -s $HOME/$dotfile_dir/nvim/ /usr/local/.config
+  # Place nvim config in the shared location
+  sudo ln -sf $HOME/$dotfile_dir/nvim/ /usr/local/.config/nvim
+  sudo mkdir -p /usr/local/.local/data/nvim
+
+  # Symlink shared nvim config and data into user's standard XDG locations
+  mkdir -p ~/.config ~/.local/share
+  ln -sf /usr/local/.config/nvim ~/.config/nvim
+  ln -sf /usr/local/.local/data/nvim ~/.local/share/nvim
 
   # Set permissions
   sudo chown :devs -R /usr/local/share/nvim
