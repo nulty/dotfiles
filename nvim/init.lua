@@ -26,7 +26,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins", {
 	defaults = {
-    version = "v10.14.6"
+    version = "v11.17.5"
 	},
 	change_detection = {
 		notify = false -- Stops blocking message in the cmd line from appearing
