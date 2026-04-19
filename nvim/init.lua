@@ -50,10 +50,8 @@ require("lazy").setup("plugins", {
 
 -- nvim-tree config disables netrw so for :GBrowse, vim-fugitive needs
 -- a :Browse command to define how to open a url
-if vim.fn.has("mac") then
-  vim.api.nvim_create_user_command('Browse', "!xdg-open <f-args>", {})
-  -- command! -nargs=1 Browse silent exe "!xdg-open ' . "<args>"
+if vim.fn.has("mac") == 1 then
+  vim.api.nvim_create_user_command('Browse', "silent !open <args>", { nargs = 1 })
 else
-  vim.api.nvim_create_user_command('Browse', "!open <args>", {})
-  -- command! -nargs=1 Browse silent exe "!open ' . "<args>"
+  vim.api.nvim_create_user_command('Browse', "silent !xdg-open <args>", { nargs = 1 })
 end
