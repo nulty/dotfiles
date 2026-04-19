@@ -26,7 +26,23 @@ local on_attach = function(client, buf)
     vim.lsp.buf.format({
       async = true,
       filter = function(fn_client)
-        return fn_client.name == "null-ls" or fn_client.name == "lua_ls"
+        if fn_client.name == "lua_ls" then return true end
+
+        -- For ERB: erb_lint (via null-ls) only registers when .erb-lint.yml
+        -- exists in the project root, in which case it wins over herb_ls.
+        if vim.bo.filetype == "eruby" then
+          local ok, sources = pcall(require, "null-ls.sources")
+          if ok then
+            local methods = require("null-ls.methods")
+            local available = sources.get_available("eruby", methods.internal.FORMATTING)
+            if #available > 0 then
+              return fn_client.name == "null-ls"
+            end
+          end
+          return fn_client.name == "herb_ls"
+        end
+
+        return fn_client.name == "null-ls"
       end
     })
   end, opts)

@@ -13,20 +13,39 @@ return {
       local servers = require('lsp.servers')
       require 'mason'.setup()
 
-      require 'mason-lspconfig'.setup(
-        {
-          automatic_installation = {},
-          ensure_installed = { 'rubocop' },
-          handlers = {
-            function(server_name)
-              local config = servers.get_server_config(server_name)
-              if config then
-                require "lspconfig"[server_name].setup(config)
-              end
-            end
-          }
-        }
-      )
+      require 'mason-lspconfig'.setup({
+        automatic_installation = {},
+        ensure_installed = { 'rubocop' },
+      })
+
+      -- Shared defaults applied to every server mason-lspconfig auto-enables.
+      vim.lsp.config('*', require('lsp_config'))
+
+      -- Launch ruby-lsp through `mise x` with cwd=root_dir so it picks up
+      -- the project's Ruby (.mise.toml / .tool-versions / .ruby-version)
+      -- instead of mise's global Ruby. Preserves the built-in cmd_cwd behaviour
+      -- from nvim-lspconfig's lsp/ruby_lsp.lua so mise resolves from the project.
+      vim.lsp.config('ruby_lsp', {
+        cmd = function(dispatchers, config)
+          return vim.lsp.rpc.start(
+            { 'mise', 'x', '--', 'ruby-lsp' },
+            dispatchers,
+            config and config.root_dir and { cwd = config.cmd_cwd or config.root_dir }
+          )
+        end,
+      })
+
+      -- herb_ls defaults formatter.enabled = false unless the project has a
+      -- .herb.yml (see @herb-tools/language-server settings.js). Enable it via
+      -- the client settings so <leader>d works without needing a config file.
+      vim.lsp.config('herb_ls', {
+        settings = {
+          languageServerHerb = {
+            formatter = { enabled = true },
+            linter = { enabled = true, fixOnSave = true },
+          },
+        },
+      })
     end
   },
   {
@@ -64,19 +83,25 @@ return {
             extra_args = { "-c", "eslint.config.js" },
           }),
 
-          -------------------
-          -- RUN HTMLBEAUTIFIER BEFORE ERBLINT
-          -- -----------------
+          -- ERB pipeline: when a project opts in via .erb-lint.yml, run
+          -- htmlbeautifier (HTML layout) then erb_lint (ERB tags + diagnostics).
+          -- Otherwise herb_ls handles ERB formatting + diagnostics on its own.
           null_ls.builtins.formatting.htmlbeautifier.with({
-            extra_args = {
-              "--keep-blank-lines",
-              "1"
-            }
+            extra_args = { "--keep-blank-lines", "1" },
+            condition = function(utils)
+              return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
+            end,
           }),
-          -- null_ls.builtins.diagnostics["herb-language-server"],
-          -- null_ls.builtins.formatting["herb-language-server"],
-          null_ls.builtins.formatting.erb_lint,
-          null_ls.builtins.diagnostics.erb_lint,
+          null_ls.builtins.formatting.erb_lint.with({
+            condition = function(utils)
+              return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
+            end,
+          }),
+          null_ls.builtins.diagnostics.erb_lint.with({
+            condition = function(utils)
+              return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
+            end,
+          }),
           -- null_ls.builtins.formatting.rubyfmt,
           null_ls.builtins.formatting.rubocop,
           -- null_ls.builtins.formatting.rubocop.with {
