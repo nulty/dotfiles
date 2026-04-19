@@ -27,8 +27,10 @@ local on_attach = function(client, buf)
       async = true,
       filter = function(fn_client)
         if fn_client.name == "lua_ls" then return true end
+        -- For eruby both herb_ls (HTML+ERB layout) and null-ls (erb_lint,
+        -- when .erb-lint.yml opts in) are formatters; run them in sequence.
         if vim.bo.filetype == "eruby" then
-          return fn_client.name == "herb_ls"
+          return fn_client.name == "herb_ls" or fn_client.name == "null-ls"
         end
         return fn_client.name == "null-ls"
       end
