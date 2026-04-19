@@ -313,13 +313,23 @@ then
   sudo ln -sf $HOME/$dotfile_dir/nvim/ /usr/local/.config/nvim
   sudo mkdir -p /usr/local/.local/data/nvim
 
+  # Share nvim data (mason packages, lazy plugins) across users in the devs group.
+  # setgid ensures new files inherit the devs group; default ACLs ensure they are
+  # group-writable regardless of the creating user's umask — so a mason package
+  # installed by one user can be updated/removed by another.
+  nvim_shared_dir=/usr/local/.local/data/nvim
+  sudo chown -R :devs $nvim_shared_dir
+  sudo chmod -R g+rwX $nvim_shared_dir
+  sudo find $nvim_shared_dir -type d -exec chmod g+s {} \;
+  sudo setfacl -R    -m g:devs:rwX $nvim_shared_dir
+  sudo setfacl -R    -m g::rwX     $nvim_shared_dir
+  sudo setfacl -R -d -m g:devs:rwX $nvim_shared_dir
+  sudo setfacl -R -d -m g::rwX     $nvim_shared_dir
+
   # Symlink shared nvim config and data into user's standard XDG locations
   mkdir -p ~/.config ~/.local/share
   ln -sf /usr/local/.config/nvim ~/.config/nvim
   ln -sf /usr/local/.local/data/nvim ~/.local/share/nvim
-
-  # Set permissions
-  sudo chown :devs -R /usr/local/share/nvim
 fi
 
 clear
