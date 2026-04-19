@@ -46,6 +46,24 @@ return {
           },
         },
       })
+
+      -- :HerbInit drops the preferred .herb.yml template into the nearest
+      -- Gemfile/.git root so per-project rule tuning picks up immediately.
+      vim.api.nvim_create_user_command('HerbInit', function()
+        local template = vim.fn.stdpath('config') .. '/templates/herb.yml'
+        local root = vim.fs.root(0, { 'Gemfile', '.git' }) or vim.fn.getcwd()
+        local target = root .. '/.herb.yml'
+        if vim.uv.fs_stat(target) then
+          vim.notify('.herb.yml already exists at ' .. target, vim.log.levels.WARN)
+          return
+        end
+        local ok, err = vim.uv.fs_copyfile(template, target)
+        if not ok then
+          vim.notify('Failed to copy herb template: ' .. tostring(err), vim.log.levels.ERROR)
+          return
+        end
+        vim.notify('Wrote ' .. target)
+      end, { desc = 'Copy default .herb.yml template into project root' })
     end
   },
   {

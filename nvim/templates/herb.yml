@@ -1,0 +1,38 @@
+linter:
+  enabled: true
+  failLevel: error
+  exclude:
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'tmp/**/*'
+  rules:
+    erb-no-extra-newline:
+      enabled: false
+    html-no-title-attribute:
+      enabled: false
+    html-no-self-closing:
+      enabled: false
+
+    parser-no-errors:
+      severity: error
+    html-no-duplicate-ids:
+      severity: error
+    html-no-duplicate-attributes:
+      severity: error
+    html-img-require-alt:
+      severity: error
+    html-anchor-require-href:
+      severity: error
+    html-aria-attribute-must-be-valid:
+      severity: error
+    html-aria-role-must-be-valid:
+      severity: error
+
+formatter:
+  enabled: true
+  indentWidth: 2
+  maxLineLength: 120
+  exclude:
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+    - 'app/views/generated/**/*'
