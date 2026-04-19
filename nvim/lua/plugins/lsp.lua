@@ -101,20 +101,11 @@ return {
             extra_args = { "-c", "eslint.config.js" },
           }),
 
-          -- ERB pipeline: when a project opts in via .erb-lint.yml, run
-          -- htmlbeautifier (HTML layout) then erb_lint (ERB tags + diagnostics).
-          -- Otherwise herb_ls handles ERB formatting + diagnostics on its own.
-          null_ls.builtins.formatting.htmlbeautifier.with({
-            extra_args = { "--keep-blank-lines", "1" },
-            condition = function(utils)
-              return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
-            end,
-          }),
-          null_ls.builtins.formatting.erb_lint.with({
-            condition = function(utils)
-              return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
-            end,
-          }),
+          -- herb_ls owns ERB formatting + HTML layout. erb_lint stays as an
+          -- additive *diagnostics* source for Ruby-inside-ERB issues when the
+          -- project opts in via .erb-lint.yml; autocorrect is left to
+          -- `bundle exec erb_lint --autocorrect` rather than fighting herb's
+          -- formatter.
           null_ls.builtins.diagnostics.erb_lint.with({
             condition = function(utils)
               return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
