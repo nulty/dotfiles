@@ -113,12 +113,13 @@ sudo apt-get update -q
 sudo apt-get install -q -y \
   git \
   curl \
-  libpq \
+  libpq-dev \
   build-essential \
   unzip \
   fzf \
   acl \
   font-manager \
+  dconf-editor \
   desktop-file-utils \
   ripgrep \
   sqlformat \
@@ -134,7 +135,7 @@ sudo apt-get install -q -y \
 
 clear
 
-git clone --progress -b $dotfile_branch https://github.com/nulty/dotfiles.git ~/dotfiles
+#git clone --progress -b $dotfile_branch https://github.com/nulty/dotfiles.git ~/dotfiles
 
 ### Install dotfiles for symlinking dotfiles repo ###
 if install? 'dotfiles';

@@ -217,6 +217,11 @@ export PATH=$PATH:$ANDROID_HOME/platform-tools
 ### Mason ###
 export PATH=$PATH:/usr/local/.local/data/nvim/mason/bin/
 
+tunnel() {
+  local port="${1:-3000}"
+  echo "Tunneling localhost:$port to public HTTPS..."
+  ssh -R 80:localhost:$port localhost.run
+}
 
 ### fzf ###
 # export FZF_DEFAULT_COMMAND=$PATH:/usr/local/.local/data/nvim/mason/bin/
@@ -234,3 +239,6 @@ export MISE_STATE_DIR=/usr/local/.local/state/mise/
 export MISE_GLOBAL_CONFIG_FILE=/usr/local/.config/mise/config.toml
 eval "$(/usr/local/bin/mise activate bash)"
 eval "$(mise env)"
+
+# Turso
+export PATH="$PATH:/home/iain/.turso"

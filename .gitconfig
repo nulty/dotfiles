@@ -23,6 +23,7 @@
 [commit]
 	gpgSign = true
 [core]
+  pager = delta
 	excludesfile = /home/iain/.gitignore_global
 	editor = nvim
 	autocrlf = input
@@ -53,3 +54,19 @@
 ;   path = .gitconfig-personal
 ; [includeIf "gitdir:~/Code/professional/"]
 ;   path = .gitconfig-professional
+;
+; GIT DELTA CONFIG BELOW
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    hyperlinks = true
+    side-by-side = true
+    line-numbers = true
+    navigate = true  # use n and N to move between diff sections
+    dark = true      # or light = true, or omit for auto-detection
+
+[merge]
+    conflictStyle = zdiff3
+
+

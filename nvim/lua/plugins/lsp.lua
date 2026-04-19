@@ -73,12 +73,15 @@ return {
               "1"
             }
           }),
+          -- null_ls.builtins.diagnostics["herb-language-server"],
+          -- null_ls.builtins.formatting["herb-language-server"],
           null_ls.builtins.formatting.erb_lint,
           null_ls.builtins.diagnostics.erb_lint,
           -- null_ls.builtins.formatting.rubyfmt,
-          null_ls.builtins.formatting.rubocop.with {
-            args = { "-c", "./.rubocop.yml", "-A", "--server", "-f", "quiet", "--stderr", "--stdin", "$FILENAME" }
-          },
+          null_ls.builtins.formatting.rubocop,
+          -- null_ls.builtins.formatting.rubocop.with {
+          --   args = { "-c", "./.rubocop.yml", "-A", "--server", "-f", "quiet", "--stderr", "--stdin", "$FILENAME" }
+          -- },
           null_ls.builtins.formatting.stylelint,
           -- null_ls.builtins.formatting.prettierd,
           null_ls.builtins.formatting.black,

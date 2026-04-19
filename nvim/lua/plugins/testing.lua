@@ -26,13 +26,13 @@ return {
       },
       {
         "stevearc/overseer.nvim", -- https://github.com/stevearc/overseer.nvim
-        version = "1.3.0",
+        version = "2.1.0",
         config = function()
           require("overseer").setup()
         end,
       },
     },
-    version = "4.4.1",
+    version = "5.15.0",
     lazy = false,
     -- stylua: ignore
     keys = {

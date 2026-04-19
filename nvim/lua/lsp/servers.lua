@@ -42,7 +42,7 @@ M.servers = {
     enabled = true
   },
   rubocop = {
-    enabled = true,
+    enabled = false,
     settings = load_settings('rubocop')
   },
   
@@ -73,6 +73,11 @@ M.servers = {
   -- Template Languages
   ['erb-lint'] = {
     enabled = true
+  },
+
+  -- Template Languages
+  herb_ls = {
+    enabled = true
   }
 }
 
@@ -91,7 +96,7 @@ end
 M.categories = {
   web = { 'cssls', 'html', 'tsserver', 'emmet_language_server' },
   linting = { 'eslint-lsp', 'stylelint_lsp' },
-  ruby = { 'ruby_lsp', 'rubocop', 'erb-lint' },
+  ruby = { 'ruby_lsp', 'rubocop', 'erb-lint', 'herb_ls' },
   lua = { 'lua_ls' },
   data = { 'yamlls', 'jsonls' },
   css_frameworks = { 'tailwindcss' }
