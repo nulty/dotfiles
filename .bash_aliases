@@ -1,10 +1,10 @@
 alias vim="/usr/local/bin/nvim"
 
 # Config files
-alias ac="vim ~/.config/alacritty/alacritty.yml"
+alias ac="vim ~/.config/alacritty/alacritty.toml"
 alias tc="vim ~/.tmux.conf"
-alias vc="vim ~/.config/nvim/init.vim"
-alias vimpkg="cd ~/.config/nvim/plugged"
+alias vc="vim ~/.config/nvim/init.lua"
+alias vimpkg="cd ~/.local/share/nvim/lazy"
 alias sshconf="vim ~/.ssh/config"
 
 # Source bashrc easily
@@ -21,9 +21,9 @@ alias gitprune="git br --merged | egrep -v 'master'|egrep -v \"\*\" | xargs -I \
 alias gitmergestash="git stash show -p | git apply --3"
 alias g="git"
 
-alias pg_conf="sudo su -c'vim /etc/postgresql/9.6/main/postgresql.conf'"
+alias pg_conf='sudo su -c "vim /etc/postgresql/*/main/postgresql.conf"'
 alias vimalias="vim ~/.bash_aliases"
-alias copyvimconfig="cp ~/.config/nvim/init.vim ."
+alias copyvimconfig="cp ~/.config/nvim/init.lua ."
 
 alias delete_merged="git c main && git br --merged | egrep -v '(main|staging)' | xargs -I% git br -d % && git c"
 
