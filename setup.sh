@@ -299,10 +299,9 @@ clear
 # fi
 
 ### Install fonts ####
-mkdir -p ~/fonts
-mkdir -p ~/.local/share/fonts
-cp ~/$dotfile_dir/fonts/* ~/.local/share/fonts/
-fc-cache -f -v
+# Version is pinned inside update-fonts.sh, which is also what you run on an
+# existing machine when devicons outruns the installed font.
+bash ~/$dotfile_dir/update-fonts.sh
 
 ### Install nvim ####
 if install? 'nvim';

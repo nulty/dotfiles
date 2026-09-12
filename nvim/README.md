@@ -96,3 +96,23 @@ few plugins at a time (`:Lazy update telescope.nvim`) makes that bisect cheap.
 
 Run `:checkhealth vim.deprecated` before bumping `nvim_version` in
 `../setup.sh`; it lists API removals with the version they land in.
+
+## Icons
+
+Icons come from nvim-web-devicons and are rendered by the Nerd Font that
+`../update-fonts.sh` installs into `~/.local/share/fonts` (the version is
+pinned in that script).
+
+Blank boxes after a plugin update usually mean devicons has started using
+a glyph newer than that font: it updates far more often than the font
+does. To confirm, take the codepoint of the blank cell and check it
+against the font:
+
+```
+:lua print(vim.fn.str2list(vim.fn.getline('.'))[1])   # cursor on the icon
+fc-query --format='%{charset}\n' ~/.local/share/fonts/BitstromWeraNerdFontMono-Regular.ttf
+```
+
+The fix is `../update-fonts.sh`: bump `nerd_font_version` in it, run it, and
+restart the terminal. `../update-fonts.sh --check` reports installed vs
+pinned without changing anything.

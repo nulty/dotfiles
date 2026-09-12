@@ -11,8 +11,9 @@ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | 
 ```
 
 # Post Install
-1. Install a patched font from https://www.nerdfonts.com/
-  a. Currently using DejaVuSansMono
+1. Fonts are installed by setup.sh via ./update-fonts.sh (BitstromWera Nerd
+   Font Mono, version pinned in that script). Run ./update-fonts.sh --check
+   any time; re-run it after bumping the version, then restart the terminal.
 2. Ensure terminfo setup for alaritty
 3. Set up tmux
   a. Set up tmux tpm
