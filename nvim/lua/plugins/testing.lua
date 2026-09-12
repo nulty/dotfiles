@@ -9,21 +9,7 @@ return {
       "nvim-neotest/neotest-plenary",
       "nvim-neotest/nvim-nio",
       "olimorris/neotest-rspec",    -- https://github.com/olimorris/neotest-rspec
-      {
-        "zidhuss/neotest-minitest", -- https://github.com/zidhuss/neotest-minitest
-        confit = function(_config)
-          require('neotest-minitest').setup({
-            test_cmd = function()
-              return vim.tbl_flatten({
-                "bundle",
-                "exec",
-                "rails",
-                "test",
-              })
-            end
-          })
-        end
-      },
+      "zidhuss/neotest-minitest", -- https://github.com/zidhuss/neotest-minitest
       {
         "stevearc/overseer.nvim", -- https://github.com/stevearc/overseer.nvim
         version = "2.1.0",
@@ -99,7 +85,13 @@ return {
         adapters = {
           -- require("neotest-plenary"),
           require('neotest-rspec'),
-          require('neotest-minitest'),
+          -- The adapter is configured by calling it, not by a setup(); calling
+          -- it returns the adapter with config.get_test_cmd overridden.
+          require('neotest-minitest')({
+            test_cmd = function()
+              return { "bundle", "exec", "rails", "test" }
+            end,
+          }),
         },
         consumers = {
           overseer = require("neotest.consumers.overseer"),

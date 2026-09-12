@@ -28,9 +28,9 @@ return {
     "bkad/CamelCaseMotion",
     event = "VeryLazy",
     keys = {
-      { "w", "<Plug>CamelCaseMotion_w", mode = { "v", "n" }, { silent = true } },
-      { "b", "<Plug>CamelCaseMotion_b", mode = { "v", "n" }, { silent = true } },
-      { "e", "<Plug>CamelCaseMotion_e", mode = { "v", "n" }, { silent = true } },
+      { "w", "<Plug>CamelCaseMotion_w", mode = { "v", "n" }, silent = true },
+      { "b", "<Plug>CamelCaseMotion_b", mode = { "v", "n" }, silent = true },
+      { "e", "<Plug>CamelCaseMotion_e", mode = { "v", "n" }, silent = true },
     }
   },
 }

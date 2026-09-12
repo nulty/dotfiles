@@ -36,9 +36,8 @@ return {
   {
     -- https://github.com/junegunn/vim-easy-align
     "junegunn/vim-easy-align",
-    event = "BufEnter",
     keys = {
-      { 'ga', '<Plug>(EasyAlign)', mode = { 'o', 'x', 'v', 's', 'l' } }
+      { 'ga', '<Plug>(EasyAlign)', mode = { 'n', 'x' } }
     }
   },
   {

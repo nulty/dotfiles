@@ -19,9 +19,7 @@ o.cmdheight = 2
 o.scrolloff = 3
 o.pumheight = 10
 
-if vim.fn.has("termguicolors") then
-  vim.o.termguicolors = true
-end
+o.termguicolors = true
 
 -- Mappings
 vim.keymap.set("i", "jk", "<ESC>")
@@ -55,7 +53,7 @@ vim.keymap.set("n", "<M-j>", ":WinShift down<cr>")
 vim.api.nvim_create_autocmd({ "BufEnter" },
   {
     pattern = { ".env.*" },
-    callback = function()
-      vim.api.nvim_buf_set_option(0, "filetype", "sh")
+    callback = function(args)
+      vim.bo[args.buf].filetype = "sh"
     end,
   })

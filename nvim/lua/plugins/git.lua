@@ -15,16 +15,10 @@ return {
     event = "BufEnter",
     opts = {
       on_attach = function(bufnr)
-        vim.keymap.set('n', ']c', '<CMD> lua require"gitsigns".next_hunk()<CR>', { buffer = bufnr, noremap = true })
-        vim.keymap.set('n', '[c', '<CMD> lua require"gitsigns".prev_hunk()<CR>', { buffer = bufnr, noremap = true })
+        local gitsigns = require('gitsigns')
+        vim.keymap.set('n', ']c', function() gitsigns.nav_hunk('next') end, { buffer = bufnr, noremap = true })
+        vim.keymap.set('n', '[c', function() gitsigns.nav_hunk('prev') end, { buffer = bufnr, noremap = true })
       end
     },
-    config = function(config)
-      local setup = {
-        on_attach = config.opts.on_attach,
-      }
-
-      require('gitsigns').setup(setup)
-    end
   },
 }

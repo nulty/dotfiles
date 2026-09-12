@@ -1,9 +1,6 @@
 -- Global
-if vim.loop.os_uname().sysname == "mac" then
-  vim.g.leader = "`"
-else
-  vim.g.leader = "\\"
-end
+-- Must be set before any <leader> mapping is defined, so it stays at the top.
+vim.g.mapleader = vim.uv.os_uname().sysname == "Darwin" and "`" or "\\"
 
 require "user_functions"
 require "mappings"
@@ -13,7 +10,7 @@ require "logging"
 -- Lazy.nvim
 -- https://github.com/folke/lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
     "clone",
@@ -25,9 +22,6 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins", {
-	defaults = {
-    version = "v11.17.5"
-	},
 	change_detection = {
 		notify = false -- Stops blocking message in the cmd line from appearing
 	},

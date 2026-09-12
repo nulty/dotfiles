@@ -24,24 +24,18 @@ return {
     vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
   end,
   opts = {
-    rest = {
-      view = {
-        mappings = {
-          custom_only = true,
-          list = {},
-        },
-        width = 40,
-      },
-      remove_keymaps = {
-        "<C-]>"
-      },
-      renderer = {
-        group_empty = true,
-        highlight_opened_files = "all",
-      },
-      filters = {
-        dotfiles = true,
-      },
+    -- view.mappings and remove_keymaps were removed from nvim-tree; on_attach
+    -- below is the only supported way to define the tree's keymaps now.
+    view = {
+      width = 40,
+    },
+    renderer = {
+      group_empty = true,
+      highlight_opened_files = "all",
+    },
+    filters = {
+      -- Show dotfiles: most of what gets edited here is one. `H` toggles.
+      dotfiles = false,
     },
     on_attach = function(bufnr)
       local api = require('nvim-tree.api')
@@ -132,12 +126,4 @@ return {
       desc = "Find the current file in nvim-tree"
     }
   },
-  config = function(config)
-    local setup = {
-      on_attach = config.opts.on_attach,
-    }
-    vim.tbl_deep_extend("keep", setup, config.opts.rest)
-
-    require('nvim-tree').setup(setup)
-  end
 }

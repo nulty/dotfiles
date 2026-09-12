@@ -25,7 +25,7 @@ return {
           --   "--column",
           --   "--smart-case",
           -- },
-          file_ignore_patterns = { "yarn.lock", "^.git%" },
+          file_ignore_patterns = { "yarn%.lock", "^%.git/" },
           mappings = {
             n = {
               ['<c-d>'] = require('telescope.actions').delete_buffer
