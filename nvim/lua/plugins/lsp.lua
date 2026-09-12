@@ -1,4 +1,3 @@
-
 return {
   {
     "neovim/nvim-lspconfig",
@@ -15,7 +14,15 @@ return {
 
       require 'mason-lspconfig'.setup({
         automatic_installation = {},
-        ensure_installed = { 'rubocop' },
+        -- lspconfig names, not Mason package names (mason-lspconfig v2).
+        ensure_installed = {
+          'rubocop',
+          'lua_ls',
+          'ruby_lsp',
+          'stylelint_lsp',
+          'herb_ls',
+          'eslint',
+        },
       })
 
       -- Shared defaults applied to every server mason-lspconfig auto-enables.
@@ -137,5 +144,16 @@ return {
   --     vim.g.copilot_enabled = false
   --   end
   -- },
-  { "folke/neodev.nvim", opts = {} },
+  {
+    -- Replaces neodev.nvim (EOL). Lazily feeds LuaLS the workspace libraries
+    -- for whatever modules the open file actually requires.
+    "folke/lazydev.nvim",
+    ft = "lua",
+    opts = {
+      library = {
+        -- Load luvit types only when `vim.uv` is mentioned
+        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+      },
+    },
+  },
 }

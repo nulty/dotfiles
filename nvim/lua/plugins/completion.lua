@@ -40,39 +40,43 @@ return {
           ["<S-Tab>"] = cmp.mapping(function(fallback)
             if cmp.visible() then
               cmp.select_prev_item()
-            elseif luasnip.jumpable( -1) then
-              luasnip.jump( -1)
+            elseif luasnip.jumpable(-1) then
+              luasnip.jump(-1)
             else
               fallback()
             end
           end, { "i", "s" }),
           ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
           ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-          ["<C-b>"] = cmp.mapping.scroll_docs( -4),
+          ["<C-b>"] = cmp.mapping.scroll_docs(-4),
           ["<C-f>"] = cmp.mapping.scroll_docs(4),
           ["<C-Space>"] = cmp.mapping.complete(),
           ["<C-e>"] = cmp.mapping.abort(),
           ["<CR>"] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
         }),
         sources = cmp.config.sources({
+          -- Own group so lazydev wins for `require(...)` paths; it returns
+          -- nothing elsewhere, so the group below is used everywhere else.
+          { name = "lazydev" },
+        }, {
           { name = "nvim_lsp", priority = 1000 },
-          { name = "luasnip", priority = 750 },
+          { name = "luasnip",  priority = 750 },
           { name = "nvim_lua", priority = 700 },
-          { name = "path", priority = 500 },
-          { name = "buffer", priority = 250, keyword_length = 3 },
-          { name = "emoji", priority = 100 },
+          { name = "path",     priority = 500 },
+          { name = "buffer",   priority = 250, keyword_length = 3 },
+          { name = "emoji",    priority = 100 },
         }),
         sorting = {
           comparators = {
-            cmp.config.compare.offset,       -- Match position in word
-            cmp.config.compare.exact,        -- Exact matches first
-            cmp.config.compare.score,        -- LSP relevance
+            cmp.config.compare.offset,        -- Match position in word
+            cmp.config.compare.exact,         -- Exact matches first
+            cmp.config.compare.score,         -- LSP relevance
             cmp.config.compare.recently_used, -- Recently used
-            cmp.config.compare.locality,     -- Nearby definitions
-            cmp.config.compare.kind,         -- Group by type
-            cmp.config.compare.sort_text,    -- Server suggestions
-            cmp.config.compare.length,       -- Shorter names first
-            cmp.config.compare.order,        -- Source order fallback
+            cmp.config.compare.locality,      -- Nearby definitions
+            cmp.config.compare.kind,          -- Group by type
+            cmp.config.compare.sort_text,     -- Server suggestions
+            cmp.config.compare.length,        -- Shorter names first
+            cmp.config.compare.order,         -- Source order fallback
           }
         },
         window = {
@@ -96,12 +100,12 @@ return {
             vim_item.kind = icons.kind[vim_item.kind]
 
             vim_item.menu = ({
-                  buffer = "[Buf]",
-                  nvim_lsp = "[LSP]",
-                  luasnip = "[Snip]",
-                  nvim_lua = "[Lua]",
-                  latex_symbols = "[LaTeX]",
-                })[entry.source.name]
+              buffer = "[Buf]",
+              nvim_lsp = "[LSP]",
+              luasnip = "[Snip]",
+              nvim_lua = "[Lua]",
+              latex_symbols = "[LaTeX]",
+            })[entry.source.name]
 
             return vim_item
           end,
