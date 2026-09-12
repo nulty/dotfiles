@@ -9,7 +9,6 @@ return {
     },
     event = "BufEnter",
     config = function(plugin, _opts)
-      local servers = require('lsp.servers')
       require 'mason'.setup()
 
       require 'mason-lspconfig'.setup({
@@ -28,30 +27,25 @@ return {
       -- Shared defaults applied to every server mason-lspconfig auto-enables.
       vim.lsp.config('*', require('lsp_config'))
 
-      -- Launch ruby-lsp through `mise x` with cwd=root_dir so it picks up
-      -- the project's Ruby (.mise.toml / .tool-versions / .ruby-version)
-      -- instead of mise's global Ruby. Preserves the built-in cmd_cwd behaviour
-      -- from nvim-lspconfig's lsp/ruby_lsp.lua so mise resolves from the project.
-      vim.lsp.config('ruby_lsp', {
-        cmd = function(dispatchers, config)
-          return vim.lsp.rpc.start(
-            { 'mise', 'x', '--', 'ruby-lsp' },
-            dispatchers,
-            config and config.root_dir and { cwd = config.cmd_cwd or config.root_dir }
-          )
+      -- eslint's LSP client can format on save; it is gated by the shared
+      -- registry in lua/formatting.lua, so :FormatOnSave eslint on|off
+      -- governs it like every other tool. Off by default.
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if not client or client.name ~= 'eslint' then return end
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            buffer = args.buf,
+            callback = function()
+              if not require('formatting').on_save_enabled(args.buf, 'eslint') then return end
+              vim.lsp.buf.format({
+                bufnr = args.buf,
+                async = false,
+                filter = function(c) return c.name == 'eslint' end,
+              })
+            end,
+          })
         end,
-      })
-
-      -- herb_ls defaults formatter.enabled = false unless the project has a
-      -- .herb.yml (see @herb-tools/language-server settings.js). Enable it via
-      -- the client settings so <leader>d works without needing a config file.
-      vim.lsp.config('herb_ls', {
-        settings = {
-          languageServerHerb = {
-            formatter = { enabled = true },
-            linter = { enabled = true, fixOnSave = true },
-          },
-        },
       })
 
       -- :HerbInit drops the preferred .herb.yml template into the nearest
@@ -84,7 +78,6 @@ return {
     config = function()
       local null_ls = require 'null-ls'
       null_ls.setup {
-        on_attach = require('lsp_config').on_attach,
         debug = true,
         sources = {
           require("none-ls.formatting.jq"),

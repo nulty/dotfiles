@@ -1,7 +1,13 @@
-local on_attach = function(client, buf)
+local formatting = require('formatting')
+
+-- Keymaps are applied from an LspAttach autocmd rather than an on_attach in
+-- vim.lsp.config('*', ...): a server-level on_attach replaces the shared one
+-- instead of chaining, and nvim-lspconfig ships its own for eslint,
+-- stylelint_lsp and ~24 others. LspAttach fires for every client regardless.
+local function on_attach(client, buf)
   local opts = { buffer = buf, noremap = true, silent = true }
 
-  vim.bo.omnifunc = "v:lua.vim.lsp.omnifunc"
+  vim.bo[buf].omnifunc = "v:lua.vim.lsp.omnifunc"
 
   -- LSP Mappings using modern vim.keymap.set
   vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, opts)
@@ -23,18 +29,7 @@ local on_attach = function(client, buf)
   vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
   vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, opts)
   vim.keymap.set('n', '<leader>d', function()
-    vim.lsp.buf.format({
-      async = true,
-      filter = function(fn_client)
-        if fn_client.name == "lua_ls" then return true end
-        -- For eruby both herb_ls (HTML+ERB layout) and null-ls (erb_lint,
-        -- when .erb-lint.yml opts in) are formatters; run them in sequence.
-        if vim.bo.filetype == "eruby" then
-          return fn_client.name == "herb_ls" or fn_client.name == "null-ls"
-        end
-        return fn_client.name == "null-ls"
-      end
-    })
+    formatting.format(buf)
   end, opts)
 
   -- Document highlighting: highlights all occurrences of symbol under cursor after CursorHold,
@@ -67,8 +62,17 @@ local capabilities = vim.tbl_deep_extend("force",
   require('cmp_nvim_lsp').default_capabilities()
 )
 
+vim.api.nvim_create_autocmd('LspAttach', {
+  group = vim.api.nvim_create_augroup('lsp_attach_keymaps', { clear = true }),
+  callback = function(args)
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if client then
+      on_attach(client, args.buf)
+    end
+  end,
+})
+
 return {
-  on_attach = on_attach,
   capabilities = capabilities
   --settings
   --filetypes

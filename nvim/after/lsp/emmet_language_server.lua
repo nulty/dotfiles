@@ -1,3 +1,4 @@
+---@type vim.lsp.Config
 return {
   filetypes = {
     "css",
@@ -8,6 +9,6 @@ return {
     "sass",
     "scss",
     "typescriptreact",
-    'htmldjango',
-  }
+    "htmldjango",
+  },
 }
