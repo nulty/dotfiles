@@ -10,28 +10,32 @@ return {
     event = "VeryLazy"
   },
   {
+    -- build downloads a prebuilt binary rather than running `yarn install`
+    -- in the plugin's own checkout: yarn rewrote app/yarn.lock and left an
+    -- untracked app/package-lock.json, which blocked every later :Lazy update.
     "iamcco/markdown-preview.nvim",
-    build = 'cd app && yarn install',
+    build = function() vim.fn["mkdp#util#install"]() end,
+    cmd = { "MarkdownPreview", "MarkdownPreviewStop", "MarkdownPreviewToggle" },
     ft = { "markdown" },
   },
   {
     "vim-crystal/vim-crystal",
-    event = "BufEnter"
+    ft = "crystal"
   },
   {
     "tpope/vim-rhubarb",
-    event = "BufEnter"
+    event = "VeryLazy"
   },
   {
     "tpope/vim-unimpaired",
-    event = "BufEnter"
+    event = "VeryLazy"
   },
   {
+    -- No cond: it was evaluated once at startup against the cwd, so opening
+    -- nvim from a subdirectory of an app skipped the plugin entirely.
+    -- vim-rails already no-ops outside a Rails project.
     "tpope/vim-rails",
-    event = "BufEnter",
-    cond = function()
-      return vim.fn.filereadable("Gemfile") == 1
-    end
+    ft = { "ruby", "eruby" }
   },
   {
     -- https://github.com/junegunn/vim-easy-align
@@ -48,12 +52,13 @@ return {
   {
     -- https://github.com/dkarter/bullets.vim
     "dkarter/bullets.vim",
-    event = "BufEnter",
     ft = { "markdown", "text", "gitcommit" },
   },
   {
     -- https://github.com/b0o/SchemaStore.nvim
+    -- No event: after/lsp/{jsonls,yamlls}.lua require() it, which is what
+    -- triggers the load.
     "b0o/SchemaStore.nvim",
-    event = "BufEnter"
+    lazy = true
   },
 }

@@ -3,11 +3,11 @@ return {
     "neovim/nvim-lspconfig",
     dependencies = {
       "hrsh7th/nvim-cmp",
-      "williamboman/mason.nvim",
-      "williamboman/mason-lspconfig.nvim",
+      "mason-org/mason.nvim",
+      "mason-org/mason-lspconfig.nvim",
       { 'j-hui/fidget.nvim', opts = {} },
     },
-    event = "BufEnter",
+    event = { "BufReadPre", "BufNewFile" },
     config = function(plugin, _opts)
       require 'mason'.setup()
 

@@ -2,7 +2,7 @@ return {
   -- https://github.com/numToStr/Comment.nvim
   {
     'numToStr/Comment.nvim',
-    event = "BufEnter",
+    event = "VeryLazy",
     config = true
   },
 
