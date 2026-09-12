@@ -109,6 +109,16 @@ install?() {
   fi
 }
 
+# Add the git-core PPA so we get an up-to-date git.
+# Ubuntu's own repos pin git for the life of the release (noble ships 2.43).
+if ! grep -rq 'git-core' /etc/apt/sources.list /etc/apt/sources.list.d/ 2>/dev/null;
+then
+  echo "Adding git-core PPA"
+  sudo apt-get update -q
+  sudo apt-get install -q -y software-properties-common
+  sudo add-apt-repository -y ppa:git-core/ppa
+fi
+
 sudo apt-get update -q
 sudo apt-get install -q -y \
   git \
