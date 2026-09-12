@@ -19,7 +19,7 @@ local config = {}
 config.format_on_save = {
   prettier = false,
   erb_lint = false,
-  rubocop = false,
+  ruby_lsp = false,
   stylelint = false,
   herb_ls = false,
   lua_ls = false,
@@ -31,6 +31,10 @@ config.format_on_save = {
 --- win where two tools disagree.
 config.chains = {
   lua = { 'lua_ls' },
+  -- ruby-lsp's RuboCop addon does both diagnostics and formatting, using the
+  -- rubocop the project bundles. Named explicitly so ruby does not fall through
+  -- to the null-ls default chain, which has no ruby formatter.
+  ruby = { 'ruby_lsp' },
   -- erb_lint rewrites the Ruby inside the tags; herb then normalises the
   -- markup around it. Naming both explicitly guarantees the order.
   eruby = { 'erb_lint', 'herb_ls' },
@@ -63,7 +67,6 @@ config.herb_markers = { '.herb.yml' }
 config.null_ls_sources = {
   prettier = true,
   erb_lint = true,
-  rubocop = true,
   stylelint = true,
 }
 

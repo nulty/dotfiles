@@ -13,16 +13,50 @@ return {
 
       require 'mason-lspconfig'.setup({
         automatic_installation = {},
+        -- Installed servers are auto-enabled regardless of ensure_installed, so
+        -- a leftover mason package can resurrect a server we deliberately
+        -- dropped. rubocop is excluded explicitly: ruby-lsp's addon covers it.
+        automatic_enable = { exclude = { 'rubocop' } },
         -- lspconfig names, not Mason package names (mason-lspconfig v2).
         ensure_installed = {
-          'rubocop',
+          -- No standalone 'rubocop' server: ruby-lsp runs RuboCop as a built-in
+          -- addon against the project's *bundled* rubocop, which is both more
+          -- correct than a global gem and already provides diagnostics and
+          -- formatting. The separate client was duplication.
           'lua_ls',
           'ruby_lsp',
-          'stylelint_lsp',
+          -- No 'stylelint_lsp' here: see ensure_packages below.
           'herb_ls',
           'eslint',
+          -- after/lsp/{jsonls,yamlls}.lua wire these up to SchemaStore, but
+          -- they were never listed here, so neither was installed and both
+          -- config files were dead.
+          'jsonls',
+          'yamlls',
         },
       })
+
+      -- Two mason packages claim the lspconfig name `stylelint_lsp`:
+      -- stylelint-language-server (current) and stylelint-lsp (deprecated).
+      -- mason-lspconfig's ensure_installed only speaks lspconfig names, so
+      -- asking for 'stylelint_lsp' is ambiguous and kept reinstalling the
+      -- deprecated one. Install the package we actually want by its own name;
+      -- mason-lspconfig still auto-enables it once present.
+      local function ensure_packages(names)
+        local ok, registry = pcall(require, 'mason-registry')
+        if not ok then return end
+        registry.refresh(function()
+          for _, name in ipairs(names) do
+            local found, pkg = pcall(registry.get_package, name)
+            if found and not pkg:is_installed() then
+              vim.notify('Installing mason package: ' .. name)
+              pkg:install()
+            end
+          end
+        end)
+      end
+
+      ensure_packages({ 'stylelint-language-server' })
 
       -- Shared defaults applied to every server mason-lspconfig auto-enables.
       vim.lsp.config('*', require('lsp_config'))
@@ -110,16 +144,22 @@ return {
               return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
             end,
           }),
+          -- ignore_stderr because the `parser` gem writes a warning to stderr
+          -- whenever the running Ruby's patch version differs from the one it
+          -- was built against ("parser/current is loading parser/ruby34 ... but
+          -- you are running 3.4.10"). none-ls treats any stderr as a failed
+          -- generator, so that warning alone killed every erb_lint diagnostic.
+          -- The formatting builtin already sets this; the diagnostics one does
+          -- not, which is an upstream inconsistency rather than a config error.
           null_ls.builtins.diagnostics.erb_lint.with({
+            ignore_stderr = true,
             condition = function(utils)
               return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
             end,
           }),
-          -- null_ls.builtins.formatting.rubyfmt,
-          null_ls.builtins.formatting.rubocop,
-          -- null_ls.builtins.formatting.rubocop.with {
-          --   args = { "-c", "./.rubocop.yml", "-A", "--server", "-f", "quiet", "--stderr", "--stdin", "$FILENAME" }
-          -- },
+          -- No rubocop source here either: ruby-lsp's RuboCop addon formats Ruby
+          -- (see the ruby chain in lua/formatting.lua). Running it in both places
+          -- meant two rubocop versions rewriting the same buffer.
           null_ls.builtins.formatting.stylelint,
           -- null_ls.builtins.formatting.prettierd,
           null_ls.builtins.formatting.black,
