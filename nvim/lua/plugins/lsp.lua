@@ -61,26 +61,9 @@ return {
       -- Shared defaults applied to every server mason-lspconfig auto-enables.
       vim.lsp.config('*', require('lsp_config'))
 
-      -- eslint's LSP client can format on save; it is gated by the shared
-      -- registry in lua/formatting.lua, so :FormatOnSave eslint on|off
-      -- governs it like every other tool. Off by default.
-      vim.api.nvim_create_autocmd('LspAttach', {
-        callback = function(args)
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          if not client or client.name ~= 'eslint' then return end
-          vim.api.nvim_create_autocmd('BufWritePre', {
-            buffer = args.buf,
-            callback = function()
-              if not require('formatting').on_save_enabled(args.buf, 'eslint') then return end
-              vim.lsp.buf.format({
-                bufnr = args.buf,
-                async = false,
-                filter = function(c) return c.name == 'eslint' end,
-              })
-            end,
-          })
-        end,
-      })
+      -- eslint's LSP client formats as the last step of the JS/TS chains in
+      -- lua/formatting.lua, so it needs no autocmd of its own: <leader>d and
+      -- :FormatOnSave eslint on|off reach it like every other tool.
 
       -- :HerbInit drops the preferred .herb.yml template into the nearest
       -- Gemfile/.git root so per-project rule tuning picks up immediately.
@@ -103,66 +86,35 @@ return {
   },
   {
     -- https://github.com/nvimtools/none-ls.nvim
+    --
+    -- Diagnostics only. Every formatter that used to live here moved to
+    -- conform (lua/plugins/conform.lua, configured in lua/formatting.lua),
+    -- which runs CLI tools by name and in order without needing a fake LSP
+    -- client -- and so without the sibling-disabling that ordering two null-ls
+    -- sources used to require.
+    --
+    -- erb_lint is the only source left: nothing else reports the Ruby offences
+    -- inside ERB tags. eslint's and stylelint's diagnostics come from their own
+    -- language servers, and ruby-lsp's RuboCop addon covers Ruby.
     "nvimtools/none-ls.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvimtools/none-ls-extras.nvim"
-    },
+    dependencies = { "nvim-lua/plenary.nvim" },
     event = "VeryLazy",
     config = function()
       local null_ls = require 'null-ls'
       null_ls.setup {
         debug = true,
         sources = {
-          require("none-ls.formatting.jq"),
-          -------------------
-          -- RUN PRETTIER BEFORE ESLINT
-          -- -----------------
-          null_ls.builtins.formatting.prettier.with {
-            extra_args = {
-              "--html-whitespace-sensitivity",
-              "ignore",
-              "--prose-wrap",
-              "always"
-            },
-            -- extra_filetypes = { "astro", "tsx" },
-            -- extra_filetypes = { "astro", "tsx", "eruby" },
-            disabled_filetypes = { 'eruby' }
-          },
-          require("none-ls.diagnostics.eslint"),
-          require("none-ls.formatting.eslint").with({
-            --extra_args = { "--fix" },
-            extra_args = { "-c", "eslint.config.js" },
-          }),
-
-          -- herb_ls owns HTML+ERB layout; erb_lint is additive for the Ruby
-          -- inside ERB tags (autofix + diagnostics). Both are gated on a
-          -- project opting in via .erb-lint.yml. On <leader>d both run —
-          -- erb_lint rewrites Ruby, herb normalises surrounding layout.
-          null_ls.builtins.formatting.erb_lint.with({
-            condition = function(utils)
-              return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
-            end,
-          }),
           -- ignore_stderr because the `parser` gem writes a warning to stderr
           -- whenever the running Ruby's patch version differs from the one it
           -- was built against ("parser/current is loading parser/ruby34 ... but
           -- you are running 3.4.10"). none-ls treats any stderr as a failed
           -- generator, so that warning alone killed every erb_lint diagnostic.
-          -- The formatting builtin already sets this; the diagnostics one does
-          -- not, which is an upstream inconsistency rather than a config error.
           null_ls.builtins.diagnostics.erb_lint.with({
             ignore_stderr = true,
             condition = function(utils)
               return utils.root_has_file({ ".erb-lint.yml", ".erb_lint.yml" })
             end,
           }),
-          -- No rubocop source here either: ruby-lsp's RuboCop addon formats Ruby
-          -- (see the ruby chain in lua/formatting.lua). Running it in both places
-          -- meant two rubocop versions rewriting the same buffer.
-          null_ls.builtins.formatting.stylelint,
-          -- null_ls.builtins.formatting.prettierd,
-          null_ls.builtins.formatting.black,
         }
       }
     end

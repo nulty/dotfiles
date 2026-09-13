@@ -40,12 +40,21 @@ Inspect state with `:LspActiveClients`, `:LspInstalledClients`,
 `<leader>d` runs a per-filetype *chain* of tools in order, so a later tool wins
 where two disagree. Formatting on save is off by default for every tool.
 
-- `:FormatInfo` — what would run in this buffer, and why
+[conform.nvim](https://github.com/stevearc/conform.nvim) runs the CLI tools and
+a language server handles the rest; a chain can mix the two, and `lua/formatting.lua`
+is where they are declared. `<leader>d` is asynchronous — the editor stays live
+while a slow tool works, at the cost of the result being discarded if you type
+before it lands. Formatting on save is synchronous, so the file matches the
+buffer.
+
+- `:FormatInfo` — what would run in this buffer, why, and whether each step can
 - `:FormatOnSave [tool] [on|off|toggle|buffer|default|status]`
-- `:FormatDebug` — per-step logging
+- `:FormatDebug` — turn conform's logging up to DEBUG
+- `:ConformInfo` — conform's own view: the log file, and tool availability
 
 Everything intended to be tweaked lives in the CONFIGURATION block at the top
-of `lua/formatting.lua`.
+of `lua/formatting.lua`. Its `chains` table *is* conform's `formatters_by_ft`,
+so conform's documentation applies to it directly.
 
 ## Keymaps
 
@@ -72,7 +81,8 @@ pinned in `lazy-lock.json`.
 Notable: [nvim-tree](https://github.com/nvim-tree/nvim-tree.lua) (file tree),
 [telescope](https://github.com/nvim-telescope/telescope.nvim) (pickers),
 [nvim-cmp](https://github.com/hrsh7th/nvim-cmp) (completion),
-[none-ls](https://github.com/nvimtools/none-ls.nvim) (non-LSP formatters),
+[conform](https://github.com/stevearc/conform.nvim) (CLI formatters),
+[none-ls](https://github.com/nvimtools/none-ls.nvim) (erb_lint diagnostics),
 [neotest](https://github.com/nvim-neotest/neotest) (rspec + minitest),
 [gitsigns](https://github.com/lewis6991/gitsigns.nvim) and
 [fugitive](https://github.com/tpope/vim-fugitive),

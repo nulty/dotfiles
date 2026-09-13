@@ -7,8 +7,9 @@
 --
 -- Commands:
 --   :FormatInfo                     explain what <leader>d would run here
---   :FormatDebug                    toggle per-step logging
+--   :FormatDebug                    toggle conform's debug logging
 --   :FormatOnSave [tool] [setting]  control formatting on save
+--   :ConformInfo                    conform's own view: log file, availability
 --------------------------------------------------------------------------
 
 local config = {}
@@ -16,47 +17,22 @@ local config = {}
 --- Which tools format on save, before any :FormatOnSave override.
 --- Off by default: nothing rewrites a buffer behind you unless you ask.
 --- Set one to true here to make it permanent.
+---
+--- Names are conform formatter names for CLI tools and LSP client names for
+--- servers; both appear in config.chains the same way.
 config.format_on_save = {
   prettier = false,
-  ['erb-lint'] = false,
-  ruby_lsp = false,
+  erb_lint = false,
   stylelint = false,
-  herb_ls = false,
-  lua_ls = false,
+  black = false,
+  jq = false,
   eslint = false,
-  ['null-ls'] = false,
+  lua_ls = false,
+  ruby_lsp = false,
+  herb_ls = false,
 }
 
---- Tools to run for a filetype, in order. Later entries format last, so they
---- win where two tools disagree.
-config.chains = {
-  lua = { 'lua_ls' },
-  -- ruby-lsp's RuboCop addon does both diagnostics and formatting, using the
-  -- rubocop the project bundles. Named explicitly so ruby does not fall through
-  -- to the null-ls default chain, which has no ruby formatter.
-  ruby = { 'ruby_lsp' },
-  -- erb-lint rewrites the Ruby inside the tags; herb then normalises the
-  -- markup around it. Naming both explicitly guarantees the order.
-  --
-  -- The name must be exactly what none-ls registers the source as, which is
-  -- 'erb-lint' with a hyphen (see its builtin's `name`), not the erb_lint the
-  -- gem and its config file use. A mismatch does not error: step_status simply
-  -- reports "not registered with null-ls for this filetype" and :FormatInfo
-  -- will say so, while <leader>d quietly skips the step.
-  eruby = { 'erb-lint', 'herb_ls' },
-}
-
---- html is resolved from what the project has checked in, not the filetype.
-config.html_chains = {
-  prettier_config = { 'prettier' },
-  herb_config = { 'herb_ls' },
-  neither = { 'prettier', 'herb_ls' },
-}
-
---- Used for any filetype without an entry in config.chains.
-config.default_chain = { 'null-ls' }
-
---- Project markers that decide the html chain above.
+--- Project markers that decide the html chain below.
 config.prettier_markers = {
   '.prettierrc',
   '.prettierrc.json', '.prettierrc.json5',
@@ -67,35 +43,128 @@ config.prettier_markers = {
 }
 config.herb_markers = { '.herb.yml' }
 
---- Ceiling for a single formatting step, in milliseconds. Not a delay: a step
---- returns as soon as its tool does. It applies per step, so a two-step chain
---- can wait twice this in the worst case.
+--- Tools to run for a filetype, in order. Later entries format last, so they
+--- win where two tools disagree.
 ---
---- vim.lsp.buf.format defaults to 1000, which silently discarded erb-lint's
---- edits: the request timed out at 1s, the tool finished at ~1.6s and reported
---- success to a client that had stopped listening, so <leader>d looked like it
---- did nothing. Measured on this machine: erb-lint 1603ms (it boots Ruby),
---- stylelint 705ms, eslint 456ms, prettier ~370ms. 3s is roughly double the
---- slowest, which covers larger files without turning a wedged tool into a
---- long freeze -- <leader>d is synchronous, so this is editor-blocking time.
+--- This table is handed to conform as `formatters_by_ft`, so it uses conform's
+--- shape rather than a private one: the array part lists CLI formatters, and
+--- an LSP server joins the chain via `name` (which client) plus `lsp_format`
+--- (where in the order it runs):
+---
+---   'prefer' — the server formats and no CLI tool runs
+---   'first'  — the server formats, then the CLI tools
+---   'last'   — the CLI tools format, then the server
+---
+--- conform allows one server per filetype, which is all any chain here needs.
+--- A value may also be a function(bufnr) returning such a table, which is how
+--- html decides between prettier and herb per project.
+config.chains = {
+  lua = { lsp_format = 'prefer', name = 'lua_ls' },
+
+  -- ruby-lsp's RuboCop addon does both diagnostics and formatting, using the
+  -- rubocop the project bundles.
+  ruby = { lsp_format = 'prefer', name = 'ruby_lsp' },
+
+  -- erb_lint rewrites the Ruby inside the tags; herb then normalises the
+  -- markup around it.
+  eruby = { 'erb_lint', lsp_format = 'last', name = 'herb_ls' },
+
+  python = { 'black' },
+
+  -- jq normalises the structure, prettier then applies the project's style.
+  json = { 'jq', 'prettier' },
+
+  css = { 'prettier', 'stylelint' },
+  scss = { 'prettier', 'stylelint' },
+  less = { 'prettier', 'stylelint' },
+  sass = { 'stylelint' },
+
+  --- html is resolved from what the project has checked in, not the filetype.
+  html = function(buf)
+    if vim.fs.root(buf, config.prettier_markers) then
+      return { 'prettier' }
+    end
+    if vim.fs.root(buf, config.herb_markers) then
+      return { lsp_format = 'prefer', name = 'herb_ls' }
+    end
+    return { 'prettier', lsp_format = 'last', name = 'herb_ls' }
+  end,
+}
+
+--- prettier on its own, for the filetypes it handles and nothing else does.
+for _, ft in ipairs({
+  'json5', 'jsonc', 'yaml', 'markdown', 'markdown.mdx',
+  'graphql', 'handlebars', 'htmlangular',
+}) do
+  config.chains[ft] = { 'prettier' }
+end
+
+--- prettier for layout, then eslint's own LSP client for its fixable rules.
+--- The eslint server resolves the project's flat config itself, so there is no
+--- hardcoded `-c eslint.config.js` any more.
+for _, ft in ipairs({
+  'javascript', 'javascriptreact', 'typescript', 'typescriptreact',
+  'vue', 'svelte', 'astro',
+}) do
+  config.chains[ft] = { 'prettier', lsp_format = 'last', name = 'eslint' }
+end
+
+--- Custom formatters, and overrides for the ones conform ships.
+config.formatters = {
+  prettier = {
+    prepend_args = {
+      '--html-whitespace-sensitivity', 'ignore',
+      '--prose-wrap', 'always',
+    },
+  },
+
+  -- conform has no erb_lint builtin (its `erb_format` is the unrelated
+  -- erb-formatter gem), so this is the whole definition.
+  --
+  -- stdin = false because `erb_lint --autocorrect FILE` rewrites the file in
+  -- place: conform writes the buffer to a temp file, runs this, and reads the
+  -- temp file back. That also sidesteps the `--stdin` mode's banner, where the
+  -- corrected source is preceded by a "===== path =====" header that the
+  -- caller has to strip.
+  --
+  -- exit_codes includes 1: erb_lint exits non-zero when offences remain that
+  -- it cannot correct, having still corrected the ones it can.
+  erb_lint = {
+    meta = {
+      url = 'https://github.com/Shopify/erb-lint',
+      description = 'Lint and autocorrect the Ruby inside ERB tags',
+    },
+    command = 'erb_lint',
+    args = { '--autocorrect', '$FILENAME' },
+    stdin = false,
+    exit_codes = { 0, 1 },
+    -- Opt-in per project, as before: no config file, no erb_lint. require_cwd
+    -- turns the missing root into "unavailable", which :FormatInfo reports and
+    -- <leader>d skips, rather than a failure.
+    cwd = function(_, ctx)
+      return vim.fs.root(ctx.buf, { '.erb-lint.yml', '.erb_lint.yml' })
+    end,
+    require_cwd = true,
+  },
+}
+
+--- Ceiling for a synchronous format, in milliseconds. Not a delay: it returns
+--- as soon as the tools do. Only applies when config.async is false.
+---
+--- Measured on this machine: erb_lint 1603ms (it boots Ruby), stylelint 705ms,
+--- eslint 456ms, prettier ~370ms.
 config.timeout_ms = 3000
 
---- Names that are none-ls sources rather than LSP clients. A step naming one
---- runs null-ls with only that source enabled, which is what makes ordering
---- between two none-ls tools possible.
-config.null_ls_sources = {
-  prettier = true,
-  ['erb-lint'] = true,
-  stylelint = true,
-}
+--- Run <leader>d asynchronously. The editor stays responsive while a slow tool
+--- (erb_lint, ~1.6s) works, and conform applies the edits when it finishes.
+--- The trade-off: if the buffer changes before then, conform discards the
+--- result rather than clobbering what you typed. Set false for the old
+--- blocking behaviour, where config.timeout_ms is the ceiling instead.
+config.async = true
 
---- Tools that only ever run on save, never on <leader>d. eslint is here
---- because <leader>d already reaches it through none-ls; this entry is the
---- eslint *LSP client*, which formats on save when enabled.
-config.save_only = {
-  eslint = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact',
-    'vue', 'svelte', 'astro' },
-}
+--- Formatting on save is always synchronous, so the file written matches the
+--- buffer. A slow tool blocks the write for as long as it takes.
+config.save_timeout_ms = 3000
 
 --------------------------------------------------------------------------
 -- IMPLEMENTATION
@@ -103,148 +172,72 @@ config.save_only = {
 
 local M = { config = config }
 
-local debug_enabled = false
 local session = {} --- tool -> bool, set by :FormatOnSave
 
-local function log(msg)
-  if debug_enabled then
-    vim.notify('[format] ' .. msg, vim.log.levels.INFO)
-  end
-end
-
-local function project_root(buf, markers)
-  return vim.fs.root(buf, markers)
-end
-
-local function attached_names(buf)
-  local names = {}
-  for _, c in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
-    names[#names + 1] = c.name
-  end
-  return names
-end
-
-local function client_named(buf, name)
-  for _, c in ipairs(vim.lsp.get_clients({ bufnr = buf })) do
-    if c.name == name then return c end
-  end
-end
-
---- Every tool this module knows how to talk about.
-function M.known_tools()
-  local names = {}
-  for name in pairs(config.format_on_save) do names[#names + 1] = name end
-  table.sort(names)
-  return names
-end
-
---- Tools to run for a buffer, plus why, so :FormatInfo can explain itself
---- without duplicating the decision.
+--- The chain for a buffer, plus why, so :FormatInfo can explain itself without
+--- duplicating the decision. Returns conform's own entry shape.
 function M.chain(buf)
   local ft = vim.bo[buf].filetype
+  local entry = config.chains[ft]
 
-  if config.chains[ft] then
-    return config.chains[ft], 'filetype=' .. ft
+  if type(entry) == 'function' then
+    local resolved = entry(buf)
+    local why = 'filetype=' .. ft
+    if vim.fs.root(buf, config.prettier_markers) then
+      why = why .. ', prettier config found'
+    elseif vim.fs.root(buf, config.herb_markers) then
+      why = why .. ', .herb.yml found'
+    else
+      why = why .. ', no prettier or herb config'
+    end
+    return resolved, why
   end
 
-  if ft == 'html' then
-    local root = project_root(buf, config.prettier_markers)
-    if root then
-      return config.html_chains.prettier_config, 'prettier config found under ' .. root
-    end
-    root = project_root(buf, config.herb_markers)
-    if root then
-      return config.html_chains.herb_config, '.herb.yml found under ' .. root
-    end
-    return config.html_chains.neither, 'filetype=html with no prettier or herb config'
-  end
-
-  return config.default_chain, 'default for filetype=' .. (ft == '' and '(none)' or ft)
+  if entry then return entry, 'filetype=' .. ft end
+  return {}, 'no chain for filetype=' .. (ft == '' and '(none)' or ft)
 end
 
---- none-ls formatting sources registered for this buffer's filetype.
---- Conditional sources (erb_lint) only appear when their condition passed.
-local function null_ls_formatters(buf)
-  local ok, sources = pcall(require, 'null-ls.sources')
-  if not ok then return nil end
-  local names = {}
-  for _, source in ipairs(sources.get_available(vim.bo[buf].filetype, 'NULL_LS_FORMATTING')) do
-    names[#names + 1] = source.name
+--- Does this entry put an LSP server in the chain?
+local function entry_lsp(entry)
+  if entry.name and entry.lsp_format and entry.lsp_format ~= 'never' then
+    return entry.name
   end
-  table.sort(names)
-  return names
 end
 
---- null-ls fronts many tools, so name them where the step is the bare client.
-function M.label(buf, tool)
-  if tool ~= 'null-ls' then return tool end
-  local names = null_ls_formatters(buf)
-  if not names then return 'null-ls (sources unknown)' end
-  if #names == 0 then return 'null-ls (no formatting sources for this filetype)' end
-  return 'null-ls (' .. table.concat(names, ', ') .. ')'
+--- Every tool in an entry, in the order they run.
+function M.steps(entry)
+  local out = {}
+  local lsp = entry_lsp(entry)
+  if lsp and entry.lsp_format == 'first' then out[#out + 1] = lsp end
+  for _, name in ipairs(entry) do out[#out + 1] = name end
+  if lsp and entry.lsp_format ~= 'first' then out[#out + 1] = lsp end
+  return out
 end
 
 --- Is this step able to do anything in this buffer right now?
-function M.step_status(buf, tool)
-  if config.null_ls_sources[tool] then
-    local names = null_ls_formatters(buf) or {}
-    for _, n in ipairs(names) do
-      if n == tool then return true, 'registered with null-ls' end
-    end
-    return false, 'not registered with null-ls for this filetype'
+function M.step_status(buf, entry, tool)
+  if tool == entry_lsp(entry) then
+    local clients = require('conform.lsp_format').get_format_clients({ bufnr = buf, name = tool })
+    if vim.tbl_isempty(clients) then return false, 'client not attached, or cannot format' end
+    return true, 'attached, can format'
   end
 
-  local client = client_named(buf, tool)
-  if not client then return false, 'client not attached' end
-  if not client.server_capabilities.documentFormattingProvider then
-    return false, 'attached but cannot format'
-  end
-  return true, 'attached, can format'
+  local info = require('conform').get_formatter_info(tool, buf)
+  if info.error then return false, 'formatter config is broken' end
+  if not info.available then return false, info.available_msg or 'unavailable' end
+  return true, 'available: ' .. info.command
 end
 
---- Format with null-ls but only through `source_name`, by disabling its
---- siblings for the duration. Restored in all cases, including on error.
-local function format_via_source(buf, source_name)
-  local ok, null_ls = pcall(require, 'null-ls')
-  local ok_src, sources = pcall(require, 'null-ls.sources')
-  if not (ok and ok_src) then return end
-
-  local siblings = {}
-  for _, source in ipairs(sources.get_available(vim.bo[buf].filetype, 'NULL_LS_FORMATTING')) do
-    if source.name ~= source_name then
-      siblings[#siblings + 1] = { name = source.name, was_disabled = source._disabled }
-    end
-  end
-
-  for _, s in ipairs(siblings) do
-    if not s.was_disabled then null_ls.disable({ name = s.name }) end
-  end
-
-  local done, err = pcall(vim.lsp.buf.format, {
+--- Turn a chain entry into arguments for conform.format.
+local function format_opts(buf, entry)
+  return {
     bufnr = buf,
-    async = false,
-    timeout_ms = config.timeout_ms,
-    filter = function(client) return client.name == 'null-ls' end,
-  })
-
-  for _, s in ipairs(siblings) do
-    if not s.was_disabled then null_ls.enable({ name = s.name }) end
-  end
-
-  if not done then error(err) end
-end
-
-local function run_step(buf, tool)
-  if config.null_ls_sources[tool] then
-    format_via_source(buf, tool)
-  else
-    vim.lsp.buf.format({
-      bufnr = buf,
-      async = false,
-      timeout_ms = config.timeout_ms,
-      filter = function(client) return client.name == tool end,
-    })
-  end
+    formatters = vim.list_slice(entry),
+    lsp_format = entry.lsp_format,
+    name = entry.name,
+    id = entry.id,
+    filter = entry.filter,
+  }
 end
 
 --- Precedence: buffer-local > session (:FormatOnSave) > config.format_on_save.
@@ -262,77 +255,74 @@ function M.on_save_source(buf, tool)
   return 'default'
 end
 
---- Tools that run on save for this buffer: the chain plus any save_only tool
---- whose filetype matches, each gated on its own on-save setting.
-function M.save_chain(buf)
-  local ft = vim.bo[buf].filetype
-  local chain = M.chain(buf)
-  local out = {}
-
-  for _, tool in ipairs(chain) do
-    if M.on_save_enabled(buf, tool) then out[#out + 1] = tool end
-  end
-
-  for tool, filetypes in pairs(config.save_only) do
-    if vim.tbl_contains(filetypes, ft) and M.on_save_enabled(buf, tool) then
-      out[#out + 1] = tool
-    end
-  end
-
-  return out
+--- Every tool this module knows how to talk about.
+function M.known_tools()
+  local names = {}
+  for name in pairs(config.format_on_save) do names[#names + 1] = name end
+  table.sort(names)
+  return names
 end
 
---- Run each tool in turn. Separate synchronous calls rather than one filtered
---- call, because a single format() visits clients in get_clients() order,
---- which would make the sequence non-deterministic.
-function M.run(buf, tools, trigger)
-  buf = buf or vim.api.nvim_get_current_buf()
+--- The chain with every tool that is off for save removed. nil when that
+--- leaves nothing, which is what conform's format_on_save wants in order to
+--- skip the buffer entirely.
+function M.save_chain(buf)
+  local entry = M.chain(buf)
+  local lsp = entry_lsp(entry)
+  local keep_lsp = lsp ~= nil and M.on_save_enabled(buf, lsp)
 
-  if debug_enabled then
-    log(('--- %s on %s (ft=%s)'):format(
-      trigger or 'format',
-      vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ':~:.'),
-      vim.bo[buf].filetype))
-    local labelled = {}
-    for _, t in ipairs(tools) do labelled[#labelled + 1] = M.label(buf, t) end
-    log('chain:  ' .. (#tools > 0 and table.concat(labelled, ' -> ') or '(nothing to run)'))
-    log('attached: ' .. (#attached_names(buf) > 0 and table.concat(attached_names(buf), ', ') or 'NONE'))
+  local out = { name = entry.name, id = entry.id, filter = entry.filter }
+  for _, name in ipairs(entry) do
+    if M.on_save_enabled(buf, name) then out[#out + 1] = name end
   end
 
-  for i, tool in ipairs(tools) do
-    local ready, why = M.step_status(buf, tool)
-    local before = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), '\n')
+  if #out == 0 and not keep_lsp then return nil end
 
-    -- Skip rather than call format() with no matching client: nvim emits
-    -- "Format request failed, no matching language servers" otherwise.
-    if ready then run_step(buf, tool) end
-
-    if debug_enabled then
-      local after = table.concat(vim.api.nvim_buf_get_lines(buf, 0, -1, false), '\n')
-      log(('  %d/%d %s -- %s, %s'):format(
-        i, #tools, M.label(buf, tool), why,
-        ready and (before ~= after and 'CHANGED buffer' or 'no change') or 'skipped'))
-    end
-  end
+  -- 'never' rather than dropping `name`: with an empty formatter list conform
+  -- runs the LSP for any setting but 'never', which is the opposite of what a
+  -- disabled server should do.
+  out.lsp_format = keep_lsp and entry.lsp_format or 'never'
+  return out
 end
 
 --- <leader>d: the full chain, regardless of any on-save setting.
 function M.format(buf)
   buf = buf or vim.api.nvim_get_current_buf()
-  M.run(buf, M.chain(buf), '<leader>d')
+  local entry = M.chain(buf)
+  local opts = format_opts(buf, entry)
+  opts.async = config.async
+  opts.timeout_ms = config.timeout_ms
+  require('conform').format(opts, function(err)
+    if err then
+      vim.notify('format: ' .. err .. ' (see :ConformInfo)', vim.log.levels.WARN)
+    end
+  end)
 end
 
---- BufWritePre: only the tools enabled for save.
-function M.format_on_save(buf)
-  local tools = M.save_chain(buf)
-  if #tools == 0 then return end
-  M.run(buf, tools, 'BufWritePre')
+--- Handed to conform's own format_on_save, which owns the BufWritePre autocmd.
+function M.on_save_opts(buf)
+  local entry = M.save_chain(buf)
+  if not entry then return nil end
+  local opts = format_opts(buf, entry)
+  opts.timeout_ms = config.save_timeout_ms
+  return opts
 end
 
-vim.api.nvim_create_autocmd('BufWritePre', {
-  group = vim.api.nvim_create_augroup('lsp_format_on_save', { clear = true }),
-  callback = function(args) M.format_on_save(args.buf) end,
-})
+--- The full setup table for conform. Kept here so the configuration block
+--- above stays the one place behaviour is described.
+function M.conform_opts()
+  return {
+    formatters_by_ft = config.chains,
+    formatters = config.formatters,
+    default_format_opts = { timeout_ms = config.timeout_ms },
+    format_on_save = function(buf) return M.on_save_opts(buf) end,
+    -- A tool that fails now says so instead of leaving the buffer unchanged.
+    notify_on_error = true,
+    -- ... but a filetype with no chain at all is normal, not a problem.
+    notify_no_formatters = false,
+    log_level = vim.log.levels.WARN,
+  }
+end
 
 --------------------------------------------------------------------------
 -- Commands
@@ -340,40 +330,50 @@ vim.api.nvim_create_autocmd('BufWritePre', {
 
 vim.api.nvim_create_user_command('FormatInfo', function()
   local buf = vim.api.nvim_get_current_buf()
-  local chain, reason = M.chain(buf)
+  local entry, reason = M.chain(buf)
+  local steps = M.steps(entry)
+  local clients = {}
+  for _, c in ipairs(vim.lsp.get_clients({ bufnr = buf })) do clients[#clients + 1] = c.name end
+
   local lines = {
     'file:      ' .. vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ':~:.'),
     'filetype:  ' .. vim.bo[buf].filetype,
     'reason:    ' .. reason,
-    'chain:     ' .. table.concat(chain, ' -> '),
-    'attached:  ' .. (#attached_names(buf) > 0 and table.concat(attached_names(buf), ', ') or 'NONE'),
-    '',
-    'markers found:',
-    '  prettier: ' .. tostring(project_root(buf, config.prettier_markers) or 'none'),
-    '  herb:     ' .. tostring(project_root(buf, config.herb_markers) or 'none'),
+    'chain:     ' .. (#steps > 0 and table.concat(steps, ' -> ') or '(nothing)'),
+    'attached:  ' .. (#clients > 0 and table.concat(clients, ', ') or 'NONE'),
+    'mode:      ' .. (config.async and 'async' or 'blocking, ' .. config.timeout_ms .. 'ms ceiling'),
     '',
     '<leader>d would run:',
   }
-  for i, tool in ipairs(chain) do
-    local _, why = M.step_status(buf, tool)
-    lines[#lines + 1] = ('  %d. %s -- %s'):format(i, M.label(buf, tool), why)
+  if #steps == 0 then
+    lines[#lines + 1] = '  (nothing -- no chain for this filetype)'
+  end
+  for i, tool in ipairs(steps) do
+    local _, why = M.step_status(buf, entry, tool)
+    lines[#lines + 1] = ('  %d. %s -- %s'):format(i, tool, why)
   end
 
-  local save_tools = M.save_chain(buf)
+  local save_entry = M.save_chain(buf)
+  local save_steps = save_entry and M.steps(save_entry) or {}
   lines[#lines + 1] = ''
   lines[#lines + 1] = 'on save would run:'
-  if #save_tools == 0 then
+  if #save_steps == 0 then
     lines[#lines + 1] = '  (nothing -- see :FormatOnSave)'
   end
-  for i, tool in ipairs(save_tools) do
-    lines[#lines + 1] = ('  %d. %s (%s)'):format(i, M.label(buf, tool), M.on_save_source(buf, tool))
+  for i, tool in ipairs(save_steps) do
+    lines[#lines + 1] = ('  %d. %s (%s)'):format(i, tool, M.on_save_source(buf, tool))
   end
   vim.notify(table.concat(lines, '\n'), vim.log.levels.INFO)
 end, { desc = 'Explain which formatters would run in this buffer' })
 
+--- conform logs every run to a file; this only changes how much it writes.
+--- :ConformInfo opens the log.
 vim.api.nvim_create_user_command('FormatDebug', function()
-  debug_enabled = not debug_enabled
-  vim.notify('format debug ' .. (debug_enabled and 'ON' or 'OFF'), vim.log.levels.INFO)
+  local log = require('conform.log')
+  local on = log.level ~= vim.log.levels.DEBUG
+  log.level = on and vim.log.levels.DEBUG or vim.log.levels.WARN
+  vim.notify('format debug ' .. (on and 'ON' or 'OFF') .. ' -- :ConformInfo to read the log',
+    vim.log.levels.INFO)
 end, { desc = 'Toggle verbose formatter logging' })
 
 --- :FormatOnSave [tool] [setting]
