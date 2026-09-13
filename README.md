@@ -38,7 +38,7 @@ wget -q -O - https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | 
   - fd-files
 
 ## Programs
- - nvim '0.9.5'
+ - nvim '0.12.5'
  - tmux '3.4'
  - mise '0.10.2'
    * lua '5.1'

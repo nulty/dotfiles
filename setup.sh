@@ -31,7 +31,7 @@ alacritty_version=0.15.1
 dotfiles_version=0.2.2
 lua_version=5.1.5
 node_version=24.18.0
-nvim_version=0.11.7
+nvim_version=0.12.5
 python3_version=3.10.1
 python2_version=2.7.18
 ruby_version=3.4.5
@@ -58,6 +58,13 @@ already_installed?() {
 
   if [ $command == "python3" ]; then
     if [ $(mise list python | tr -d ' ' | grep "^3...") &> /dev/null ]; then
+      echo $program is already installed
+      return $installed
+    fi
+  elif [ $command == "nvim" ]; then
+    # Compare against the pin rather than just testing for the binary, so
+    # bumping nvim_version upgrades a machine that already has nvim.
+    if ( hash nvim ) &> /dev/null && nvim --version | grep -qx "NVIM v${nvim_version}"; then
       echo $program is already installed
       return $installed
     fi
@@ -306,10 +313,20 @@ bash ~/$dotfile_dir/update-fonts.sh
 ### Install nvim ####
 if install? 'nvim';
 then
-  sudo curl -LJO https://github.com/neovim/neovim/releases/download/v${nvim_version}/nvim-linux64.tar.gz && \
-    sudo tar xf nvim-linux64.tar.gz && \
-    sudo cp -rn nvim-linux64/* /usr/local/ && \
-    sudo rm -rf nvim-linux64*
+  # Upstream renamed the release asset to nvim-linux-<arch>.tar.gz in 0.10.4,
+  # and spells aarch64 as arm64.
+  nvim_arch=$(uname -m)
+  [ "$nvim_arch" = aarch64 ] && nvim_arch=arm64
+  nvim_tarball=nvim-linux-${nvim_arch}
+  # The old runtime is wiped before copying: copying over it leaves behind files
+  # upstream has deleted, and stale runtime lua breaks health checks. That
+  # directory holds nothing but upstream's runtime; config and data live
+  # elsewhere (/usr/local/.config/nvim, /usr/local/.local/data/nvim).
+  sudo curl -LJO https://github.com/neovim/neovim/releases/download/v${nvim_version}/${nvim_tarball}.tar.gz && \
+    sudo tar xf ${nvim_tarball}.tar.gz && \
+    sudo rm -rf /usr/local/share/nvim/runtime && \
+    sudo cp -rf ${nvim_tarball}/* /usr/local/ && \
+    sudo rm -rf ${nvim_tarball}*
 
   # curl https://raw.githubusercontent.com/nulty/dotfiles/master/setup.sh | bash
   # curl https://raw.githubusercontent.com/nulty/dotfiles/testing-setup/setup.sh | bash
