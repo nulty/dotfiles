@@ -8,6 +8,16 @@ return {
       { 'j-hui/fidget.nvim', opts = {} },
     },
     event = { "BufReadPre", "BufNewFile" },
+    -- Mason ships with this spec as a dependency, so without these its commands
+    -- don't exist until a file is open — :Mason from the start screen failed.
+    cmd = {
+      "Mason",
+      "MasonInstall",
+      "MasonLog",
+      "MasonUninstall",
+      "MasonUninstallAll",
+      "MasonUpdate",
+    },
     config = function(plugin, _opts)
       require 'mason'.setup()
 
