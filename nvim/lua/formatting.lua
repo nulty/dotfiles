@@ -18,7 +18,7 @@ local config = {}
 --- Set one to true here to make it permanent.
 config.format_on_save = {
   prettier = false,
-  erb_lint = false,
+  ['erb-lint'] = false,
   ruby_lsp = false,
   stylelint = false,
   herb_ls = false,
@@ -35,9 +35,15 @@ config.chains = {
   -- rubocop the project bundles. Named explicitly so ruby does not fall through
   -- to the null-ls default chain, which has no ruby formatter.
   ruby = { 'ruby_lsp' },
-  -- erb_lint rewrites the Ruby inside the tags; herb then normalises the
+  -- erb-lint rewrites the Ruby inside the tags; herb then normalises the
   -- markup around it. Naming both explicitly guarantees the order.
-  eruby = { 'erb_lint', 'herb_ls' },
+  --
+  -- The name must be exactly what none-ls registers the source as, which is
+  -- 'erb-lint' with a hyphen (see its builtin's `name`), not the erb_lint the
+  -- gem and its config file use. A mismatch does not error: step_status simply
+  -- reports "not registered with null-ls for this filetype" and :FormatInfo
+  -- will say so, while <leader>d quietly skips the step.
+  eruby = { 'erb-lint', 'herb_ls' },
 }
 
 --- html is resolved from what the project has checked in, not the filetype.
@@ -61,12 +67,25 @@ config.prettier_markers = {
 }
 config.herb_markers = { '.herb.yml' }
 
+--- Ceiling for a single formatting step, in milliseconds. Not a delay: a step
+--- returns as soon as its tool does. It applies per step, so a two-step chain
+--- can wait twice this in the worst case.
+---
+--- vim.lsp.buf.format defaults to 1000, which silently discarded erb-lint's
+--- edits: the request timed out at 1s, the tool finished at ~1.6s and reported
+--- success to a client that had stopped listening, so <leader>d looked like it
+--- did nothing. Measured on this machine: erb-lint 1603ms (it boots Ruby),
+--- stylelint 705ms, eslint 456ms, prettier ~370ms. 3s is roughly double the
+--- slowest, which covers larger files without turning a wedged tool into a
+--- long freeze -- <leader>d is synchronous, so this is editor-blocking time.
+config.timeout_ms = 3000
+
 --- Names that are none-ls sources rather than LSP clients. A step naming one
 --- runs null-ls with only that source enabled, which is what makes ordering
 --- between two none-ls tools possible.
 config.null_ls_sources = {
   prettier = true,
-  erb_lint = true,
+  ['erb-lint'] = true,
   stylelint = true,
 }
 
@@ -204,6 +223,7 @@ local function format_via_source(buf, source_name)
   local done, err = pcall(vim.lsp.buf.format, {
     bufnr = buf,
     async = false,
+    timeout_ms = config.timeout_ms,
     filter = function(client) return client.name == 'null-ls' end,
   })
 
@@ -221,6 +241,7 @@ local function run_step(buf, tool)
     vim.lsp.buf.format({
       bufnr = buf,
       async = false,
+      timeout_ms = config.timeout_ms,
       filter = function(client) return client.name == tool end,
     })
   end
