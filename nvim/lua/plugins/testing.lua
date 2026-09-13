@@ -89,7 +89,14 @@ return {
           -- it returns the adapter with config.get_test_cmd overridden.
           require('neotest-minitest')({
             test_cmd = function()
-              return { "bundle", "exec", "rails", "test" }
+              -- VIM=1 is minitest-reporters' own escape hatch: choose_reporters
+              -- returns nil when it is set, so minitest keeps its default
+              -- reporter. Without it, a project whose test_helper calls
+              -- Minitest::Reporters.use! prints "test_x  PASS (0.00s)" instead
+              -- of "Test#test_x = 0.00 s = .", the adapter parses no results at
+              -- all, and neotest marks every test in the file failed. Vim sets
+              -- $VIM for child processes; Neovim does not, so we set it here.
+              return { "env", "VIM=1", "bundle", "exec", "rails", "test" }
             end,
           }),
         },
