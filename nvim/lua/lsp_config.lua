@@ -50,6 +50,16 @@ local function on_attach(client, buf)
   end
 end
 
+-- Nvim 0.12 ships a builtin `:lsp` command, and nvim-lspconfig's plugin file
+-- bails out entirely when it sees one -- taking :LspLog and :LspInfo with it.
+-- The builtin has no equivalent of either, so re-create them ourselves.
+vim.api.nvim_create_user_command("LspInfo", ':checkhealth vim.lsp',
+  { desc = 'Alias to `:checkhealth vim.lsp`' })
+
+vim.api.nvim_create_user_command("LspLog", function()
+  vim.cmd('tabnew ' .. vim.fn.fnameescape(vim.lsp.log.get_filename()))
+end, { desc = 'Opens the Nvim LSP client log.' })
+
 vim.api.nvim_create_user_command("LspClearLog", function()
   local paths = { vim.lsp.get_log_path() }
   for _, mod in ipairs({ 'null-ls.logger', 'conform.log' }) do
