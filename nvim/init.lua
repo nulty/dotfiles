@@ -9,7 +9,10 @@ require "logging"
 
 -- Lazy.nvim
 -- https://github.com/folke/lazy.nvim
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- Resolved shared path, so plugin paths (and anything that links to them,
+-- like nvim-treesitter's queries) don't route through one user's home.
+local lazyroot = require("shared_data").dir .. "/lazy"
+local lazypath = lazyroot .. "/lazy.nvim"
 if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     "git",
@@ -22,6 +25,7 @@ if not vim.uv.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 require("lazy").setup("plugins", {
+	root = lazyroot,
 	change_detection = {
 		notify = false -- Stops blocking message in the cmd line from appearing
 	},
