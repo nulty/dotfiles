@@ -21,6 +21,16 @@ return {
     config = function(plugin, _opts)
       require 'mason'.setup()
 
+      -- Package installers create directories with explicit modes, so they
+      -- miss the devs group's ACLs. Hand each install (and the staging dir a
+      -- failed one leaves behind) back to devs so the other users can update it.
+      local shared_data = require 'shared_data'
+      local mason_dir = shared_data.dir .. '/mason'
+      local registry = require 'mason-registry'
+      for _, event in ipairs({ 'package:install:success', 'package:install:failed' }) do
+        registry:on(event, function() shared_data.share_with_devs(mason_dir) end)
+      end
+
       require 'mason-lspconfig'.setup({
         automatic_installation = {},
         -- Installed servers are auto-enabled regardless of ensure_installed, so
