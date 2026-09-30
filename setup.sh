@@ -336,7 +336,7 @@ then
   # dotfiles link dotfiles nvim
 
   # Place nvim config in the shared location
-  sudo ln -sf $HOME/$dotfile_dir/nvim/ /usr/local/.config/nvim
+  sudo ln -sfn $HOME/$dotfile_dir/nvim/ /usr/local/.config/nvim
   sudo mkdir -p /usr/local/.local/data/nvim
 
   # Share nvim data (mason packages, lazy plugins) across users in the devs group.
@@ -354,8 +354,8 @@ then
 
   # Symlink shared nvim config and data into user's standard XDG locations
   mkdir -p ~/.config ~/.local/share
-  ln -sf /usr/local/.config/nvim ~/.config/nvim
-  ln -sf /usr/local/.local/data/nvim ~/.local/share/nvim
+  ln -sfn /usr/local/.config/nvim ~/.config/nvim
+  ln -sfn /usr/local/.local/data/nvim ~/.local/share/nvim
 fi
 
 clear
